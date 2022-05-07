@@ -1,0 +1,94 @@
+
+/*forms*/
+.form-full-height{
+    height: 100vh;
+}
+.form-wrapper{
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto 10px;
+    background-color: white;
+    padding: 40px 40px 20px;
+    width: 650px;
+}
+
+.form-greeting{
+    font-size: 24px;
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+.form > input{
+    resize: none;
+    border: none ;
+    background-color: #eaeaea;
+    font-family: "Source Sans Pro", sans-serif;
+    outline: none;
+    padding: 16px 11px 18px;
+    border-radius: 5px;
+    font-size: 18px;
+    height: 24px;
+    width: calc(100% - 22px);
+    margin-bottom: 20px;
+}
+
+.form > textarea{
+    border: 1px solid #154d3b;
+    font-family: "Source Sans Pro", sans-serif;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 400;
+    outline: 0;
+    width: calc(100% - 22px);
+    height: 60px;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.colored-button{
+    cursor: pointer;
+    font-family: "Source Sans Pro", sans-serif;
+    text-align: center;
+    display: inline-block;
+    background: radial-gradient( circle 759px at -6.7% 50%, rgb(82, 126, 114) 0%, rgb(63, 122, 103) 26.2%, rgb(29, 94, 73) 50.6%, rgb(0, 35, 25) 74.1%, rgba(75,118,69,1) 100.3% );
+    font-size: 18px;
+    font-weight: 400;
+    outline: 0;
+    padding: 6px 14px 9px;
+    text-shadow: none;
+    width: calc(100% - 22px);
+    border: none;
+    box-shadow: none;
+    margin: 20px 0 40px ;
+}
+
+.form-error-message{
+    font-weight: bold;
+    color: darkred;
+}
+
+
+@keyframes gradient {
+    0% {
+        background-position: 0 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
+}
+
+.auth-link{
+    color: #0095f6;
+}
+
+.file-input{
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
