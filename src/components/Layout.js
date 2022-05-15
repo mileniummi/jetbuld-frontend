@@ -1,12 +1,14 @@
-import {Outlet} from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import React from "react"
+import React from "react";
+import { ToastContainer } from "react-toastify";
 
-export default function Layout(){
-    return(
-        <>
-            <Sidebar />
-            <Outlet />
-        </>
-    )
+export default function Layout() {
+  return (
+    <>
+      <ToastContainer />
+      <Sidebar />
+      <Outlet />
+    </>
+  );
 }

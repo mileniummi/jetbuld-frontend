@@ -1,15 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import { userContext } from "../../context";
 import Header from "../Header";
 import { Pagination } from "@material-ui/lab";
+import { useSelector } from "react-redux";
 
 const PointPhotos = () => {
   const location = useLocation();
   const { pointId } = location.state;
   const [photos, setPhotos] = useState({ count: 0, arr: [] });
-  const { user } = useContext(userContext);
+  const user = useSelector((state) => {
+    return state.users.user
+  })
   const [page, setPage] = useState(1);
   const limit = 3;
 

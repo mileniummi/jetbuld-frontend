@@ -1,50 +1,45 @@
-import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
-import { userContext } from "../../context";
+import React, { useEffect, useState } from "react";
 import CompanyPreview from "./CompanyPreview";
 import { nanoid } from "nanoid";
 import { Pagination } from "@material-ui/lab";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCompanies } from "../../redux/actions/company";
+import { ITEM_LIMIT } from "../../redux/constants/app";
+import { CircularProgress } from "@material-ui/core";
 
-const CompaniesList = () => {
-  const { user, setUser } = useContext(userContext);
+export default function CompaniesList() {
+  const companies = useSelector((state) => state.companies);
   const [page, setPage] = useState(1);
-  const [companies, setCompanies] = useState({ count: 0, arr: [] });
-  const limit = 3;
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.users.user);
+  const isLoading = useSelector((state) => state.app.loading);
 
   useEffect(() => {
-    const offset = page === 1 ? 0 : page * limit - limit;
-    axios
-      //page = offset
-      .get(`https://jetbuild-app.herokuapp.com/user/companieslist?page=${offset}&limit=${limit}`, {
-        headers: { Authorization: `Bearer ${user.token}` },
-      })
-      .then((res) => {
-        setCompanies({ count: res.data[0], arr: res.data[1] });
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, [page, user.token]);
+    dispatch(fetchCompanies(user, page));
+  }, [dispatch, page, user]);
 
-  const companiesPreviews = companies.arr.map((company) => <CompanyPreview key={nanoid()} company={company} />);
-
-  function handlePageChange(event, value) {
-    setPage(value);
+  function handlePageChange(event, page) {
+    dispatch(fetchCompanies(user, page));
+    setPage(page);
   }
 
   return (
     <div>
       <Pagination
         className="pagination"
-        count={Math.ceil(companies.count / limit)}
+        count={Math.ceil(companies.count / ITEM_LIMIT)}
         page={page}
         variant="outlined"
         shape="rounded"
         onChange={handlePageChange}
       />
-      {companiesPreviews}
+      {isLoading ? (
+        <div className="loader__wrapper">
+          <CircularProgress color={"inherit"} />
+        </div>
+      ) : (
+        companies.current.map((company) => <CompanyPreview key={nanoid()} company={company} />)
+      )}
     </div>
   );
-};
-
-export default CompaniesList;
+}

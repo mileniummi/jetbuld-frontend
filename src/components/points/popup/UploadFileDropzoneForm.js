@@ -1,14 +1,17 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "../../../styles/popup.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { userContext } from "../../../context";
 import axios from "axios";
 import { Dropzone, FileItem } from "@dropzone-ui/react";
 import { nanoid } from "nanoid";
+import { useSelector } from "react-redux";
+import { socket } from "../../../App";
 
-const UploadFileForm = ({ pointId, hideForm }) => {
-  const { user } = useContext(userContext);
+const UploadFileForm = ({ pointId, hideForm, companyId, pointName }) => {
+  const user = useSelector((state) => {
+    return state.users.user;
+  });
   const [error, setError] = useState(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [fileData, setFileData] = useState({
@@ -18,24 +21,6 @@ const UploadFileForm = ({ pointId, hideForm }) => {
     pointId,
     S3Url: "",
   });
-
-  function readAsArrayBuffer(e) {
-    const file = e.target.files[0];
-
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onload = (event) => {
-        resolve(event.target.result);
-      };
-
-      reader.onerror = (err) => {
-        reject(err);
-      };
-
-      reader.readAsArrayBuffer(file);
-    });
-  }
 
   const updateFiles = (incommingFiles) => {
     setSelectedFiles(incommingFiles);
@@ -59,8 +44,11 @@ const UploadFileForm = ({ pointId, hideForm }) => {
       })
       .then((res) => {
         if (res.status === 201) {
-          console.log("file uploaded");
-          window.location.reload();
+          hideForm();
+          socket.emit("eventsToServer", {
+            room: companyId.toString(),
+            text: `${user.firstName} ${user.lastName} added photo ${fileData.name} to point ${pointName}`,
+          });
           setError(null);
         }
       })
@@ -86,35 +74,16 @@ const UploadFileForm = ({ pointId, hideForm }) => {
                 <FileItem key={nanoid()} {...file} preview />
               ))}
             </Dropzone>
-            <input
-              name="name"
-              type="text"
-              placeholder="Photo name"
-              onChange={handleCredentialsChange}
-            />
-            <input
-              name="description"
-              type="text"
-              placeholder="Photo description"
-              onChange={handleCredentialsChange}
-            />
+            <input name="name" type="text" placeholder="Photo name" onChange={handleCredentialsChange} />
+            <input name="description" type="text" placeholder="Photo description" onChange={handleCredentialsChange} />
             {error && <div className="form-error-message">{error}</div>}
-            <button
-              type="button"
-              className="register_button colored-button"
-              onClick={sendUserData}
-            >
+            <button type="button" className="register_button colored-button" onClick={sendUserData}>
               Send
             </button>
           </form>
         </div>
         <div className="popup-info">
-          <FontAwesomeIcon
-            onClick={hideForm}
-            icon={faXmark}
-            color="#555555"
-            className="popup-close"
-          />
+          <FontAwesomeIcon onClick={hideForm} icon={faXmark} color="#555555" className="popup-close" />
         </div>
       </div>
     </div>

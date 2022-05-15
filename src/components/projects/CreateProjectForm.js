@@ -1,11 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "../../styles/auth.css";
-import axios from "axios";
-import { userContext } from "../../context";
+import { useDispatch, useSelector } from "react-redux";
+import { addProject } from "../../redux/actions/project";
+import { socket } from "../../App";
 
-const CreateProjectForm = ({ companyId }) => {
+const CreateProjectForm = ({ companyId, companyName, handleCreateClick }) => {
   const [error, setError] = useState(null);
-  const { user } = useContext(userContext);
+  const user = useSelector((state) => {
+    return state.users.user;
+  });
+  const dispatch = useDispatch();
   const [projectCredentials, setProjectCredentials] = useState({
     name: "",
     description: "",
@@ -17,46 +21,27 @@ const CreateProjectForm = ({ companyId }) => {
     });
   }
 
-  function sendCompanyCredentials() {
-    axios
-      .post(
-        `https://jetbuild-app.herokuapp.com/project/${companyId}`,
-        projectCredentials,
-        { headers: { Authorization: `Bearer ${user.token}` } }
-      )
-      .then((res) => {
-        if (res.status === 201) {
-          window.location.reload();
-          setError(null);
-        }
-      })
-      .catch((e) => {
-        setError(e.response.data.message);
-      });
-  }
-
   return (
     <div>
       <main style={{ backgroundColor: "white" }}>
         <div className="content-wrapper form-full-height">
           <div className="form-wrapper">
             <form className="form">
-              <input
-                name="name"
-                type="text"
-                placeholder="Project name"
-                onChange={handleCredentialsChange}
-              />
-              <textarea
-                name="description"
-                placeholder="Project description"
-                onChange={handleCredentialsChange}
-              />
+              <input name="name" type="text" placeholder="Project name" onChange={handleCredentialsChange} />
+              <textarea name="description" placeholder="Project description" onChange={handleCredentialsChange} />
               {error && <div className="form-error-message">{error}</div>}
               <button
                 type="button"
                 className="register_button colored-button"
-                onClick={sendCompanyCredentials}
+                onClick={() => {
+                  dispatch(addProject(companyId, user, projectCredentials));
+                  console.log("some message should be emmited");
+                  socket.emit("eventsToServer", {
+                    room: companyId.toString(),
+                    text: `${user.firstName} ${user.lastName} added project ${projectCredentials.name} to company ${companyName}`,
+                  });
+                  handleCreateClick();
+                }}
               >
                 Create
               </button>

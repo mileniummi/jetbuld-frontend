@@ -3,12 +3,13 @@ import { useState } from "react";
 import PointList from "../components/points/PointList";
 import { useLocation } from "react-router-dom";
 import CreatePointForm from "../components/points/CreatePointForm";
-import React from "react"
+import React from "react";
 
 export default function Points() {
   const [createPoint, setCreatePoint] = useState(false);
   const location = useLocation();
-  const { id, name, address } = location.state.project;
+  const { id } = location.state.project;
+  const { companyId, companyName } = location.state;
 
   const handleCreatePointClick = (e) => {
     setCreatePoint((prevState) => !prevState);
@@ -16,17 +17,16 @@ export default function Points() {
 
   return (
     <main>
-      <Header
-        handleCreateClick={handleCreatePointClick}
-        pageLocation={"Point"}
-      />
+      <Header handleCreateClick={handleCreatePointClick} pageLocation={"Point"} />
       {createPoint ? (
         <CreatePointForm
+          companyName={companyName}
+          companyId={companyId}
           projectId={id}
-          handleCreateCompanyClick={handleCreatePointClick}
+          handleCreateClick={handleCreatePointClick}
         />
       ) : (
-        <PointList projectId={id} />
+        <PointList companyId={companyId} projectId={id} />
       )}
     </main>
   );

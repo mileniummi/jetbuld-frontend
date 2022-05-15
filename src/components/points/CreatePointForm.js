@@ -1,11 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "../../styles/auth.css";
 import axios from "axios";
-import { userContext } from "../../context";
+import { useSelector } from "react-redux";
+import { socket } from "../../App";
 
-const CreatePointForm = ({ handleCreateCompanyClick, projectId }) => {
+const CreatePointForm = ({ projectId, companyId, companyName, handleCreateClick }) => {
   const [error, setError] = useState(null);
-  const { user } = useContext(userContext);
+  const user = useSelector((state) => {
+    return state.users.user;
+  });
   const [pointCredentials, setPointCredentials] = useState({
     name: "",
     description: "",
@@ -20,16 +23,16 @@ const CreatePointForm = ({ handleCreateCompanyClick, projectId }) => {
 
   function sendPointCredentials() {
     axios
-      .post(
-        `https://jetbuild-app.herokuapp.com/point/create`,
-        pointCredentials,
-        {
-          headers: { Authorization: `Bearer ${user.token}` },
-        }
-      )
+      .post(`https://jetbuild-app.herokuapp.com/point/create`, pointCredentials, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      })
       .then((res) => {
         if (res.status === 201) {
-          window.location.reload();
+          handleCreateClick();
+          socket.emit("eventsToServer", {
+            room: companyId.toString(),
+            text: `${user.firstName} ${user.lastName} added point ${pointCredentials.name} in company ${companyName}`,
+          });
           setError(null);
         }
       })
@@ -44,23 +47,10 @@ const CreatePointForm = ({ handleCreateCompanyClick, projectId }) => {
         <div className="content-wrapper form-full-height">
           <div className="form-wrapper">
             <form className="form">
-              <input
-                name="name"
-                type="text"
-                placeholder="Point name"
-                onChange={handleCredentialsChange}
-              />
-              <textarea
-                name="description"
-                placeholder="Point description"
-                onChange={handleCredentialsChange}
-              />
+              <input name="name" type="text" placeholder="Point name" onChange={handleCredentialsChange} />
+              <textarea name="description" placeholder="Point description" onChange={handleCredentialsChange} />
               {error && <div className="form-error-message">{error}</div>}
-              <button
-                type="button"
-                className="register_button colored-button"
-                onClick={sendPointCredentials}
-              >
+              <button type="button" className="register_button colored-button" onClick={sendPointCredentials}>
                 Create
               </button>
             </form>

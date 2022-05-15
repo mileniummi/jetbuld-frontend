@@ -1,12 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { userContext } from "../../context";
 import { nanoid } from "nanoid";
 import PointPreview from "./PointPreview";
 import { Pagination } from "@material-ui/lab";
+import { useSelector } from "react-redux";
 
-const PointList = ({ projectId }) => {
-  const { user } = useContext(userContext);
+const PointList = ({ projectId, companyId }) => {
+  const user = useSelector((state) => {
+    return state.users.user;
+  });
   const [points, setPoints] = useState({ count: 0, arr: [] });
   const [page, setPage] = useState(1);
   const limit = 3;
@@ -25,7 +27,7 @@ const PointList = ({ projectId }) => {
       });
   }, [page, projectId, user.token]);
 
-  const pointPreviews = points.arr.map((point) => <PointPreview key={nanoid()} point={point} />);
+  const pointPreviews = points.arr.map((point) => <PointPreview companyId={companyId} key={nanoid()} point={point} />);
 
   function handlePageChange(event, value) {
     setPage(value);

@@ -1,24 +1,16 @@
-import React, { useContext } from "react";
-import { Navigate, Route } from "react-router-dom";
-import { userContext } from "../context";
+import React from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+const PrivateRoute = ({ children }) => {
   // Add your own authentication on the below line.
-  const { user } = useContext(userContext);
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        Object.keys(user).length ? (
-          <Component {...props} />
-        ) : (
-          <Navigate
-            to={{ pathname: "/login", state: { from: props.location } }}
-          />
-        )
-      }
-    />
-  );
+  const user = useSelector((state) => state.users.user);
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <Outlet />;
 };
 
 export default PrivateRoute;

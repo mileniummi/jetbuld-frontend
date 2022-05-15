@@ -1,70 +1,67 @@
 import ProjectPreview from "../components/projects/ProjectPreview";
 import Header from "../components/Header";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import InfoHeader from "../components/InfoHeader";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
-import { userContext } from "../context";
 import CreateProjectForm from "../components/projects/CreateProjectForm";
 import { Pagination } from "@material-ui/lab";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProjects } from "../redux/actions/project";
+import { ITEM_LIMIT } from "../redux/constants/app";
+import { CircularProgress } from "@material-ui/core";
 
 export default function Projects() {
-  const [projects, setProjects] = useState({ count: 0, arr: [] });
+  const projects = useSelector((state) => state.projects);
+  const isLoading = useSelector((state) => state.app.loading);
+  const user = useSelector((state) => {
+    return state.users.user;
+  });
+  const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const [createProject, setCreateProject] = useState(false);
-  const { user } = useContext(userContext);
   const location = useLocation();
   const { id, name, address } = location.state.company;
-  const limit = 3;
 
   function handleCreateProjectClick() {
     setCreateProject((prevState) => !prevState);
   }
 
-  useEffect(
-    function () {
-      const offset = page === 1 ? 0 : page * limit - limit;
-      const url = `https://jetbuild-app.herokuapp.com/companies/${id}/projects?page=${offset}&limit=${limit}`;
-      axios
-        .get(url, {
-          headers: { Authorization: `Bearer ${user.token}` },
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            setProjects({ count: res.data[0], arr: res.data[1] });
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-    [id, page, user.token]
-  );
-
-  function handlePageChange(event, value) {
-    setPage(value);
+  function handlePageChange(event, page) {
+    dispatch(fetchProjects(id, user, page));
+    setPage(page);
   }
 
-  const projectPreviews = projects.arr.map((project) => <ProjectPreview key={nanoid()} project={project} />);
+  useEffect(() => {
+    dispatch(fetchProjects(id, user, page));
+  }, [dispatch, id, page, user]);
 
   return (
     <main>
       <InfoHeader name={name} address={address} />
       <Header handleCreateClick={handleCreateProjectClick} pageLocation={"Project"} />
       {createProject ? (
-        <CreateProjectForm companyId={id} />
-      ) : projects.arr.length ? (
+        <CreateProjectForm handleCreateClick={handleCreateProjectClick} companyId={id} companyName={name} />
+      ) : projects.current.length ? (
         <>
           <Pagination
             className="pagination"
-            count={Math.ceil(projects.count / limit)}
+            count={Math.ceil(projects.count / ITEM_LIMIT)}
             page={page}
             variant="outlined"
             shape="rounded"
             onChange={handlePageChange}
           />
-          {projectPreviews}
+          {isLoading ? (
+            <div className="loader__wrapper">
+              {" "}
+              <CircularProgress color={"inherit"} />{" "}
+            </div>
+          ) : (
+            projects.current.map((project) => (
+              <ProjectPreview companyId={id} companyName={name} key={nanoid()} project={project} />
+            ))
+          )}
         </>
       ) : (
         <div className="nothing-to-show">

@@ -4,7 +4,7 @@ import React from "react"
 
 export default function ProjectInfo() {
   const location = useLocation();
-  const { id, name, address } = location.state.company;
+  const { name, address } = location.state.company;
   return (
     <main>
       <div className="project-info">
