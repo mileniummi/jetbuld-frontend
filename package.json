@@ -64,7 +64,6 @@
   "devDependencies": {
     "eslint": "^8.14.0"
   },
-  "proxy": "https://jetbuild-app.herokuapp.com",
   "engines": {
     "node": "16.x",
     "npm": "8.x"
