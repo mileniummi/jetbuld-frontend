@@ -5,6 +5,7 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { getStore } from "./redux/store";
 import { Provider } from "react-redux";
+import "react-toastify/dist/ReactToastify.css";
 
 const store = getStore();
 

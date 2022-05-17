@@ -35,11 +35,11 @@ const CreateProjectForm = ({ companyId, companyName, handleCreateClick }) => {
                 className="register_button colored-button"
                 onClick={() => {
                   dispatch(addProject(companyId, user, projectCredentials));
-                  console.log("some message should be emmited");
-                  socket.emit("eventsToServer", {
-                    room: companyId.toString(),
-                    text: `${user.firstName} ${user.lastName} added project ${projectCredentials.name} to company ${companyName}`,
-                  });
+                  socket.emit(
+                    companyId.toString(),
+                    `${user.firstName} ${user.lastName} added project ${projectCredentials.name} to company ${companyName}`,
+                    user
+                  );
                   handleCreateClick();
                 }}
               >

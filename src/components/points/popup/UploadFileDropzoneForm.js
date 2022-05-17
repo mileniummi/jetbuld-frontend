@@ -45,10 +45,11 @@ const UploadFileForm = ({ pointId, hideForm, companyId, pointName }) => {
       .then((res) => {
         if (res.status === 201) {
           hideForm();
-          socket.emit("eventsToServer", {
-            room: companyId.toString(),
-            text: `${user.firstName} ${user.lastName} added photo ${fileData.name} to point ${pointName}`,
-          });
+          socket.emit(
+            companyId.toString(),
+            `${user.firstName} ${user.lastName} added photo ${fileData.name} to point ${pointName}`,
+            user
+          );
           setError(null);
         }
       })

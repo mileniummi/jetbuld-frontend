@@ -11,19 +11,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PageNotFound from "./components/PageNotFound";
 import PrivateRoute from "./components/PrivateRoute";
-import io from "socket.io-client";
-import { toast } from "react-toastify";
+import Socket from "./services/socketsService";
 
-export const socket = io(process.env.REACT_APP_API_PATH);
+export const socket = new Socket();
 
 class App extends Component {
   componentDidMount() {
     if (this.props.user) {
-      socket.emit("joinRoom", this.props.user.id);
+      socket.joinRooms(this.props.user);
     }
-    socket.on("eventsToClient", (msg) => {
-      toast(`🦄 ${msg}`);
-    });
   }
 
   render() {

@@ -29,10 +29,11 @@ const CreatePointForm = ({ projectId, companyId, companyName, handleCreateClick 
       .then((res) => {
         if (res.status === 201) {
           handleCreateClick();
-          socket.emit("eventsToServer", {
-            room: companyId.toString(),
-            text: `${user.firstName} ${user.lastName} added point ${pointCredentials.name} in company ${companyName}`,
-          });
+          socket.emit(
+            companyId.toString(),
+            `${user.firstName} ${user.lastName} added point ${pointCredentials.name} in company ${companyName}`,
+            user
+          );
           setError(null);
         }
       })
