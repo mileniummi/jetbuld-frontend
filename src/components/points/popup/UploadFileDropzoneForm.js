@@ -2,17 +2,16 @@ import React, { useState } from "react";
 import "../../../styles/popup.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
 import { Dropzone, FileItem } from "@dropzone-ui/react";
 import { nanoid } from "nanoid";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { socket } from "../../../App";
+import { addPhoto } from "../../../redux/actions/photos";
 
 const UploadFileForm = ({ pointId, hideForm, companyId, pointName }) => {
-  const user = useSelector((state) => {
-    return state.users.user;
-  });
-  const [error, setError] = useState(null);
+  const user = useSelector((state) => state.users.user);
+  const error = useSelector((state) => state.app.loginError);
+  const dispatch = useDispatch();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [fileData, setFileData] = useState({
     name: "",
@@ -22,8 +21,8 @@ const UploadFileForm = ({ pointId, hideForm, companyId, pointName }) => {
     S3Url: "",
   });
 
-  const updateFiles = (incommingFiles) => {
-    setSelectedFiles(incommingFiles);
+  const updateFiles = (incomingFiles) => {
+    setSelectedFiles(incomingFiles);
   };
 
   const handleCredentialsChange = (event) => {
@@ -32,31 +31,14 @@ const UploadFileForm = ({ pointId, hideForm, companyId, pointName }) => {
     });
   };
 
-  async function sendUserData() {
-    const formData = new FormData();
-    for (const prop of Object.keys(fileData)) {
-      formData.append(prop, fileData[prop]);
-    }
-    formData.set("file", selectedFiles[0].file);
-    axios
-      .post("https://jetbuild-app.herokuapp.com/point/uploadfake", formData, {
-        headers: { Authorization: `Bearer ${user.token}` },
-      })
-      .then((res) => {
-        if (res.status === 201) {
-          hideForm();
-          socket.emit(
-            companyId.toString(),
-            `${user.firstName} ${user.lastName} added photo ${fileData.name} to point ${pointName}`,
-            user
-          );
-          setError(null);
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-        setError(e.response.data.message);
-      });
+  function sendUserData() {
+    dispatch(addPhoto(user, fileData, selectedFiles[0].file));
+    socket.emit(
+      companyId.toString(),
+      `${user.firstName} ${user.lastName} added photo ${fileData.name} to point ${pointName}`,
+      user
+    );
+    hideForm();
   }
 
   return (

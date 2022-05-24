@@ -1,51 +1,51 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { nanoid } from "nanoid";
 import PointPreview from "./PointPreview";
 import { Pagination } from "@material-ui/lab";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPoints } from "../../redux/actions/point";
+import { ITEM_LIMIT } from "../../redux/constants/app";
+import { CircularProgress } from "@material-ui/core";
 
 const PointList = ({ projectId, companyId }) => {
-  const user = useSelector((state) => {
-    return state.users.user;
-  });
-  const [points, setPoints] = useState({ count: 0, arr: [] });
+  const user = useSelector((state) => state.users.user);
+  const points = useSelector((state) => state.points);
+  const isLoading = useSelector((state) => state.app.loading);
   const [page, setPage] = useState(1);
-  const limit = 3;
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const offset = page === 1 ? 0 : page * limit - limit;
-    axios
-      .get(`https://jetbuild-app.herokuapp.com/project/${projectId}/points?page=${offset}&limit=${limit}`, {
-        headers: { Authorization: `Bearer ${user.token}` },
-      })
-      .then((res) => {
-        setPoints({ count: res.data[0], arr: res.data[1] });
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, [page, projectId, user.token]);
+    dispatch(fetchPoints(user, page, projectId));
+  }, [dispatch, page, projectId, user]);
 
-  const pointPreviews = points.arr.map((point) => <PointPreview companyId={companyId} key={nanoid()} point={point} />);
+  const pointPreviews = points.current.map((point) => (
+    <PointPreview companyId={companyId} key={nanoid()} point={point} />
+  ));
 
   function handlePageChange(event, value) {
+    dispatch(fetchPoints(user, value, projectId));
     setPage(value);
   }
 
   return (
     <div>
-      {points.arr.length ? (
+      {points.current.length ? (
         <>
           <Pagination
             className="pagination"
-            count={Math.ceil(points.count / limit)}
+            count={Math.ceil(points.count / ITEM_LIMIT)}
             page={page}
             variant="outlined"
             shape="rounded"
             onChange={handlePageChange}
           />
-          {pointPreviews}
+          {isLoading ? (
+            <div className="loader__wrapper">
+              <CircularProgress color={"inherit"} />
+            </div>
+          ) : (
+            pointPreviews
+          )}
         </>
       ) : (
         <div className="nothing-to-show">

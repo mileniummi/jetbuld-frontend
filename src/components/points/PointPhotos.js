@@ -1,57 +1,59 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useLocation } from "react-router-dom";
 import Header from "../Header";
 import { Pagination } from "@material-ui/lab";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPhotos } from "../../redux/actions/photos";
+import { PHOTO_LIMIT } from "../../redux/constants/photos";
+import { CircularProgress } from "@material-ui/core";
+import { nanoid } from "nanoid";
 
 const PointPhotos = () => {
   const location = useLocation();
   const { pointId } = location.state;
-  const [photos, setPhotos] = useState({ count: 0, arr: [] });
-  const user = useSelector((state) => {
-    return state.users.user
-  })
+  const photos = useSelector((state) => state.photos);
+  const user = useSelector((state) => state.users.user);
+  const isLoading = useSelector((state) => state.app.loading);
   const [page, setPage] = useState(1);
-  const limit = 3;
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const offset = page === 1 ? 0 : page * limit - limit;
-    const url = `https://jetbuild-app.herokuapp.com/point/${pointId}/photos?page=${offset}&limit=${limit}`;
-    axios
-      .get(url, {
-        headers: { Authorization: `Bearer ${user.token}` },
-      })
-      .then((res) => {
-        setPhotos({ count: res.data[0], arr: res.data[1] });
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, [page, pointId, user.token]);
+    dispatch(fetchPhotos(user, page, pointId));
+  }, [dispatch, page, pointId, user]);
 
-  const photoViews = photos.arr.map((photo) => <img className="point-image" src={photo.s3Url} alt="point-photo" />);
+  const photoViews = photos.current.map((photo) => (
+    <img className="point-image" key={nanoid()} src={photo.s3Url} alt="point-photo" />
+  ));
 
   function handlePageChange(event, value) {
+    dispatch(fetchPhotos(user, value, pointId));
     setPage(value);
   }
+
+  console.log(photos.count);
 
   return (
     <>
       <main>
         <Header pageLocation="Photos" />
         <div>
-          {photos.arr.length ? (
+          {photos.current.length ? (
             <>
               <Pagination
                 className="pagination"
-                count={Math.ceil(photos.count / limit)}
+                count={Math.ceil(photos.count / PHOTO_LIMIT)}
                 page={page}
                 variant="outlined"
                 shape="rounded"
                 onChange={handlePageChange}
               />
-              {photoViews}
+              {isLoading ? (
+                <div className="loader__wrapper">
+                  <CircularProgress color={"inherit"} />
+                </div>
+              ) : (
+                photoViews
+              )}
             </>
           ) : (
             <div className="nothing-to-show">

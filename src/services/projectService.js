@@ -10,16 +10,13 @@ export default class ProjectService {
 
   async fetchProjects(user, page, companyId) {
     const offset = this.appService.getOffset(page);
-    return await axios.get(
-      `https://jetbuild-app.herokuapp.com/companies/${companyId}/projects?page=${offset}&limit=${ITEM_LIMIT}`,
-      {
-        headers: { Authorization: `Bearer ${user.token}` },
-      }
-    );
+    return await axios.get(`${this.apiPath}/companies/${companyId}/projects?page=${offset}&limit=${ITEM_LIMIT}`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
   }
 
   async addProject(user, projectCredentials, companyId) {
-    await axios.post(`https://jetbuild-app.herokuapp.com/project/${companyId}`, projectCredentials, {
+    await axios.post(`${this.apiPath}/project/${companyId}`, projectCredentials, {
       headers: { Authorization: `Bearer ${user.token}` },
     });
   }
