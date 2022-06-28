@@ -1,9 +1,10 @@
 import React from "react";
-import arrow_up_left from "../images/icons/arrow-up-right-from-square-solid.svg";
-import gear from "../images/icons/gear-solid.svg";
-import location_dot from "../images/icons/location-dot-solid.svg";
+import arrow_up_left from "../../images/icons/arrow-up-right-from-square-solid.svg";
+import gear from "../../images/icons/gear-solid.svg";
+import location_dot from "../../images/icons/location-dot-solid.svg";
+import "./header.css";
 
-const InfoHeader = ({ name, address }) => {
+const InfoHeader = ({ name, address, description }) => {
   return (
     <div className="info-header">
       <div className="project-info-header">
@@ -25,6 +26,7 @@ const InfoHeader = ({ name, address }) => {
             {address}
           </a>
         </div>
+        <div className="project-info-description__item">{description}</div>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import Header from "../Header";
+import Header from "../headers/Header";
 import { Pagination } from "@material-ui/lab";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPhotos } from "../../redux/actions/photos";
@@ -22,15 +22,13 @@ const PointPhotos = () => {
   }, [dispatch, page, pointId, user]);
 
   const photoViews = photos.current.map((photo) => (
-    <img className="point-image" key={nanoid()} src={photo.s3Url} alt="point-photo" />
+    <img className="point-image" key={nanoid()} src={photo.s3Url} alt="point" />
   ));
 
   function handlePageChange(event, value) {
     dispatch(fetchPhotos(user, value, pointId));
     setPage(value);
   }
-
-  console.log(photos.count);
 
   return (
     <>
@@ -39,6 +37,13 @@ const PointPhotos = () => {
         <div>
           {photos.current.length ? (
             <>
+              {isLoading ? (
+                <div className="loader__wrapper">
+                  <CircularProgress color={"inherit"} />
+                </div>
+              ) : (
+                photoViews
+              )}
               <Pagination
                 className="pagination"
                 count={Math.ceil(photos.count / PHOTO_LIMIT)}
@@ -47,13 +52,6 @@ const PointPhotos = () => {
                 shape="rounded"
                 onChange={handlePageChange}
               />
-              {isLoading ? (
-                <div className="loader__wrapper">
-                  <CircularProgress color={"inherit"} />
-                </div>
-              ) : (
-                photoViews
-              )}
             </>
           ) : (
             <div className="nothing-to-show">

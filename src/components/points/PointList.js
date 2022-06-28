@@ -31,6 +31,13 @@ const PointList = ({ projectId, companyId }) => {
     <div>
       {points.current.length ? (
         <>
+          {isLoading ? (
+            <div className="loader__wrapper">
+              <CircularProgress color={"inherit"} />
+            </div>
+          ) : (
+            pointPreviews
+          )}
           <Pagination
             className="pagination"
             count={Math.ceil(points.count / ITEM_LIMIT)}
@@ -39,13 +46,6 @@ const PointList = ({ projectId, companyId }) => {
             shape="rounded"
             onChange={handlePageChange}
           />
-          {isLoading ? (
-            <div className="loader__wrapper">
-              <CircularProgress color={"inherit"} />
-            </div>
-          ) : (
-            pointPreviews
-          )}
         </>
       ) : (
         <div className="nothing-to-show">

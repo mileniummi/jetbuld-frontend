@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import "../../styles/auth.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addCompany } from "../../redux/actions/company";
 
 const CreateCompanyForm = ({ handleCreateCompanyClick }) => {
-  const [error, setError] = useState(null);
+  const [error] = useState(null);
   const user = useSelector((state) => {
     return state.users.user;
   });
@@ -23,37 +22,47 @@ const CreateCompanyForm = ({ handleCreateCompanyClick }) => {
     });
   }
 
+  const formInputs = [
+    { name: "name", placeholder: "Company name" },
+    { name: "description", placeholder: "Company description" },
+    { name: "address", placeholder: "Company address" },
+    { name: "city", placeholder: "Company city location" },
+    { name: "country", placeholder: "Company country location" },
+  ];
+
   return (
-    <div>
-      <main style={{ backgroundColor: "white" }}>
-        <div className="content-wrapper form-full-height">
-          <div className="form-wrapper">
-            <form className="form">
-              <input name="name" type="text" placeholder="Company name" onChange={handleCredentialsChange} />
-              <textarea name="description" placeholder="Company description" onChange={handleCredentialsChange} />
-              <input name="address" type="text" placeholder="Company address" onChange={handleCredentialsChange} />
-              <input name="city" type="text" placeholder="Company city location" onChange={handleCredentialsChange} />
-              <input
-                name="country"
-                type="text"
-                placeholder="Company country location"
-                onChange={handleCredentialsChange}
-              />
-              {error && <div className="form-error-message">{error}</div>}
-              <button
-                type="button"
-                className="register_button colored-button"
-                onClick={() => {
-                  dispatch(addCompany(user, companyCredentials));
-                  handleCreateCompanyClick();
-                }}
-              >
-                Create
-              </button>
-            </form>
-          </div>
-        </div>
-      </main>
+    <div className="content-wrapper">
+      <div className="form-wrapper">
+        <form className="form">
+          {formInputs.map((input) => {
+            return (
+              <div className="form__input__wrapper">
+                <input
+                  className="form__input"
+                  name={input.name}
+                  type={input.name === "password" ? "password" : "text"}
+                  placeholder={input.placeholder}
+                  onChange={handleCredentialsChange}
+                />
+                <label className={companyCredentials[input.name] === "" ? "form__label" : "form__label active"}>
+                  {input.placeholder}
+                </label>
+              </div>
+            );
+          })}
+          {error && <div className="form-error-message">{error}</div>}
+          <button
+            type="button"
+            className="form__button"
+            onClick={() => {
+              dispatch(addCompany(user, companyCredentials));
+              handleCreateCompanyClick();
+            }}
+          >
+            Create
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

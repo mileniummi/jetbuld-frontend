@@ -1,8 +1,8 @@
 import { Navigate, NavLink } from "react-router-dom";
 import React, { useState } from "react";
-import "../../styles/auth.css";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/actions/user";
+import Ripple from "../utils/ripple-effect/Ripple";
 
 export default function Login() {
   const error = useSelector((state) => state.app.loginError);
@@ -26,37 +26,50 @@ export default function Login() {
         {!user ? (
           <>
             <div className="form-wrapper">
-              <h1 className="form-greeting">Здравствуйте!</h1>
+              <h1 className="form-greeting">Hello!</h1>
               <form className="form">
-                <input
-                  min={2}
-                  name="login"
-                  type="text"
-                  placeholder="Имя пользователя"
-                  onChange={handleCredentialsChange}
-                />
-                <input
-                  min={3}
-                  name="password"
-                  type="password"
-                  placeholder="Пароль"
-                  onChange={handleCredentialsChange}
-                />
+                <div className="form__input__wrapper">
+                  <input
+                    className="form__input"
+                    min={2}
+                    name="login"
+                    type="text"
+                    placeholder="username"
+                    onChange={handleCredentialsChange}
+                  />
+                  <label className={userCredentials.login === "" ? "form__label" : "form__label active"}>
+                    username
+                  </label>
+                </div>
+                <div className="form__input__wrapper">
+                  <input
+                    min={3}
+                    name="password"
+                    type="password"
+                    placeholder="password"
+                    className="form__input"
+                    onChange={handleCredentialsChange}
+                  />
+                  <label className={userCredentials.password === "" ? "form__label" : "form__label active"}>
+                    password
+                  </label>
+                </div>
                 {error && <div className="form-error-message">{error}</div>}
                 <button
                   type="button"
-                  className="register_button colored-button"
+                  className="form__button"
                   onClick={() => {
                     dispatch(login(userCredentials.login, userCredentials.password));
                   }}
                 >
-                  Войти
+                  Login
+                  <Ripple duration={700} />
                 </button>
               </form>
               <span>
-                Впервые на сайте?{" "}
+                Don't have account yet?
                 <NavLink to="/register">
-                  <span className="colored">Зарегистрироваться</span>
+                  <span className="colored">Register</span>
                 </NavLink>
               </span>
             </div>

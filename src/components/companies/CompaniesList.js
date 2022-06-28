@@ -25,6 +25,13 @@ export default function CompaniesList() {
 
   return (
     <div>
+      {isLoading ? (
+        <div className="loader__wrapper">
+          <CircularProgress color={"inherit"} />
+        </div>
+      ) : (
+        companies.current.map((company) => <CompanyPreview key={nanoid()} company={company} />)
+      )}
       <Pagination
         className="pagination"
         count={Math.ceil(companies.count / ITEM_LIMIT)}
@@ -33,13 +40,6 @@ export default function CompaniesList() {
         shape="rounded"
         onChange={handlePageChange}
       />
-      {isLoading ? (
-        <div className="loader__wrapper">
-          <CircularProgress color={"inherit"} />
-        </div>
-      ) : (
-        companies.current.map((company) => <CompanyPreview key={nanoid()} company={company} />)
-      )}
     </div>
   );
 }

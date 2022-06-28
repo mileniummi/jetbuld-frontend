@@ -8,6 +8,7 @@ export const fetchPhotos = (user, page, pointId) => async (dispatch) => {
   try {
     dispatch(showLoader());
     const response = await photosService.fetchPhotos(user, page, pointId);
+    console.log(response.data);
     dispatch({ type: FETCH_PHOTOS, payload: { count: response.data[0], current: response.data[1] } });
     dispatch(hideLoader());
   } catch (e) {

@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Sidebar from "./Sidebar";
+import Sidebar from "../components/sidebar/Sidebar";
 import React from "react";
 import { ToastContainer } from "react-toastify";
 
@@ -8,7 +8,9 @@ export default function Layout() {
     <>
       <ToastContainer />
       <Sidebar />
-      <Outlet />
+      <div className="custom-scroll">
+        <Outlet />
+      </div>
     </>
   );
 }

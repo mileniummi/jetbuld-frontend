@@ -1,0 +1,135 @@
+
+/*forms*/
+.form-wrapper{
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto 10px;
+    background-color: white;
+    padding: 40px 40px 20px;
+    max-width: 475px;
+}
+
+.form-greeting{
+    font-size: 24px;
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form__input__wrapper{
+    position: relative;
+}
+
+.form__input{
+    font-family: "Roboto", sans-serif;
+    border: 2px solid black;
+    padding: 10px 5px 12px;
+    outline: none;
+    border-radius: 5px;
+    background-color: white;
+    margin-bottom: 15px;
+    font-weight: 500;
+    width: 100%;
+    font-size: 18px;
+    opacity: .8;
+    min-width: 450px;
+}
+.form__label{
+    z-index: 2;
+    visibility: hidden;
+    position: absolute;
+    left: 5px;
+    font-size: 14px;
+    background-color: white;
+    padding: 0 3px 3px;
+    transition: visibility 0s,  transform .3s ease-in-out;
+}
+
+.form__input:focus{
+    opacity: 1;
+}
+
+
+.form__input:focus + .form__label{
+    background-color: black;
+    color: white;
+    visibility: visible;
+    transform: translateY(-10px);
+}
+
+.form__label.active{
+    visibility: visible;
+    transform: translateY(-10px);
+    background-color: white;
+    color: black;
+}
+
+.form__textarea{
+    border: 2px solid black;
+    font-family: "Source Sans Pro", sans-serif;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 400;
+    min-width: 450px;
+    width: 100%;
+    outline: 0;
+    height: 60px;
+    border-radius: 10px 10px 0 10px;
+    padding: 5px;
+}
+
+.form__button{
+    cursor: pointer;
+    position: relative;
+    font-family: "Source Sans Pro", sans-serif;
+    text-align: center;
+    background-color: black;
+    color: white;
+    font-size: 18px;
+    font-weight: 400;
+    outline: 0;
+    padding: 10px 50px 10px;
+    border: none;
+    box-shadow: none;
+    margin: 20px 0 20px;
+    overflow: hidden;
+}
+
+.form-error-message{
+    font-weight: bold;
+    color: darkred;
+}
+
+.file-input{
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 800px){
+    .form-wrapper{
+        padding: 20px;
+    }
+    .form__input{
+        min-width: 350px;
+    }
+    .form__textarea{
+        min-width: 350px;
+    }
+}
+
+@media screen and (max-width: 420px){
+    .form__input{
+        min-width: unset;
+    }
+    .form__textarea{
+        min-width: unset;
+    }
+}

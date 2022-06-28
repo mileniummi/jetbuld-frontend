@@ -1,0 +1,43 @@
+/*header*/
+.header {
+    display: flex;
+    margin: 20px;
+    align-items: baseline;
+}
+
+.header__location-name {
+    margin: 0;
+    font-size: 28px;
+    color: #2B283A;
+}
+
+.header__input {
+    margin-left: 20px;
+    margin-right: auto;
+    border-radius: 20px;
+    border: 1px solid #cccccc;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.header__button {
+    position: relative;
+    overflow: hidden;
+    color: white;
+    cursor: pointer;
+    background-color: #154d3b;
+    z-index: 1;
+}
+
+@media screen and (max-width: 800px) {
+    .header {
+        flex-direction: column;
+    }
+    .header__location-name{
+        margin-bottom: 10px;
+    }
+    .header__input{
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+}
