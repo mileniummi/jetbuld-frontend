@@ -33,18 +33,22 @@ const ProjectList = ({ company }) => {
               <CircularProgress color={"inherit"} />
             </div>
           ) : (
-            projects.current.map((project) => (
-              <ProjectPreview companyId={company.id} companyName={company.name} key={nanoid()} project={project} />
-            ))
+            <>
+              {projects.current.map((project) => (
+                <ProjectPreview companyId={company.id} companyName={company.name} key={nanoid()} project={project} />
+              ))}
+              {projects.count > ITEM_LIMIT && (
+                <Pagination
+                  className="pagination"
+                  count={Math.ceil(projects.count / ITEM_LIMIT)}
+                  page={page}
+                  variant="outlined"
+                  shape="rounded"
+                  onChange={handlePageChange}
+                />
+              )}
+            </>
           )}
-          <Pagination
-            className="pagination"
-            count={Math.ceil(projects.count / ITEM_LIMIT)}
-            page={page}
-            variant="outlined"
-            shape="rounded"
-            onChange={handlePageChange}
-          />
         </>
       ) : (
         <div className="nothing-to-show">

@@ -2,7 +2,7 @@ import React from "react";
 import "./header.css";
 import Ripple from "../UI/ripple-effect/Ripple";
 import { useForm } from "react-hook-form";
-import { Input, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 
 const Header = ({ pageLocation, handleCreateClick }) => {
   const { register, watch, handleSubmit } = useForm();
@@ -10,7 +10,9 @@ const Header = ({ pageLocation, handleCreateClick }) => {
   return (
     <div className="header">
       <h1 className="header__location-name">{pageLocation} feed</h1>
-      <TextField label={`Find a ${pageLocation}...`} sx={{ margin: "0 auto 0 10px" }} variant={"filled"} />
+      <div className="header__input">
+        <TextField label={`Find a ${pageLocation}...`} size={"small"} variant={"outlined"} />
+      </div>
       <button className="header__button" onClick={handleCreateClick}>
         {`Create New ${pageLocation}`}
         <Ripple duration={700} />

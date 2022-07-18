@@ -29,16 +29,22 @@ export default function CompaniesList() {
           <CircularProgress color={"inherit"} />
         </div>
       ) : (
-        companies.current.map((company) => <CompanyPreview key={nanoid()} company={company} />)
+        <>
+          {companies.current.map((company) => (
+            <CompanyPreview key={nanoid()} company={company} />
+          ))}
+          {companies.count > ITEM_LIMIT && (
+            <Pagination
+              className="pagination"
+              count={Math.ceil(companies.count / ITEM_LIMIT)}
+              page={page}
+              variant="outlined"
+              shape="rounded"
+              onChange={handlePageChange}
+            />
+          )}
+        </>
       )}
-      <Pagination
-        className="pagination"
-        count={Math.ceil(companies.count / ITEM_LIMIT)}
-        page={page}
-        variant="outlined"
-        shape="rounded"
-        onChange={handlePageChange}
-      />
     </div>
   );
 }

@@ -19,17 +19,17 @@ export default function Points() {
     }
   }, [dispatch, location.state]);
 
-  const handleCreatePointClick = (e) => {
+  const handleCreatePointClick = () => {
     setCreatePoint((prevState) => !prevState);
   };
 
   return (
-    <main>
+    <>
       <Header handleCreateClick={handleCreatePointClick} pageLocation={"Point"} />
-      <PointList />
+      <PointList parentProject={location.state && location.state.project} />
       <PopupWindow transitionInState={createPoint} hideFunction={handleCreatePointClick}>
         <CreatePointForm handleCreateClick={handleCreatePointClick} />
       </PopupWindow>
-    </main>
+    </>
   );
 }

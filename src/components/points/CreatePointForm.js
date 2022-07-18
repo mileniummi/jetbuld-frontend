@@ -13,14 +13,14 @@ const CreatePointForm = ({ handleCreateClick }) => {
   const user = useSelector((state) => state.users.user);
   const dispatch = useDispatch();
   const project = useSelector((state) => state.app.currentProject);
-  const { company } = useSelector((state) => state.app.currentCompany);
+  const company = useSelector((state) => state.app.currentCompany);
 
   const {
     register,
     watch,
     handleSubmit,
     formState: { errors },
-  } = useForm({ defaultValues: { name: "", description: "" } });
+  } = useForm({ defaultValues: { name: "", description: "" }, mode: "onBlur" });
 
   function sendPointCredentials(data) {
     dispatch(addPoint(user, { ...data, projectId: project.id }));
@@ -38,7 +38,7 @@ const CreatePointForm = ({ handleCreateClick }) => {
         <form className="form" onSubmit={handleSubmit(sendPointCredentials)}>
           <Input
             dataStorage={watch("name")}
-            placeholder={"Project Name"}
+            placeholder={"Point Name"}
             reactHookFormRegisterRes={register("name", {
               required: "This field is required",
             })}
@@ -46,7 +46,7 @@ const CreatePointForm = ({ handleCreateClick }) => {
           {errors.name && <Error text={errors.name.message} />}
           <Textarea
             dataStorage={watch("description")}
-            placeholder={"Project description"}
+            placeholder={"Point description"}
             reactHookFormRegisterRes={register("description", {
               required: "This field is required",
             })}

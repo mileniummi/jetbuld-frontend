@@ -33,7 +33,7 @@ const CreateCompanyForm = ({ handleCreateCompanyClick }) => {
     watch,
     handleSubmit,
     formState: { errors },
-  } = useForm({ defaultValues: defaultValues });
+  } = useForm({ defaultValues: defaultValues, mode: "onBlur" });
 
   const createCompany = (data) => {
     dispatch(addCompany(user, data));

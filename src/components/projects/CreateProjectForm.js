@@ -19,7 +19,7 @@ const CreateProjectForm = ({ companyId, companyName, handleCreateClick }) => {
     watch,
     handleSubmit,
     formState: { errors },
-  } = useForm({ defaultValues: { name: "", description: "" } });
+  } = useForm({ defaultValues: { name: "", description: "" }, mode: "onBlur" });
 
   const handleFormSubmit = (data) => {
     dispatch(addProject(companyId, user, data));

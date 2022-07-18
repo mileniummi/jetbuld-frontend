@@ -17,7 +17,7 @@ export default function Login() {
     watch,
     handleSubmit,
     formState: { errors },
-  } = useForm({ defaultValues: { login: "", password: "" } });
+  } = useForm({ defaultValues: { login: "", password: "" }, mode: "onBlur" });
 
   const handleFormSubmit = (data) => {
     dispatch(login(data.login, data.password));
@@ -39,7 +39,7 @@ export default function Login() {
                     minLength: { value: 3, message: "Username should consist at least of 3 characters" },
                   })}
                 />
-                {errors.username && <Error text={errors.login.message} />}
+                {errors.login && <Error text={errors.login.message} />}
                 <Input
                   placeholder="password"
                   type="password"

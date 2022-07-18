@@ -13,12 +13,12 @@ export default function Companies() {
   };
 
   return (
-    <main>
+    <>
       <Header handleCreateClick={handleCreateCompanyClick} pageLocation={"Company"} />
       <CompaniesList />
       <PopupWindow transitionInState={createCompany} hideFunction={handleCreateCompanyClick}>
         <CreateCompanyForm handleCreateCompanyClick={handleCreateCompanyClick} />
       </PopupWindow>
-    </main>
+    </>
   );
 }

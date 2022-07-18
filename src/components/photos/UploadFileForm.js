@@ -11,7 +11,7 @@ import Textarea from "../UI/forms/Textarea";
 import Button from "../UI/forms/Button";
 import Error from "../UI/forms/Error";
 
-const UploadFileForm = ({ active, pointId, hideForm, pointName }) => {
+const UploadFileForm = ({ active, pointId, hideForm, pointName, reload }) => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.users.user);
@@ -22,22 +22,23 @@ const UploadFileForm = ({ active, pointId, hideForm, pointName }) => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm({ defaultValues: { name: "", description: "" } });
+  } = useForm({ defaultValues: { name: "", description: "" }, mode: "onBlur" });
   const company = useSelector((state) => state.app.currentCompany);
 
   const updateFiles = (incomingFiles) => {
     setSelectedFiles(incomingFiles);
   };
 
-  function sendUserData(data) {
+  async function sendUserData(data) {
     if (selectedFiles.length !== 0) {
-      dispatch(addPhoto(user, { ...data, userId: user.id, pointId, S3Url: "" }, selectedFiles[0].file));
+      await dispatch(addPhoto(user, { ...data, userId: user.id, pointId, S3Url: "" }, selectedFiles[0].file));
       socket.emit(
         company.id.toString(),
         `${user.firstName} ${user.lastName} added photo ${data.name} to point ${pointName}`,
         user
       );
       hideForm();
+      reload();
     }
   }
 

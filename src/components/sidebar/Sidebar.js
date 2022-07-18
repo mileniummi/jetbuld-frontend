@@ -8,20 +8,22 @@ import loginIcon from "../../images/icons/login-svgrepo-com.svg";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/actions/user";
-import "./sidebar.css";
 import { CSSTransition } from "react-transition-group";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import { showSidebar as showSidebarAction } from "../../redux/actions/app";
+import { hideSidebar as hideSidebarAction } from "../../redux/actions/app";
+
+import "./sidebar.css";
 
 export default function Sidebar() {
   const user = useSelector((state) => state.users.user);
-  const [hideSidebar, setHideSidebar] = useState(true);
   const [showSidebar, setShowSidebar] = useState(false);
-  const { currentCompany, currentProject } = useSelector((state) => state.app);
+  const { hideSidebar, currentCompany, currentProject } = useSelector((state) => state.app);
   const dispatch = useDispatch();
 
   function changeSidebarVisibility() {
-    setHideSidebar((prevState) => !prevState);
+    showSidebar ? dispatch(hideSidebarAction()) : dispatch(showSidebarAction());
     setShowSidebar((prevState) => !prevState);
   }
 
@@ -36,7 +38,7 @@ export default function Sidebar() {
       {user ? (
         <>
           <CSSTransition in={hideSidebar} classNames="slide-left" timeout={600} unmountOnExit>
-            <div className="nav__hidden" onClick={changeSidebarVisibility}>
+            <div className="nav__hidden">
               <img className="nav__hidden__icon" src={userProfileIcon} alt="user-icon" />
               <img className="nav__hidden__icon" src={shutdownIcon} alt="logout-icon" />
               <div className="nav__white-line"> </div>
@@ -87,9 +89,13 @@ export default function Sidebar() {
           </CSSTransition>
         </>
       ) : hideSidebar ? (
-        <div className="nav__hidden" onClick={changeSidebarVisibility}>
-          <img className="nav__hidden__icon" src={loginIcon} alt="project-icon" />
-          <img className="nav__hidden__icon" src={registerIcon} alt="project-icon" />
+        <div className="nav__hidden">
+          <NavLink to={"/login"} className="nav__item">
+            <img className="nav__hidden__icon" src={loginIcon} alt="project-icon" />
+          </NavLink>
+          <NavLink to={"/register"} className="nav__item">
+            <img className="nav__hidden__icon" src={registerIcon} alt="project-icon" />
+          </NavLink>
         </div>
       ) : (
         <div>

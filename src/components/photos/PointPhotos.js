@@ -28,7 +28,7 @@ const PointPhotos = () => {
   }
 
   return (
-    <main>
+    <>
       <Header
         pageLocation="Photo"
         handleCreateClick={() => {
@@ -43,32 +43,36 @@ const PointPhotos = () => {
                 <CircularProgress color={"inherit"} />
               </div>
             ) : (
-              <Grid container spacing={2} sx={{ m: "10px" }}>
-                {photos.current.map((photo) => (
-                  <Grid key={nanoid()} item>
-                    <Card sx={{}}>
-                      <CardMedia component="img" height="194" image={photo.s3Url} alt="point" />
-                      <CardContent>
-                        <Typography variant="h6" componennt="div">
-                          {photo.name}
-                        </Typography>
-                        <Typography variant="body2" componennt="div">
-                          {photo.description}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
+              <>
+                <Grid container spacing={2} sx={{ m: "10px" }}>
+                  {photos.current.map((photo) => (
+                    <Grid key={nanoid()} item>
+                      <Card sx={{}}>
+                        <CardMedia component="img" height="194" image={photo.s3Url} alt="point" />
+                        <CardContent>
+                          <Typography variant="h6" componennt="div">
+                            {photo.name}
+                          </Typography>
+                          <Typography variant="body2" componennt="div">
+                            {photo.description}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+                {photos.count > PHOTO_LIMIT && (
+                  <Pagination
+                    className="pagination"
+                    count={Math.ceil(photos.count / PHOTO_LIMIT)}
+                    page={page}
+                    variant="outlined"
+                    shape="rounded"
+                    onChange={handlePageChange}
+                  />
+                )}
+              </>
             )}
-            <Pagination
-              className="pagination"
-              count={Math.ceil(photos.count / PHOTO_LIMIT)}
-              page={page}
-              variant="outlined"
-              shape="rounded"
-              onChange={handlePageChange}
-            />
           </>
         ) : (
           <div className="nothing-to-show">
@@ -80,8 +84,11 @@ const PointPhotos = () => {
         active={showUploadPhotoForm}
         pointId={pointId}
         hideForm={() => setShowUploadPhotoForm(false)}
+        reload={() => {
+          dispatch(fetchPhotos(user, page, pointId));
+        }}
       />
-    </main>
+    </>
   );
 };
 

@@ -6,14 +6,18 @@ import { fetchPoints } from "../../redux/actions/point";
 import { ITEM_LIMIT } from "../../redux/constants/app";
 import { CircularProgress, Pagination } from "@mui/material";
 
-const PointList = () => {
+const PointList = ({ parentProject }) => {
   const user = useSelector((state) => state.users.user);
   const points = useSelector((state) => state.points);
   const isLoading = useSelector((state) => state.app.loading);
   const [page, setPage] = useState(1);
   const company = useSelector((state) => state.app.currentCompany);
-  const project = useSelector((state) => state.app.currentProject);
   const dispatch = useDispatch();
+
+  let project = useSelector((state) => state.app.currentProject);
+  if (!project) {
+    project = parentProject;
+  }
 
   useEffect(() => {
     dispatch(fetchPoints(user, page, project.id));
@@ -37,16 +41,21 @@ const PointList = () => {
               <CircularProgress color={"inherit"} />
             </div>
           ) : (
-            pointPreviews
+            <>
+              {" "}
+              {pointPreviews}
+              {points.count > ITEM_LIMIT && (
+                <Pagination
+                  className="pagination"
+                  count={Math.ceil(points.count / ITEM_LIMIT)}
+                  page={page}
+                  variant="outlined"
+                  shape="rounded"
+                  onChange={handlePageChange}
+                />
+              )}
+            </>
           )}
-          <Pagination
-            className="pagination"
-            count={Math.ceil(points.count / ITEM_LIMIT)}
-            page={page}
-            variant="outlined"
-            shape="rounded"
-            onChange={handlePageChange}
-          />
         </>
       ) : (
         <div className="nothing-to-show">

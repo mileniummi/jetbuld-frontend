@@ -8,7 +8,7 @@
     position: sticky;
     transition: all 1s linear;
     height: 100vh;
-    z-index: 100;
+    z-index: 10;
 }
 
 .nav__title {
@@ -29,6 +29,7 @@
     text-decoration: none;
     border-radius: 10px;
     padding: 5px 0 5px 3px;
+    gap: 10px;
 }
 
 .active {
@@ -46,7 +47,6 @@
 .nav__item__icon {
     width: 20px;
     height: 20px;
-    margin-right: 10px;
 }
 
 .nav__arrow {
@@ -116,11 +116,13 @@
 
 @media screen and (max-width: 550px){
     .nav{
-        z-index: 10;
         position: absolute;
         height: 100%;
     }
     main{
         margin-left: 40px;
+    }
+    .main.blurred {
+        opacity: .8;
     }
 }

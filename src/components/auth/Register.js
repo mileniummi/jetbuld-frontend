@@ -1,36 +1,57 @@
 import { NavLink, Navigate } from "react-router-dom";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../../redux/actions/user";
-import Ripple from "../UI/ripple-effect/Ripple";
+import { register as registerAction } from "../../redux/actions/user";
+import { useForm } from "react-hook-form";
+import Input from "../UI/forms/Input";
+import Error from "../UI/forms/Error";
+import Button from "../UI/forms/Button";
+
+const formInputs = [
+  { name: "firstName", placeholder: "name", options: {} },
+  { name: "lastName", placeholder: "surname", options: {} },
+  {
+    name: "email",
+    placeholder: "email",
+    options: {
+      pattern: {
+        value: /\S+@\S+\.\S+/,
+        message: "Entered value does not match email format",
+      },
+    },
+  },
+  {
+    name: "login",
+    placeholder: "username",
+    options: { minLength: { value: 3, message: "Username should consist at least of 3 characters" } },
+  },
+  {
+    name: "password",
+    placeholder: "password",
+    options: { minLength: { value: 5, message: "Password should consist at least of 3 characters" } },
+  },
+];
+
+const defaultValues = {};
+
+for (const input of formInputs) {
+  defaultValues[input.name] = "";
+}
 
 export default function Register() {
-  const user = useSelector((state) => {
-    return state.users.user;
-  });
   const dispatch = useDispatch();
-  const [error, setError] = useState(null);
-  const [userCredentials, setUserCredentials] = useState({
-    firstName: "",
-    lastName: "",
-    login: "",
-    password: "",
-    email: "",
-  });
+  const { error } = useSelector((state) => state.app.loginError);
+  const user = useSelector((state) => state.users.user);
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ defaultValues, mode: "onBlur" });
 
-  const formInputs = [
-    { name: "firstName", placeholder: "name" },
-    { name: "lastName", placeholder: "surname" },
-    { name: "email", placeholder: "email" },
-    { name: "login", placeholder: "username" },
-    { name: "password", placeholder: "password" },
-  ];
-
-  function handleCredentialsChange(event) {
-    setUserCredentials((prevState) => {
-      return { ...prevState, [event.target.name]: event.target.value };
-    });
-  }
+  const handleFormSubmit = (data) => {
+    dispatch(registerAction(data));
+  };
 
   return (
     <main style={{ backgroundColor: "white" }}>
@@ -39,28 +60,25 @@ export default function Register() {
           <>
             <div className="form-wrapper">
               <h1 className="form-greeting">Hello!</h1>
-              <form className="form">
+              <form className="form" onSubmit={handleSubmit(handleFormSubmit)}>
                 {formInputs.map((input) => {
                   return (
-                    <div key={input.name} className="form__input__wrapper">
-                      <input
-                        className="form__input"
-                        name={input.name}
-                        type={input.name === "password" ? "password" : "text"}
+                    <>
+                      <Input
+                        type={input.name === "password" ? "password" : input.name === "email" ? "email" : "text"}
                         placeholder={input.placeholder}
-                        onChange={handleCredentialsChange}
+                        dataStorage={watch(input.name)}
+                        reactHookFormRegisterRes={register(input.name, {
+                          ...input.options,
+                          required: "This field is required",
+                        })}
                       />
-                      <label className={userCredentials[input.name] === "" ? "form__label" : "form__label active"}>
-                        {input.placeholder}
-                      </label>
-                    </div>
+                      {errors[input.name] && <Error text={errors[input.name].message} />}
+                    </>
                   );
                 })}
                 {error && <div className="form-error-message">{error}</div>}
-                <button type="button" className="form__button" onClick={() => dispatch(register(userCredentials))}>
-                  Register
-                  <Ripple duration={700} />
-                </button>
+                <Button>Register</Button>
               </form>
               <span>
                 Already have an account?&nbsp;

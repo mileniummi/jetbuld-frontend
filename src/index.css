@@ -117,7 +117,7 @@ a {
 
 .preview__photos{
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
 }
 
 .preview__photo{
@@ -163,7 +163,7 @@ a {
     margin-top: 150px;
 }
 
-.custom-scroll{
+.main{
     width: 100%;
     overflow-x: hidden;
 }
