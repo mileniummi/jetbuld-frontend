@@ -1,24 +1,27 @@
 import { Navigate, NavLink } from "react-router-dom";
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/actions/user";
-import Ripple from "../UI/ripple-effect/Ripple";
+import { useForm } from "react-hook-form";
+import Input from "../UI/forms/Input";
+import Error from "../UI/forms/Error";
+import Button from "../UI/forms/Button";
 
 export default function Login() {
   const error = useSelector((state) => state.app.loginError);
   const user = useSelector((state) => state.users.user);
   const dispatch = useDispatch();
 
-  const [userCredentials, setUserCredentials] = useState({
-    login: "",
-    password: "",
-  });
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ defaultValues: { login: "", password: "" } });
 
-  function handleCredentialsChange(event) {
-    setUserCredentials((prevState) => {
-      return { ...prevState, [event.target.name]: event.target.value };
-    });
-  }
+  const handleFormSubmit = (data) => {
+    dispatch(login(data.login, data.password));
+  };
 
   return (
     <main style={{ backgroundColor: "white" }}>
@@ -27,44 +30,28 @@ export default function Login() {
           <>
             <div className="form-wrapper">
               <h1 className="form-greeting">Hello!</h1>
-              <form className="form">
-                <div className="form__input__wrapper">
-                  <input
-                    className="form__input"
-                    min={2}
-                    name="login"
-                    type="text"
-                    placeholder="username"
-                    onChange={handleCredentialsChange}
-                  />
-                  <label className={userCredentials.login === "" ? "form__label" : "form__label active"}>
-                    username
-                  </label>
-                </div>
-                <div className="form__input__wrapper">
-                  <input
-                    min={3}
-                    name="password"
-                    type="password"
-                    placeholder="password"
-                    className="form__input"
-                    onChange={handleCredentialsChange}
-                  />
-                  <label className={userCredentials.password === "" ? "form__label" : "form__label active"}>
-                    password
-                  </label>
-                </div>
+              <form className="form" onSubmit={handleSubmit(handleFormSubmit)}>
+                <Input
+                  placeholder="username"
+                  dataStorage={watch("login")}
+                  reactHookFormRegisterRes={register("login", {
+                    required: "This field is required",
+                    minLength: { value: 3, message: "Username should consist at least of 3 characters" },
+                  })}
+                />
+                {errors.username && <Error text={errors.login.message} />}
+                <Input
+                  placeholder="password"
+                  type="password"
+                  dataStorage={watch("password")}
+                  reactHookFormRegisterRes={register("password", {
+                    required: "This field is required",
+                    minLength: { value: 5, message: "Password should consist at least of 5 characters" },
+                  })}
+                />
+                {errors.password && <Error text={errors.password.message} />}
                 {error && <div className="form-error-message">{error}</div>}
-                <button
-                  type="button"
-                  className="form__button"
-                  onClick={() => {
-                    dispatch(login(userCredentials.login, userCredentials.password));
-                  }}
-                >
-                  Login
-                  <Ripple duration={700} />
-                </button>
+                <Button>Login</Button>
               </form>
               <span>
                 Don't have account yet?
