@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import CompanyPreview from "./CompanyPreview";
 import { nanoid } from "nanoid";
-import { Pagination } from "@material-ui/lab";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCompanies } from "../../redux/actions/company";
 import { ITEM_LIMIT } from "../../redux/constants/app";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, Pagination } from "@mui/material";
 
 export default function CompaniesList() {
   const companies = useSelector((state) => state.companies);

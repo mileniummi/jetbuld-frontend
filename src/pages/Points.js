@@ -1,17 +1,23 @@
 import Header from "../components/headers/Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PointList from "../components/points/PointList";
 import { useLocation } from "react-router-dom";
 import CreatePointForm from "../components/points/CreatePointForm";
 import React from "react";
-import { CSSTransition } from "react-transition-group";
-import PopupWindow from "../components/popup/PopupWindow";
+import PopupWindow from "../components/utils/popup/PopupWindow";
+import { useDispatch } from "react-redux";
+import { setCurrentProject } from "../redux/actions/app";
 
 export default function Points() {
   const [createPoint, setCreatePoint] = useState(false);
   const location = useLocation();
-  const { id } = location.state.project;
-  const { companyId, companyName } = location.state;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (location.state) {
+      dispatch(setCurrentProject(location.state.project));
+    }
+  }, [dispatch, location.state]);
 
   const handleCreatePointClick = (e) => {
     setCreatePoint((prevState) => !prevState);
@@ -20,17 +26,10 @@ export default function Points() {
   return (
     <main>
       <Header handleCreateClick={handleCreatePointClick} pageLocation={"Point"} />
-      <PointList companyId={companyId} projectId={id} />
-      <CSSTransition in={createPoint} classNames="fade" timeout={300} unmountOnExit>
-        <PopupWindow hideFunction={handleCreatePointClick}>
-          <CreatePointForm
-            companyName={companyName}
-            companyId={companyId}
-            projectId={id}
-            handleCreateClick={handleCreatePointClick}
-          />
-        </PopupWindow>
-      </CSSTransition>
+      <PointList />
+      <PopupWindow transitionInState={createPoint} hideFunction={handleCreatePointClick}>
+        <CreatePointForm handleCreateClick={handleCreatePointClick} />
+      </PopupWindow>
     </main>
   );
 }

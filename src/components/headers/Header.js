@@ -1,12 +1,16 @@
 import React from "react";
 import "./header.css";
-import Ripple from "../utils/ripple-effect/Ripple";
+import Ripple from "../UI/ripple-effect/Ripple";
+import { useForm } from "react-hook-form";
+import { Input, TextField } from "@mui/material";
 
 const Header = ({ pageLocation, handleCreateClick }) => {
+  const { register, watch, handleSubmit } = useForm();
+
   return (
     <div className="header">
       <h1 className="header__location-name">{pageLocation} feed</h1>
-      <input className="header__input" type="text" placeholder={`Find a ${pageLocation}...`} />
+      <TextField label={`Find a ${pageLocation}...`} sx={{ margin: "0 auto 0 10px" }} variant={"filled"} />
       <button className="header__button" onClick={handleCreateClick}>
         {`Create New ${pageLocation}`}
         <Ripple duration={700} />

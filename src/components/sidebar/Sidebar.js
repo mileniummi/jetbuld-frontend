@@ -10,11 +10,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/actions/user";
 import "./sidebar.css";
 import { CSSTransition } from "react-transition-group";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 
 export default function Sidebar() {
   const user = useSelector((state) => state.users.user);
-  const [hideSidebar, setHideSidebar] = useState(false);
-  const [showSidebar, setShowSidebar] = useState(true);
+  const [hideSidebar, setHideSidebar] = useState(true);
+  const [showSidebar, setShowSidebar] = useState(false);
+  const { currentCompany, currentProject } = useSelector((state) => state.app);
   const dispatch = useDispatch();
 
   function changeSidebarVisibility() {
@@ -37,7 +40,19 @@ export default function Sidebar() {
               <img className="nav__hidden__icon" src={userProfileIcon} alt="user-icon" />
               <img className="nav__hidden__icon" src={shutdownIcon} alt="logout-icon" />
               <div className="nav__white-line"> </div>
-              <img className="nav__hidden__icon" src={companyIcon} alt="project-icon" />
+              <NavLink to="/" className="nav__item">
+                <img className="nav__item__icon" src={companyIcon} alt="project-icon" />
+              </NavLink>
+              {currentCompany && (
+                <NavLink to={"/projects"} className="nav__item">
+                  <AssignmentIcon color="black" className="nav__item__icon" />
+                </NavLink>
+              )}
+              {currentProject && (
+                <NavLink to={"/points"} className="nav__item">
+                  <RadioButtonCheckedIcon color="black" className="nav__item__icon" />
+                </NavLink>
+              )}
             </div>
           </CSSTransition>
           <CSSTransition in={showSidebar} classNames="slide-right" timeout={300} unmountOnExit>
@@ -56,6 +71,18 @@ export default function Sidebar() {
                 <img className="nav__item__icon" src={companyIcon} alt="project-icon" />
                 Companies
               </NavLink>
+              {currentCompany && (
+                <NavLink to={"/projects"} className="nav__item">
+                  <AssignmentIcon color="black" className="nav__item__icon" />
+                  Projects
+                </NavLink>
+              )}
+              {currentProject && (
+                <NavLink to={"/points"} className="nav__item">
+                  <RadioButtonCheckedIcon color="black" className="nav__item__icon" />
+                  Points
+                </NavLink>
+              )}
             </div>
           </CSSTransition>
         </>

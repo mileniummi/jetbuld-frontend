@@ -8,7 +8,6 @@
     margin: 0 auto 10px;
     background-color: white;
     padding: 40px 40px 20px;
-    max-width: 475px;
 }
 
 .form-greeting{
@@ -100,6 +99,12 @@
     box-shadow: none;
     margin: 20px 0 20px;
     overflow: hidden;
+}
+
+.form__error{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
 .form-error-message{

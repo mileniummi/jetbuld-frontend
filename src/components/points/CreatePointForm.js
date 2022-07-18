@@ -3,15 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { socket } from "../../App";
 import { addPoint } from "../../redux/actions/point";
 
-const CreatePointForm = ({ projectId, companyId, companyName, handleCreateClick }) => {
+const CreatePointForm = ({ handleCreateClick }) => {
   const [error] = useState(null);
   const user = useSelector((state) => state.users.user);
   const dispatch = useDispatch();
+  const project = useSelector((state) => state.app.currentProject);
   const [pointCredentials, setPointCredentials] = useState({
     name: "",
     description: "",
-    projectId,
+    projectId: project.id,
   });
+  const { company } = useSelector((state) => state.app.currentCompany);
 
   function handleCredentialsChange(event) {
     setPointCredentials((prevState) => {
@@ -22,8 +24,8 @@ const CreatePointForm = ({ projectId, companyId, companyName, handleCreateClick 
   function sendPointCredentials() {
     dispatch(addPoint(user, pointCredentials));
     socket.emit(
-      companyId.toString(),
-      `${user.firstName} ${user.lastName} added point ${pointCredentials.name} in company ${companyName}`,
+      company.id.toString(),
+      `${user.firstName} ${user.lastName} added point ${pointCredentials.name} in company ${company.name}`,
       user
     );
     handleCreateClick();

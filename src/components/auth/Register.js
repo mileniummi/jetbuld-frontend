@@ -2,7 +2,7 @@ import { NavLink, Navigate } from "react-router-dom";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../redux/actions/user";
-import Ripple from "../utils/ripple-effect/Ripple";
+import Ripple from "../UI/ripple-effect/Ripple";
 
 export default function Register() {
   const user = useSelector((state) => {

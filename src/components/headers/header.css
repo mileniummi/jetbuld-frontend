@@ -2,7 +2,7 @@
 .header {
     display: flex;
     margin: 20px;
-    align-items: baseline;
+    align-items: center;
 }
 
 .header__location-name {

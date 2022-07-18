@@ -3,8 +3,7 @@ import { useState } from "react";
 import CreateCompanyForm from "../components/companies/CreateCompanyForm";
 import CompaniesList from "../components/companies/CompaniesList";
 import React from "react";
-import PopupWindow from "../components/popup/PopupWindow";
-import { CSSTransition } from "react-transition-group";
+import PopupWindow from "../components/utils/popup/PopupWindow";
 
 export default function Companies() {
   const [createCompany, setCreateCompany] = useState(false);
@@ -17,11 +16,9 @@ export default function Companies() {
     <main>
       <Header handleCreateClick={handleCreateCompanyClick} pageLocation={"Company"} />
       <CompaniesList />
-      <CSSTransition in={createCompany} classNames="fade" timeout={300} unmountOnExit>
-        <PopupWindow hideFunction={handleCreateCompanyClick}>
-          <CreateCompanyForm handleCreateCompanyClick={handleCreateCompanyClick} />
-        </PopupWindow>
-      </CSSTransition>
+      <PopupWindow transitionInState={createCompany} hideFunction={handleCreateCompanyClick}>
+        <CreateCompanyForm handleCreateCompanyClick={handleCreateCompanyClick} />
+      </PopupWindow>
     </main>
   );
 }

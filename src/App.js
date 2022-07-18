@@ -13,7 +13,7 @@ import PageNotFound from "./components/PageNotFound";
 import PrivateRoute from "./components/utils/PrivateRoute";
 import Socket from "./services/socketsService";
 import "./components/projects/projects.css";
-import "./components/utils/forms/forms.css";
+import "./components/UI/forms/forms.css";
 
 export const socket = new Socket();
 

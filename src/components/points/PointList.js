@@ -1,29 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import PointPreview from "./PointPreview";
-import { Pagination } from "@material-ui/lab";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPoints } from "../../redux/actions/point";
 import { ITEM_LIMIT } from "../../redux/constants/app";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, Pagination } from "@mui/material";
 
-const PointList = ({ projectId, companyId }) => {
+const PointList = () => {
   const user = useSelector((state) => state.users.user);
   const points = useSelector((state) => state.points);
   const isLoading = useSelector((state) => state.app.loading);
   const [page, setPage] = useState(1);
+  const company = useSelector((state) => state.app.currentCompany);
+  const project = useSelector((state) => state.app.currentProject);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchPoints(user, page, projectId));
-  }, [dispatch, page, projectId, user]);
+    dispatch(fetchPoints(user, page, project.id));
+  }, [dispatch, page, project.id, user]);
 
   const pointPreviews = points.current.map((point) => (
-    <PointPreview companyId={companyId} key={nanoid()} point={point} />
+    <PointPreview companyId={company.id} key={nanoid()} point={point} />
   ));
 
   function handlePageChange(event, value) {
-    dispatch(fetchPoints(user, value, projectId));
+    dispatch(fetchPoints(user, value, project.id));
     setPage(value);
   }
 

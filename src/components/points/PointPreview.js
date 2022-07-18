@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import React, { useState } from "react";
 import { nanoid } from "nanoid";
-import UploadFileForm from "./UploadFileDropzoneForm";
+import UploadFileForm from "../photos/UploadFileForm";
 
 export default function PointPreview({ point, companyId }) {
   const [showUploadFileForm, setShowUploadFileForm] = useState(false);
