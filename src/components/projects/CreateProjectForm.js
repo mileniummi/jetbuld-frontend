@@ -8,7 +8,7 @@ import Error from "../UI/forms/Error";
 import Textarea from "../UI/forms/Textarea";
 import Button from "../UI/forms/Button";
 
-const CreateProjectForm = ({ companyId, companyName, handleCreateClick }) => {
+const CreateProjectForm = ({ companyId, companyName, handleCreateClick, reload }) => {
   const dispatch = useDispatch();
   const [error] = useState(null);
   const user = useSelector((state) => {
@@ -21,14 +21,15 @@ const CreateProjectForm = ({ companyId, companyName, handleCreateClick }) => {
     formState: { errors },
   } = useForm({ defaultValues: { name: "", description: "" }, mode: "onBlur" });
 
-  const handleFormSubmit = (data) => {
-    dispatch(addProject(companyId, user, data));
+  const handleFormSubmit = async (data) => {
+    await dispatch(addProject(companyId, user, data));
     socket.emit(
       companyId.toString(),
       `${user.firstName} ${user.lastName} added project ${data.name} to company ${companyName}`,
       user
     );
     handleCreateClick();
+    reload();
   };
 
   return (

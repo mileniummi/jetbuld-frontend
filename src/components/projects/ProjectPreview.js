@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import React from "react";
+import { LONG_DATE_FORMAT } from "../../redux/constants/app";
 
 export default function ProjectPreview({ project, companyId, companyName }) {
   return (
@@ -9,7 +10,7 @@ export default function ProjectPreview({ project, companyId, companyName }) {
           <h3 className="preview__name">{project.name}</h3>
           <h4 className="preview__location">{project.description} </h4>
           <p className="preview__last-update-time">
-            Created at {new Date(project.timeCreated).toLocaleTimeString("en-US")}
+            {new Intl.DateTimeFormat("en-GB", LONG_DATE_FORMAT).format(new Date(project.timeCreated))}
           </p>
         </div>
       </div>

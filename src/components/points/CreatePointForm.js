@@ -8,7 +8,7 @@ import Error from "../UI/forms/Error";
 import Textarea from "../UI/forms/Textarea";
 import Button from "../UI/forms/Button";
 
-const CreatePointForm = ({ handleCreateClick }) => {
+const CreatePointForm = ({ handleCreateClick, reload }) => {
   const [error] = useState(null);
   const user = useSelector((state) => state.users.user);
   const dispatch = useDispatch();
@@ -22,14 +22,15 @@ const CreatePointForm = ({ handleCreateClick }) => {
     formState: { errors },
   } = useForm({ defaultValues: { name: "", description: "" }, mode: "onBlur" });
 
-  function sendPointCredentials(data) {
-    dispatch(addPoint(user, { ...data, projectId: project.id }));
+  async function sendPointCredentials(data) {
+    await dispatch(addPoint(user, { ...data, projectId: project.id }));
     socket.emit(
       company.id.toString(),
       `${user.firstName} ${user.lastName} added point ${data.name} in company ${company.name}`,
       user
     );
     handleCreateClick();
+    reload();
   }
 
   return (

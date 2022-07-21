@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { LONG_DATE_FORMAT } from "../../redux/constants/app";
 
 const CompanyPreview = ({ company }) => {
   return (
@@ -9,7 +10,7 @@ const CompanyPreview = ({ company }) => {
           <h3 className="preview__name">{company.name}</h3>
           <h4 className="preview__location">{company.address} </h4>
           <p className="preview__last-update-time">
-            {new Date(company.timeCreated).toUTCString()}
+            {new Intl.DateTimeFormat("en-GB", LONG_DATE_FORMAT).format(new Date(company.timeCreated))}
           </p>
         </div>
         <div className="preview__attribute">

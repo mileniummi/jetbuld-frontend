@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { CircularProgress, Pagination } from "@mui/material";
 import ProjectPreview from "./ProjectPreview";
 import { nanoid } from "nanoid";
@@ -6,12 +6,9 @@ import { ITEM_LIMIT } from "../../redux/constants/app";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProjects } from "../../redux/actions/project";
 
-const ProjectList = ({ company }) => {
-  const user = useSelector((state) => {
-    return state.users.user;
-  });
+const ProjectList = ({ company, page, setPage }) => {
+  const user = useSelector((state) => state.users.user);
   const dispatch = useDispatch();
-  const [page, setPage] = useState(1);
   const projects = useSelector((state) => state.projects);
   const isLoading = useSelector((state) => state.app.loading);
 

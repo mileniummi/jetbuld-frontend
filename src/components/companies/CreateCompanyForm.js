@@ -20,7 +20,7 @@ for (const input of formInputs) {
   defaultValues[input.name] = "";
 }
 
-const CreateCompanyForm = ({ handleCreateCompanyClick }) => {
+const CreateCompanyForm = ({ handleCreateCompanyClick, reload }) => {
   const dispatch = useDispatch();
   const [error] = useState(null);
 
@@ -35,9 +35,10 @@ const CreateCompanyForm = ({ handleCreateCompanyClick }) => {
     formState: { errors },
   } = useForm({ defaultValues: defaultValues, mode: "onBlur" });
 
-  const createCompany = (data) => {
-    dispatch(addCompany(user, data));
+  const createCompany = async (data) => {
+    await dispatch(addCompany(user, data));
     handleCreateCompanyClick();
+    reload();
   };
 
   return (

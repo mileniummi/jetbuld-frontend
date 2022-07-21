@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { nanoid } from "nanoid";
 import UploadFileForm from "../photos/UploadFileForm";
 import "./point.css";
+import { LONG_DATE_FORMAT } from "../../redux/constants/app";
 
 export default function PointPreview({ point, companyId }) {
   const [showUploadFileForm, setShowUploadFileForm] = useState(false);
@@ -20,12 +21,12 @@ export default function PointPreview({ point, companyId }) {
             <h3 className="preview__name">{point.name}</h3>
             <h4 className="preview__location">{point.description} </h4>
             <p className="preview__last-update-time">
-              Last Updated {new Date(point.timeCreated).toLocaleTimeString("en-US")}
+              {new Intl.DateTimeFormat("en-GB", LONG_DATE_FORMAT).format(new Date(point.timeCreated))}
             </p>
           </div>
           <div className="preview__photos">
             {point.photos.slice(0, 6).map((photo) => (
-              <img className="preview__photo" src={photo.s3Url} alt="point" />
+              <img key={nanoid()} className="preview__photo" src={photo.s3Url} alt="point" />
             ))}
           </div>
         </div>

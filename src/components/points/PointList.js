@@ -6,11 +6,10 @@ import { fetchPoints } from "../../redux/actions/point";
 import { ITEM_LIMIT } from "../../redux/constants/app";
 import { CircularProgress, Pagination } from "@mui/material";
 
-const PointList = ({ parentProject }) => {
+const PointList = ({ parentProject, page, setPage }) => {
   const user = useSelector((state) => state.users.user);
   const points = useSelector((state) => state.points);
   const isLoading = useSelector((state) => state.app.loading);
-  const [page, setPage] = useState(1);
   const company = useSelector((state) => state.app.currentCompany);
   const dispatch = useDispatch();
 
@@ -42,7 +41,6 @@ const PointList = ({ parentProject }) => {
             </div>
           ) : (
             <>
-              {" "}
               {pointPreviews}
               {points.count > ITEM_LIMIT && (
                 <Pagination

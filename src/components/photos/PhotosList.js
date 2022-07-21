@@ -4,8 +4,7 @@ import { nanoid } from "nanoid";
 import { PHOTO_LIMIT } from "../../redux/constants/photos";
 import { useSelector } from "react-redux";
 import "./photos.css";
-
-const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+import { DATE_FORMAT } from "../../redux/constants/app";
 
 const PhotosList = ({ page, handlePageChange }) => {
   const photos = useSelector((state) => state.photos);
@@ -16,7 +15,7 @@ const PhotosList = ({ page, handlePageChange }) => {
     const newData = {};
     photos.current.forEach((photo) => {
       const day = new Date(photo.timeCreated);
-      const dayOfUploading = new Intl.DateTimeFormat("en-US", options).format(day);
+      const dayOfUploading = new Intl.DateTimeFormat("en-US", DATE_FORMAT).format(day);
       if (Object.keys(newData).includes(dayOfUploading)) {
         newData[dayOfUploading].push(photo);
       } else {

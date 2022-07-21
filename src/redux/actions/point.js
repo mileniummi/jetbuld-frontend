@@ -2,6 +2,7 @@ import PointService from "../../services/pointService";
 import { hideLoader, showLoader } from "./app";
 import { FETCH_POINTS } from "../constants/point";
 import PhotosService from "../../services/photosService";
+import { compareTime } from "../constants/app";
 
 const pointService = new PointService();
 const photosService = new PhotosService();
@@ -17,6 +18,8 @@ export const fetchPoints = (user, page, projectId) => async (dispatch) => {
         return { ...point, photos: response.data[1] };
       })
     );
+
+    points = points.sort(compareTime);
     dispatch({ type: FETCH_POINTS, payload: { count: result.data[0], points } });
     dispatch(hideLoader());
   } catch (e) {

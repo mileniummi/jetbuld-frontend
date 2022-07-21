@@ -7,10 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import PopupWindow from "../components/utils/popup/PopupWindow";
 import { setCurrentCompany } from "../redux/actions/app";
 import ProjectList from "../components/projects/ProjectList";
+import { fetchProjects } from "../redux/actions/project";
 
 export default function Projects() {
   const location = useLocation();
+  const user = useSelector((state) => state.users.user);
   const dispatch = useDispatch();
+  const [page, setPage] = useState(1);
   const [createProject, setCreateProject] = useState(false);
   let company = useSelector((state) => state.app.currentCompany);
   if (location.state) {
@@ -31,12 +34,15 @@ export default function Projects() {
     <>
       <InfoHeader name={company.name} address={company.address} description={company.description} />
       <Header handleCreateClick={handleCreateProjectClick} pageLocation={"Project"} buttonText={"Add New Project"} />
-      <ProjectList company={company} />
+      <ProjectList company={company} page={page} setPage={setPage} />
       <PopupWindow transitionInState={createProject} hideFunction={handleCreateProjectClick}>
         <CreateProjectForm
           handleCreateClick={handleCreateProjectClick}
           companyId={company.id}
           companyName={company.name}
+          reload={() => {
+            dispatch(fetchProjects(company.id, user, page));
+          }}
         />
       </PopupWindow>
     </>

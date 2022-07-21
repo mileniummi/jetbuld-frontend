@@ -22,6 +22,7 @@ const unAuthorisedLinks = [
   { path: "register", icon: <HowToRegIcon {...muiIconProps} />, text: "Register" },
 ];
 
+//TODO:сделать текущую active иконку nav__item белой
 export default function Sidebar() {
   const user = useSelector((state) => state.users.user);
   const [showSidebar, setShowSidebar] = useState(false);

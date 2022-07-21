@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import CompanyPreview from "./CompanyPreview";
 import { nanoid } from "nanoid";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,9 +6,8 @@ import { fetchCompanies } from "../../redux/actions/company";
 import { ITEM_LIMIT } from "../../redux/constants/app";
 import { CircularProgress, Pagination } from "@mui/material";
 
-export default function CompaniesList() {
+export default function CompaniesList({ page, setPage }) {
   const companies = useSelector((state) => state.companies);
-  const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.users.user);
   const isLoading = useSelector((state) => state.app.loading);
