@@ -1,0 +1,17 @@
+@media screen and (max-width: 800px) {
+    .preview__description__container{
+        flex-direction: column;
+    }
+    .preview__photos{
+        justify-content: flex-start;
+        max-width: unset;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .preview__photo{
+        margin-bottom: 10px;
+        margin-right: 10px;
+        max-width: 80px;
+    }
+}

@@ -25,7 +25,7 @@ export default function Points() {
 
   return (
     <>
-      <Header handleCreateClick={handleCreatePointClick} pageLocation={"Point"} />
+      <Header handleCreateClick={handleCreatePointClick} pageLocation={"Point"} buttonText={"Add New Point"} />
       <PointList parentProject={location.state && location.state.project} />
       <PopupWindow transitionInState={createPoint} hideFunction={handleCreatePointClick}>
         <CreatePointForm handleCreateClick={handleCreatePointClick} />

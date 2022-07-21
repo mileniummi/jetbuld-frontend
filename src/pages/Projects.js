@@ -30,7 +30,7 @@ export default function Projects() {
   return (
     <>
       <InfoHeader name={company.name} address={company.address} description={company.description} />
-      <Header handleCreateClick={handleCreateProjectClick} pageLocation={"Project"} />
+      <Header handleCreateClick={handleCreateProjectClick} pageLocation={"Project"} buttonText={"Add New Project"} />
       <ProjectList company={company} />
       <PopupWindow transitionInState={createProject} hideFunction={handleCreateProjectClick}>
         <CreateProjectForm

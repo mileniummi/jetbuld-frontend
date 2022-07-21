@@ -6,9 +6,9 @@
 }
 
 .header__location-name {
-    margin: 0;
     font-size: 28px;
     color: #2B283A;
+    margin: 0 auto 0 10px;
 }
 
 .header__input {
@@ -32,9 +32,13 @@
     }
     .header__location-name{
         margin-bottom: 10px;
+        margin-left: 0;
     }
     .header__input{
         margin-left: 0;
         margin-bottom: 10px;
+    }
+    .header__button{
+        margin-left: 0;
     }
 }

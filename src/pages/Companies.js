@@ -14,7 +14,7 @@ export default function Companies() {
 
   return (
     <>
-      <Header handleCreateClick={handleCreateCompanyClick} pageLocation={"Company"} />
+      <Header handleCreateClick={handleCreateCompanyClick} pageLocation={"Company"} buttonText={"Add New Company"} />
       <CompaniesList />
       <PopupWindow transitionInState={createCompany} hideFunction={handleCreateCompanyClick}>
         <CreateCompanyForm handleCreateCompanyClick={handleCreateCompanyClick} />

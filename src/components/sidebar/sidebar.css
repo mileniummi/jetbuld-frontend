@@ -31,6 +31,9 @@
     padding: 5px 0 5px 3px;
     gap: 10px;
 }
+.nav__item.hidden{
+    padding-right: 5px;
+}
 
 .active {
     color: #000000;
@@ -42,6 +45,9 @@
 
 .nav__item:hover, .nav__hidden__icon:hover {
     background-color: #1f6b4e;
+}
+.nav__item.active:hover{
+    background-color: inherit;
 }
 
 .nav__item__icon {
@@ -67,15 +73,6 @@
     display: flex;
     flex-direction: column;
     margin-top: 40px;
-}
-
-.nav__hidden__icon {
-    width: 30px;
-    height: 30px;
-    padding: 5px;
-    margin: 10px 0;
-    cursor: pointer;
-    border-radius: 5px;
 }
 
 .nav__white-line {

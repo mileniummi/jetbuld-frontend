@@ -118,6 +118,10 @@
     margin-bottom: 20px;
 }
 
+.form__info{
+    text-align: center;
+}
+
 @media screen and (max-width: 800px){
     .form-wrapper{
         padding: 20px;

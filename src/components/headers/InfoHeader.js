@@ -10,14 +10,15 @@ const InfoHeader = ({ name, address, description }) => {
       <div className="project-info-header">
         <img src="" alt="" />
         <h1 className="default-header">{name}</h1>
-        <button>
-          <img src={arrow_up_left} alt="" />
-          <span>Share</span>
-        </button>
-        <button>
-          <img src={gear} alt="" />
-          <span>Manage</span>
-        </button>
+        {/*TODO: add share and manage buttons*/}
+        {/*<button>*/}
+        {/*  <img src={arrow_up_left} alt="" />*/}
+        {/*  <span>Share</span>*/}
+        {/*</button>*/}
+        {/*<button>*/}
+        {/*  <img src={gear} alt="" />*/}
+        {/*  <span>Manage</span>*/}
+        {/*</button>*/}
       </div>
       <div className="project-info-description">
         <div className="project-info-description__item">

@@ -3,6 +3,7 @@ import { CSSTransition } from "react-transition-group";
 import React, { useState } from "react";
 import { nanoid } from "nanoid";
 import UploadFileForm from "../photos/UploadFileForm";
+import "./point.css";
 
 export default function PointPreview({ point, companyId }) {
   const [showUploadFileForm, setShowUploadFileForm] = useState(false);
@@ -13,7 +14,7 @@ export default function PointPreview({ point, companyId }) {
 
   return (
     <div className="preview">
-      <Link to="/point-photos" state={{ from: "Point Preview", pointId: point.id }}>
+      <Link style={{ width: "100%" }} to="/point-photos" state={{ from: "Point Preview", pointId: point.id }}>
         <div className="preview__description__container">
           <div>
             <h3 className="preview__name">{point.name}</h3>
@@ -23,7 +24,7 @@ export default function PointPreview({ point, companyId }) {
             </p>
           </div>
           <div className="preview__photos">
-            {point.photos.map((photo) => (
+            {point.photos.slice(0, 6).map((photo) => (
               <img className="preview__photo" src={photo.s3Url} alt="point" />
             ))}
           </div>

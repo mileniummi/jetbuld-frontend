@@ -17,7 +17,6 @@ export const fetchPoints = (user, page, projectId) => async (dispatch) => {
         return { ...point, photos: response.data[1] };
       })
     );
-    console.log(points);
     dispatch({ type: FETCH_POINTS, payload: { count: result.data[0], points } });
     dispatch(hideLoader());
   } catch (e) {

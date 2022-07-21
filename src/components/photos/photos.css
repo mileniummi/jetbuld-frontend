@@ -1,0 +1,13 @@
+.photos__wrapper{
+    padding: 20px;
+}
+.photo__day-of-uploading{
+  color: #2B283A;
+    margin: 20px 0 0 20px;
+}
+
+@media screen and (max-width: 800px) {
+    .photos__wrapper {
+        padding: 10px;
+    }
+}

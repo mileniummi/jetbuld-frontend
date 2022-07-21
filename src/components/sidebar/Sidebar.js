@@ -1,20 +1,26 @@
 import React, { useState } from "react";
 import companyIcon from "../../images/icons/apple-whole-solid.svg";
-import shutdownIcon from "../../images/icons/turn-off-svgrepo-com.svg";
-import userProfileIcon from "../../images/icons/user-gear-solid.svg";
-import arrowIcon from "../../images/icons/up-arrow-svgrepo-com.svg";
-import registerIcon from "../../images/icons/register-svgrepo-com.svg";
-import loginIcon from "../../images/icons/login-svgrepo-com.svg";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/actions/user";
 import { CSSTransition } from "react-transition-group";
 import AssignmentIcon from "@mui/icons-material/Assignment";
+import LoginIcon from "@mui/icons-material/Login";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { showSidebar as showSidebarAction } from "../../redux/actions/app";
 import { hideSidebar as hideSidebarAction } from "../../redux/actions/app";
-
 import "./sidebar.css";
+
+const muiIconProps = { color: "black", className: "nav__item__icon" };
+
+const unAuthorisedLinks = [
+  { path: "login", icon: <LoginIcon {...muiIconProps} />, text: "Login" },
+  { path: "register", icon: <HowToRegIcon {...muiIconProps} />, text: "Register" },
+];
 
 export default function Sidebar() {
   const user = useSelector((state) => state.users.user);
@@ -22,94 +28,89 @@ export default function Sidebar() {
   const { hideSidebar, currentCompany, currentProject } = useSelector((state) => state.app);
   const dispatch = useDispatch();
 
+  const authorisedLinks = [
+    {
+      path: "/",
+      icon: <img className="nav__item__icon" src={companyIcon} alt="project-icon" />,
+      text: "Companies",
+      condition: true,
+    },
+    { path: "/projects", icon: <AssignmentIcon {...muiIconProps} />, text: "Projects", condition: currentCompany },
+    { path: "/points", icon: <RadioButtonCheckedIcon {...muiIconProps} />, text: "Points", condition: currentProject },
+  ];
+
   function changeSidebarVisibility() {
     showSidebar ? dispatch(hideSidebarAction()) : dispatch(showSidebarAction());
     setShowSidebar((prevState) => !prevState);
   }
 
+  // user authorized nav
+  if (user) {
+    return (
+      <nav className="nav">
+        <div className={hideSidebar ? "nav__arrow opened" : "nav__arrow"} onClick={changeSidebarVisibility}>
+          <ArrowDropDownIcon sx={{ height: "30px", width: "30px" }} />
+        </div>
+        <CSSTransition in={hideSidebar} classNames="slide-left" timeout={600} unmountOnExit>
+          <div className="nav__hidden">
+            <div className="nav__item">
+              <ManageAccountsIcon {...muiIconProps} />
+            </div>
+            <div className="nav__item" onClick={() => dispatch(logout())}>
+              <PowerSettingsNewIcon {...muiIconProps} />
+            </div>
+            <div className="nav__white-line"> </div>
+            {authorisedLinks.map(
+              (link) =>
+                link.condition && (
+                  <NavLink key={link.text} className="nav__item hidden" to={link.path}>
+                    {link.icon}
+                  </NavLink>
+                )
+            )}
+          </div>
+        </CSSTransition>
+        <CSSTransition in={showSidebar} classNames="slide-right" timeout={300} unmountOnExit>
+          <div>
+            <h2 className="nav__title">CompanyProject</h2>
+            <div className="nav__item">
+              <ManageAccountsIcon {...muiIconProps} />
+              {user.firstName} {user.lastName}
+            </div>
+            <div className="nav__item" onClick={() => dispatch(logout())}>
+              <PowerSettingsNewIcon {...muiIconProps} />
+              Logout
+            </div>
+            <div className="nav__white-line"> </div>
+            {authorisedLinks.map(
+              (link) =>
+                link.condition && (
+                  <NavLink key={link.text} className="nav__item" to={link.path}>
+                    {link.icon} {link.text}
+                  </NavLink>
+                )
+            )}
+          </div>
+        </CSSTransition>
+      </nav>
+    );
+  }
+
+  // user unauthorized nav
   return (
     <nav className="nav">
-      <img
-        src={arrowIcon}
-        alt="open-arrow"
-        className={hideSidebar ? "nav__arrow opened" : "nav__arrow"}
-        onClick={changeSidebarVisibility}
-      />
-      {user ? (
-        <>
-          <CSSTransition in={hideSidebar} classNames="slide-left" timeout={600} unmountOnExit>
-            <div className="nav__hidden">
-              <img className="nav__hidden__icon" src={userProfileIcon} alt="user-icon" />
-              <img className="nav__hidden__icon" src={shutdownIcon} alt="logout-icon" />
-              <div className="nav__white-line"> </div>
-              <NavLink to="/" className="nav__item">
-                <img className="nav__item__icon" src={companyIcon} alt="project-icon" />
-              </NavLink>
-              {currentCompany && (
-                <NavLink to={"/projects"} className="nav__item">
-                  <AssignmentIcon color="black" className="nav__item__icon" />
-                </NavLink>
-              )}
-              {currentProject && (
-                <NavLink to={"/points"} className="nav__item">
-                  <RadioButtonCheckedIcon color="black" className="nav__item__icon" />
-                </NavLink>
-              )}
-            </div>
-          </CSSTransition>
-          <CSSTransition in={showSidebar} classNames="slide-right" timeout={300} unmountOnExit>
-            <div>
-              <h2 className="nav__title">CompanyProject</h2>
-              <div className="nav__item">
-                <img className="nav__item__icon" src={userProfileIcon} alt="user-icon" />
-                {user.firstName} {user.lastName}
-              </div>
-              <div className="nav__item" onClick={() => dispatch(logout())}>
-                <img className="nav__item__icon" src={shutdownIcon} alt="logout-icon" />
-                Logout
-              </div>
-              <div className="nav__white-line"> </div>
-              <NavLink to="/" className="nav__item">
-                <img className="nav__item__icon" src={companyIcon} alt="project-icon" />
-                Companies
-              </NavLink>
-              {currentCompany && (
-                <NavLink to={"/projects"} className="nav__item">
-                  <AssignmentIcon color="black" className="nav__item__icon" />
-                  Projects
-                </NavLink>
-              )}
-              {currentProject && (
-                <NavLink to={"/points"} className="nav__item">
-                  <RadioButtonCheckedIcon color="black" className="nav__item__icon" />
-                  Points
-                </NavLink>
-              )}
-            </div>
-          </CSSTransition>
-        </>
-      ) : hideSidebar ? (
-        <div className="nav__hidden">
-          <NavLink to={"/login"} className="nav__item">
-            <img className="nav__hidden__icon" src={loginIcon} alt="project-icon" />
+      <div className={hideSidebar ? "nav__arrow opened" : "nav__arrow"} onClick={changeSidebarVisibility}>
+        <ArrowDropDownIcon sx={{ height: "30px", width: "30px" }} />
+      </div>
+      {!hideSidebar && <h2 className="nav__title">CompanyProject</h2>}
+      <div className="nav__hidden">
+        {unAuthorisedLinks.map((link) => (
+          <NavLink key={link.text} className="nav__item" to={link.path}>
+            {link.icon}
+            {!hideSidebar && link.text}
           </NavLink>
-          <NavLink to={"/register"} className="nav__item">
-            <img className="nav__hidden__icon" src={registerIcon} alt="project-icon" />
-          </NavLink>
-        </div>
-      ) : (
-        <div>
-          <h2 className="nav__title">CompanyProject</h2>
-          <NavLink to="/login" className="nav__item">
-            <img className="nav__item__icon" src={loginIcon} alt="project-icon" />
-            Login
-          </NavLink>
-          <NavLink to="/register" className="nav__item">
-            <img className="nav__item__icon" src={registerIcon} alt="project-icon" />
-            Register
-          </NavLink>
-        </div>
-      )}
+        ))}
+      </div>
     </nav>
   );
 }

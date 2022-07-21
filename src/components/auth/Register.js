@@ -1,5 +1,5 @@
 import { NavLink, Navigate } from "react-router-dom";
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { register as registerAction } from "../../redux/actions/user";
 import { useForm } from "react-hook-form";
@@ -40,7 +40,7 @@ for (const input of formInputs) {
 
 export default function Register() {
   const dispatch = useDispatch();
-  const { error } = useSelector((state) => state.app.loginError);
+  const error = useSelector((state) => state.app.loginError);
   const user = useSelector((state) => state.users.user);
   const {
     register,
@@ -54,44 +54,42 @@ export default function Register() {
   };
 
   return (
-    <main style={{ backgroundColor: "white" }}>
-      <div className="content-wrapper form-full-height">
-        {!user ? (
-          <>
-            <div className="form-wrapper">
-              <h1 className="form-greeting">Hello!</h1>
-              <form className="form" onSubmit={handleSubmit(handleFormSubmit)}>
-                {formInputs.map((input) => {
-                  return (
-                    <>
-                      <Input
-                        type={input.name === "password" ? "password" : input.name === "email" ? "email" : "text"}
-                        placeholder={input.placeholder}
-                        dataStorage={watch(input.name)}
-                        reactHookFormRegisterRes={register(input.name, {
-                          ...input.options,
-                          required: "This field is required",
-                        })}
-                      />
-                      {errors[input.name] && <Error text={errors[input.name].message} />}
-                    </>
-                  );
-                })}
-                {error && <div className="form-error-message">{error}</div>}
-                <Button>Register</Button>
-              </form>
-              <span>
-                Already have an account?&nbsp;
-                <NavLink to="/login">
-                  <span className="colored">Login</span>
-                </NavLink>
-              </span>
-            </div>
-          </>
-        ) : (
-          <Navigate to="/" />
-        )}
-      </div>
-    </main>
+    <div className="content-wrapper">
+      {!user ? (
+        <>
+          <div className="form-wrapper">
+            <h1 className="form-greeting">Hello!</h1>
+            <form className="form" onSubmit={handleSubmit(handleFormSubmit)}>
+              {formInputs.map((input) => {
+                return (
+                  <>
+                    <Input
+                      type={input.name === "password" ? "password" : input.name === "email" ? "email" : "text"}
+                      placeholder={input.placeholder}
+                      dataStorage={watch(input.name)}
+                      reactHookFormRegisterRes={register(input.name, {
+                        ...input.options,
+                        required: "This field is required",
+                      })}
+                    />
+                    {errors[input.name] && <Error text={errors[input.name].message} />}
+                  </>
+                );
+              })}
+              {error && <div className="form-error-message">{error}</div>}
+              <Button>Register</Button>
+            </form>
+            <span className="form__info">
+              Already have an account?
+              <NavLink to="/login">
+                <span className="colored"> Login</span>
+              </NavLink>
+            </span>
+          </div>
+        </>
+      ) : (
+        <Navigate to="/" />
+      )}
+    </div>
   );
 }
