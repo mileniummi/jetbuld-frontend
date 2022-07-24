@@ -6,6 +6,7 @@ import React from "react";
 import PopupWindow from "../components/utils/popup/PopupWindow";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCompanies } from "../redux/actions/company";
+import { useGetUserMutation } from "../rservices/authService";
 
 export default function Companies() {
   const dispatch = useDispatch();

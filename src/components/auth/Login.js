@@ -6,11 +6,13 @@ import { useForm } from "react-hook-form";
 import Input from "../UI/forms/Input";
 import Error from "../UI/forms/Error";
 import Button from "../UI/forms/Button";
+import { useGetUserMutation } from "../../rservices/authService";
 
 export default function Login() {
   const error = useSelector((state) => state.app.loginError);
   const user = useSelector((state) => state.users.user);
   const dispatch = useDispatch();
+  const [getUser, { data, isLoading, isError }] = useGetUserMutation();
 
   const {
     register,
@@ -22,6 +24,8 @@ export default function Login() {
   const handleFormSubmit = (data) => {
     dispatch(login(data.login, data.password));
   };
+
+  console.log(data);
 
   return (
     <div className="content-wrapper">

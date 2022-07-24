@@ -5,6 +5,7 @@ import { appReducer } from "./reducers/appReducer";
 import { projectReducer } from "./reducers/projectReducer";
 import { pointReducer } from "./reducers/pointReducer";
 import { photoReducer } from "./reducers/photoReducer";
+import { authApi } from "../rservices/authService";
 
 export const getStore = () => {
   const preloadedState = localStorage.getItem("reduxState") ? JSON.parse(localStorage.getItem("reduxState")) : {};
@@ -17,7 +18,9 @@ export const getStore = () => {
       projects: projectReducer,
       points: pointReducer,
       photos: photoReducer,
+      [authApi.reducerPath]: authApi.reducer,
     },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authApi.middleware),
     preloadedState,
   });
 

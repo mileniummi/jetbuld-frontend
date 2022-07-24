@@ -10,7 +10,6 @@ export const fetchCompanies = (user, page) => async (dispatch) => {
     dispatch(showLoader());
     const response = await companiesService.fetchCompanies(user, page);
     const companies = response.data[1].sort(compareTime);
-
     dispatch({ type: FETCH_COMPANIES, payload: { totalCount: response.data[0], companies } });
     dispatch(hideLoader());
   } catch (e) {
