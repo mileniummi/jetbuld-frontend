@@ -12,6 +12,11 @@ main {
     min-height: 100vh;
 }
 
+#root{
+    --light-brown: #F5DF99;
+    --light-red:#FF5D5D;
+}
+
 button {
     border-radius: 5px;
     font-size: 16px;
@@ -40,6 +45,7 @@ a {
     align-items: center;
     margin-top: 100px;
     text-align: center;
+    padding: 10px;
 }
 
 #root {
