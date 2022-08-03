@@ -25,16 +25,18 @@ const CreatePointForm: React.FC<ICreatePointFormProps> = ({ handleCreateClick })
   const user = useAppSelector(selectCurrentUser);
   const project = useAppSelector(selectSelectedProject);
   const company = useAppSelector(selectSelectedCompany);
-  const [addPoint, { error }] = useAddPointMutation();
+  const [addPoint, { error, isLoading }] = useAddPointMutation();
 
   async function sendPointCredentials(data: { name: string; description: string }) {
-    await addPoint({ ...data, projectId: project.id });
-    socket.emit(
-      company.id.toString(),
-      `${user.firstName} ${user.lastName} added point ${data.name} in company ${company.name}`,
-      user
-    );
-    handleCreateClick();
+    if (!isLoading) {
+      await addPoint({ ...data, projectId: project.id });
+      socket.emit(
+        company.id.toString(),
+        `${user.firstName} ${user.lastName} added point ${data.name} in company ${company.name}`,
+        user
+      );
+      handleCreateClick();
+    }
   }
 
   return (

@@ -8,6 +8,7 @@ import { LoginRequest } from "../../redux/services/auth";
 import { useAppDispatch, useAppSelector } from "../../lib/hooks/redux";
 import { setUserCredentials } from "../../redux/reducers/authReducer";
 import { useLoginMutation } from "../../redux/services/baseApi";
+import { useAppError } from "../../lib/hooks/useAppError";
 
 const Login = memo(() => {
   const [login, { error }] = useLoginMutation();
@@ -24,6 +25,8 @@ const Login = memo(() => {
     const response = await login(data).unwrap();
     dispatch(setUserCredentials(response));
   };
+
+  const appError = useAppError(error);
 
   return (
     <div className="content-wrapper">
@@ -49,12 +52,7 @@ const Login = memo(() => {
                 })}
               />
               {errors.password && <Error text={errors.password.message} />}
-              {error && (
-                <div className="form-error-message">
-                  {/*ToDo: add normal error handling */}
-                  {"Something went wrong"}
-                </div>
-              )}
+              {error && <div className="form-error-message">{appError && appError.data.message}</div>}
               <Button>Login</Button>
             </form>
             <span className="form__info">

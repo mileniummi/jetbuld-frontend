@@ -6,8 +6,9 @@ import Error from "../UI/forms/Error";
 import Button from "../UI/forms/Button";
 import { useRegisterMutation } from "../../redux/services/baseApi";
 import { RegisterRequest } from "../../redux/services/auth";
-import { useAppSelector } from "../../lib/hooks/redux";
-import { selectCurrentUser } from "../../redux/reducers/authReducer";
+import { useAppDispatch, useAppSelector } from "../../lib/hooks/redux";
+import { selectCurrentUser, setUserCredentials } from "../../redux/reducers/authReducer";
+import { useAppError } from "../../lib/hooks/useAppError";
 
 const formInputs = [
   { name: "firstName", placeholder: "name", options: {} },
@@ -30,7 +31,7 @@ const formInputs = [
   {
     name: "password",
     placeholder: "password",
-    options: { minLength: { value: 5, message: "Password should consist at least of 3 characters" } },
+    options: { minLength: { value: 5, message: "Password should consist at least of 5 characters" } },
   },
 ];
 
@@ -47,12 +48,18 @@ export default function Register() {
     formState: { errors },
   } = useForm({ defaultValues, mode: "onBlur" });
 
-  const [registerUser, { error }] = useRegisterMutation();
+  const [registerUser, { error, isLoading }] = useRegisterMutation();
+  const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser);
 
-  const handleFormSubmit = (data: RegisterRequest) => {
-    registerUser(data).unwrap();
+  const handleFormSubmit = async (data: RegisterRequest) => {
+    if (!isLoading) {
+      const response = await registerUser(data).unwrap();
+      dispatch(setUserCredentials(response));
+    }
   };
+
+  const appError = useAppError(error);
 
   return (
     <div className="content-wrapper">
@@ -76,7 +83,7 @@ export default function Register() {
                   </>
                 );
               })}
-              {error && <div className="form-error-message">{error}</div>}
+              {appError && <div className="form-error-message">{appError && appError.data.message}</div>}
               <Button>Register</Button>
             </form>
             <span className="form__info">

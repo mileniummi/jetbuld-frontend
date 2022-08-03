@@ -21,10 +21,7 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(PURGE, (state) => {
-      console.log("i was called");
-      storage.removeItem("persist:root").then((r) => {
-        console.log("root successfully removed");
-      });
+      storage.removeItem("persist:root");
     });
   },
 });

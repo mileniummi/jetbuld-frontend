@@ -25,7 +25,7 @@ interface ICreateCompanyForm {
 }
 
 const CreateCompanyForm = memo((props: ICreateCompanyForm) => {
-  const [addCompany, { error }] = useAddCompanyMutation();
+  const [addCompany, { error, isLoading }] = useAddCompanyMutation();
   const {
     register,
     handleSubmit,
@@ -33,8 +33,10 @@ const CreateCompanyForm = memo((props: ICreateCompanyForm) => {
   } = useForm({ defaultValues: defaultValues, mode: "onBlur" });
 
   const createCompany = async (data: CreateCompanyRequest) => {
-    await addCompany(data).unwrap();
-    props.handleCreateCompanyClick();
+    if (!isLoading) {
+      await addCompany(data).unwrap();
+      props.handleCreateCompanyClick();
+    }
   };
 
   return (

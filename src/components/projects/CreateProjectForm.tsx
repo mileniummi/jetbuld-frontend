@@ -5,7 +5,6 @@ import Error from "../UI/forms/Error";
 import Textarea from "../UI/forms/Textarea";
 import Button from "../UI/forms/Button";
 import { useAddProjectMutation } from "../../redux/services/baseApi";
-import { ICompany } from "../../types/Company";
 import { socket } from "../../App";
 import { useAppSelector } from "../../lib/hooks/redux";
 import { selectCurrentUser } from "../../redux/reducers/authReducer";
@@ -22,18 +21,21 @@ const CreateProjectForm: React.FC<ICreateProjectFormProps> = ({ handleCreateClic
     formState: { errors },
   } = useForm({ defaultValues: { name: "", description: "" }, mode: "onBlur" });
 
-  const [addProject, { error }] = useAddProjectMutation();
+  const [addProject, { error, isLoading }] = useAddProjectMutation();
   const user = useAppSelector(selectCurrentUser);
   const company = useAppSelector(selectSelectedCompany);
 
   const handleFormSubmit = async (data: { name: string; description: string }) => {
-    await addProject({ companyId: company.id, body: data });
-    socket.emit(
-      company.id.toString(),
-      `${user.firstName} ${user.lastName} added project ${data.name} to company ${company.name}`,
-      user
-    );
-    handleCreateClick();
+    if (!isLoading) {
+      console.log("add project request");
+      await addProject({ companyId: company.id, body: data });
+      socket.emit(
+        company.id.toString(),
+        `${user.firstName} ${user.lastName} added project ${data.name} to company ${company.name}`,
+        user
+      );
+      handleCreateClick();
+    }
   };
 
   return (

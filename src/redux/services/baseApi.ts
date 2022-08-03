@@ -81,7 +81,7 @@ export const baseApi = createApi({
       invalidatesTags: ["Companies"],
     }),
 
-    register: builder.mutation<unknown, RegisterRequest>({
+    register: builder.mutation<UserResponse, RegisterRequest>({
       query: (credentials) => ({
         url: "auth/register",
         method: "POST",

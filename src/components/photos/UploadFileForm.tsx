@@ -29,14 +29,14 @@ const UploadFileForm: React.FC<IUploadFileFormProps> = ({ active, pointId, hideF
 
   const user = useAppSelector(selectCurrentUser);
   const company = useAppSelector(selectSelectedCompany);
-  const [addPoint, { error }] = useAddPhotoMutation();
+  const [addPoint, { error, isLoading }] = useAddPhotoMutation();
 
   const updateFiles = (incomingFiles: FileValidated[]) => {
     setSelectedFiles(incomingFiles);
   };
 
   async function sendUserData(data: { name: string; description: string }) {
-    if (selectedFiles.length !== 0) {
+    if (selectedFiles.length !== 0 && !isLoading) {
       await addPoint({ body: { ...data, userId: user.id, pointId, S3Url: "" }, photo: selectedFiles[0].file });
       socket.emit(
         company.id.toString(),
