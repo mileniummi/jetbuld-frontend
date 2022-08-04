@@ -3,15 +3,26 @@ import { createTheme } from "@mui/material/styles";
 declare module "@mui/material/styles/createPalette" {
   interface Palette {
     icon: Palette["primary"];
+    white: Palette["primary"];
   }
   interface PaletteOptions {
     icon: PaletteOptions["primary"];
+    white: PaletteOptions["primary"];
   }
 }
 
 declare module "@mui/material/SvgIcon" {
   interface SvgIconPropsColorOverrides {
     icon: true;
+  }
+  interface CircularProgressPropsColorOverrides {
+    white: true;
+  }
+}
+
+declare module "@mui/material/CircularProgress" {
+  interface CircularProgressPropsColorOverrides {
+    white: true;
   }
 }
 
@@ -26,6 +37,9 @@ export const getPalette = () => {
       },
       icon: {
         main: "black",
+      },
+      white: {
+        main: "white",
       },
     },
   });

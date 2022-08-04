@@ -14,11 +14,7 @@ const PhotosList: React.FC<{ pointId: number }> = ({ pointId }) => {
   const [page, setPage] = useState(1);
   const [photosSortedByDay, setPhotosSortedByDay] = useState<{ [key: string]: IPhoto[] }>({});
 
-  const {
-    data: [count, current = []] = [],
-    error,
-    isLoading,
-  } = useGetPhotosQuery({
+  const { data, error, isLoading } = useGetPhotosQuery({
     offset: getOffset(page),
     limit: PHOTO_LIMIT,
     pointId,
@@ -27,18 +23,21 @@ const PhotosList: React.FC<{ pointId: number }> = ({ pointId }) => {
   const appError = useAppError(error);
 
   useEffect(() => {
-    const newData: { [key: string]: IPhoto[] } = {};
-    current.forEach((photo) => {
-      const day = new Date(photo.timeCreated);
-      const dayOfUploading = new Intl.DateTimeFormat("en-US", DATE_FORMAT).format(day);
-      if (Object.keys(newData).includes(dayOfUploading)) {
-        newData[dayOfUploading].push(photo);
-      } else {
-        newData[dayOfUploading] = new Array(photo);
-      }
-    });
-    setPhotosSortedByDay(newData);
-  }, [current]);
+    if (data) {
+      const [_, current = []] = data;
+      const newData: { [key: string]: IPhoto[] } = {};
+      current.forEach((photo) => {
+        const day = new Date(photo.timeCreated);
+        const dayOfUploading = new Intl.DateTimeFormat("en-US", DATE_FORMAT).format(day);
+        if (Object.keys(newData).includes(dayOfUploading)) {
+          newData[dayOfUploading].push(photo);
+        } else {
+          newData[dayOfUploading] = new Array(photo);
+        }
+      });
+      setPhotosSortedByDay(newData);
+    }
+  }, [data]);
 
   function handlePageChange(event: React.ChangeEvent<unknown>, value: number) {
     setPage(value);
@@ -46,50 +45,46 @@ const PhotosList: React.FC<{ pointId: number }> = ({ pointId }) => {
 
   return (
     <div>
-      {count && current ? (
-        <>
-          {isLoading ? (
-            <div className="loader__wrapper">
-              <CircularProgress color={"inherit"} />
-            </div>
-          ) : (
-            <div className="photos__wrapper">
-              {Object.keys(photosSortedByDay).map((day) => (
-                <div key={nanoid()}>
-                  <h3 className="photo__day-of-uploading">{day}</h3>
-                  <Grid
-                    key={nanoid()}
-                    container
-                    spacing={2}
-                    sx={{ paddingRight: "10px", m: "10px", width: "calc(100% - 16px)" }}
-                  >
-                    {photosSortedByDay[day].map((photo) => (
-                      <Grid sx={{ minWidth: "300px" }} key={nanoid()} xs={4} item>
-                        <Card>
-                          <CardMedia component="img" image={photo.s3Url} alt="point" />
-                          <CardContent sx={{ overflow: "auto" }}>
-                            <Typography variant="h6">{photo.name}</Typography>
-                            <Typography variant="body2">{photo.description}</Typography>
-                          </CardContent>
-                        </Card>
-                      </Grid>
-                    ))}
+      {isLoading ? (
+        <div className="loader__wrapper">
+          <CircularProgress color={"inherit"} />
+        </div>
+      ) : data && data[0] && photosSortedByDay ? (
+        <div className="photos__wrapper">
+          {Object.keys(photosSortedByDay).map((day) => (
+            <div key={nanoid()}>
+              <h3 className="photo__day-of-uploading">{day}</h3>
+              <Grid
+                key={nanoid()}
+                container
+                spacing={2}
+                sx={{ paddingRight: "10px", m: "10px", width: "calc(100% - 16px)" }}
+              >
+                {photosSortedByDay[day].map((photo) => (
+                  <Grid sx={{ minWidth: "300px" }} key={nanoid()} xs={4} item>
+                    <Card>
+                      <CardMedia component="img" image={photo.s3Url} alt="point" />
+                      <CardContent sx={{ overflow: "auto" }}>
+                        <Typography variant="h6">{photo.name}</Typography>
+                        <Typography variant="body2">{photo.description}</Typography>
+                      </CardContent>
+                    </Card>
                   </Grid>
-                </div>
-              ))}
-              {count > PHOTO_LIMIT && (
-                <Pagination
-                  className="pagination"
-                  count={Math.ceil(count / PHOTO_LIMIT)}
-                  page={page}
-                  variant="outlined"
-                  shape="rounded"
-                  onChange={handlePageChange}
-                />
-              )}
+                ))}
+              </Grid>
             </div>
+          ))}
+          {data[0] > PHOTO_LIMIT && (
+            <Pagination
+              className="pagination"
+              count={Math.ceil(data[0] / PHOTO_LIMIT)}
+              page={page}
+              variant="outlined"
+              shape="rounded"
+              onChange={handlePageChange}
+            />
           )}
-        </>
+        </div>
       ) : (
         <div className="nothing-to-show">
           <h4>You have no photos in this point yet...</h4>

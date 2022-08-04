@@ -13,6 +13,9 @@ export default class Socket {
     this.socket.on("eventsToClient", (msg: string) => {
       toast(`🦄 ${msg}`);
     });
+    this.socket.on("connect", () => {
+      console.log("socket connected");
+    });
   }
 
   joinRooms(user: IUser) {
@@ -23,7 +26,6 @@ export default class Socket {
     if (!this.joined()) {
       this.joinRooms(user);
     }
-    console.log("message should be emmited ");
     this.socket.emit("eventsToServer", { room, text });
   }
 

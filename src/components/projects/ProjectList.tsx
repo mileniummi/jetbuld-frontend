@@ -27,36 +27,32 @@ const ProjectList = () => {
 
   return (
     <>
-      {count && current ? (
-        <>
-          {isLoading ? (
-            <div className="loader__wrapper">
-              <CircularProgress color={"inherit"} />
-            </div>
-          ) : (
-            <div>
-              {current.map((project) => (
-                <ProjectPreview key={nanoid()} project={project} />
-              ))}
-              {count > ITEM_LIMIT && (
-                <Pagination
-                  className="pagination"
-                  count={Math.ceil(count / ITEM_LIMIT)}
-                  page={page}
-                  variant="outlined"
-                  shape="rounded"
-                  onChange={handlePageChange}
-                />
-              )}
-            </div>
+      {isLoading ? (
+        <div className="loader__wrapper">
+          <CircularProgress color={"inherit"} />
+        </div>
+      ) : count && current ? (
+        <div>
+          {current.map((project) => (
+            <ProjectPreview key={nanoid()} project={project} />
+          ))}
+          {count > ITEM_LIMIT && (
+            <Pagination
+              className="pagination"
+              count={Math.ceil(count / ITEM_LIMIT)}
+              page={page}
+              variant="outlined"
+              shape="rounded"
+              onChange={handlePageChange}
+            />
           )}
-        </>
+        </div>
       ) : (
         <div className="nothing-to-show">
           <h4>You have no projects in this company yet...</h4>
         </div>
       )}
-      x{appError && <AppError {...appError} />}
+      {appError && <AppError {...appError} />}
     </>
   );
 };

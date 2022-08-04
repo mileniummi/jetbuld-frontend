@@ -5,11 +5,13 @@ import selectedCompanyReducer from "./reducers/selectedCompanyReducer";
 import selectedProjectReducer from "./reducers/selectedProjectReducer";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, persistStore } from "redux-persist";
+import selectedPointReducer from "./reducers/selectedPointReducer";
 
 const reducers = combineReducers({
   auth: authReducer,
   selectedCompany: selectedCompanyReducer,
   selectedProject: selectedProjectReducer,
+  selectedPoint: selectedPointReducer,
   [baseApi.reducerPath]: baseApi.reducer,
 });
 

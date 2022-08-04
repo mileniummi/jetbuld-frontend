@@ -95,11 +95,22 @@
     font-weight: 400;
     outline: 0;
     padding: 10px 50px 10px;
-    border: none;
     box-shadow: none;
     margin: 20px 0 20px;
     overflow: hidden;
+    transition: all .1s ease-in-out;
+    border: 1px solid black;
 }
+
+.form__button:hover, .form__button:focus{
+    color: black;
+    background: #a4b4b9;
+    border: 1px solid #a4b4b9;
+}
+.form__button:disabled{
+    cursor: not-allowed;
+}
+
 
 .form__error{
     display: flex;

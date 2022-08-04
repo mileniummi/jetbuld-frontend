@@ -5,10 +5,9 @@ import Error from "../UI/forms/Error";
 import Textarea from "../UI/forms/Textarea";
 import Button from "../UI/forms/Button";
 import { useAddProjectMutation } from "../../redux/services/baseApi";
-import { socket } from "../../App";
 import { useAppSelector } from "../../lib/hooks/redux";
-import { selectCurrentUser } from "../../redux/reducers/authReducer";
 import { selectSelectedCompany } from "../../redux/reducers/selectedCompanyReducer";
+import { toast } from "react-toastify";
 
 interface ICreateProjectFormProps {
   handleCreateClick: () => void;
@@ -21,19 +20,13 @@ const CreateProjectForm: React.FC<ICreateProjectFormProps> = ({ handleCreateClic
     formState: { errors },
   } = useForm({ defaultValues: { name: "", description: "" }, mode: "onBlur" });
 
-  const [addProject, { error, isLoading }] = useAddProjectMutation();
-  const user = useAppSelector(selectCurrentUser);
+  const [addProject, { error, isLoading, isSuccess }] = useAddProjectMutation();
   const company = useAppSelector(selectSelectedCompany);
 
   const handleFormSubmit = async (data: { name: string; description: string }) => {
-    if (!isLoading) {
-      console.log("add project request");
+    if (!isSuccess) {
       await addProject({ companyId: company.id, body: data });
-      socket.emit(
-        company.id.toString(),
-        `${user.firstName} ${user.lastName} added project ${data.name} to company ${company.name}`,
-        user
-      );
+      toast.success(`Project ${data.name} added to company ${company.name}!`);
       handleCreateClick();
     }
   };
@@ -56,7 +49,7 @@ const CreateProjectForm: React.FC<ICreateProjectFormProps> = ({ handleCreateClic
             })}
           />
           {errors.description && <Error text={errors.description.message} />}
-          <Button>Create</Button>
+          <Button showLoader={isLoading}>Create</Button>
           {error && <div className="form-error-message">{error}</div>}
         </form>
       </div>

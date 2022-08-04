@@ -137,7 +137,7 @@ export const baseApi = createApi({
       invalidatesTags: ["Points"],
     }),
 
-    //Points
+    //Photos
     getPhotos: builder.query<[count: number, current: IPhoto[]], GetPhotosParams>({
       query: ({ offset, limit, pointId }) => ({
         url: `/point/${pointId}/photos`,
@@ -155,7 +155,7 @@ export const baseApi = createApi({
         formData.set("file", photo);
         return { url: `point/uploadfake`, method: "POST", body: formData };
       },
-      invalidatesTags: ["Points"],
+      invalidatesTags: ["Photos", "Points"],
     }),
   }),
 });

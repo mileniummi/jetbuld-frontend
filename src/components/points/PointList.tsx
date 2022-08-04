@@ -27,28 +27,24 @@ const PointList = () => {
 
   return (
     <>
-      {count && current ? (
+      {isLoading ? (
+        <div className="loader__wrapper">
+          <CircularProgress color={"inherit"} />
+        </div>
+      ) : count && current ? (
         <>
-          {isLoading ? (
-            <div className="loader__wrapper">
-              <CircularProgress color={"inherit"} />
-            </div>
-          ) : (
-            <>
-              {current.map((point) => (
-                <PointPreview key={nanoid()} point={point} />
-              ))}
-              {count > ITEM_LIMIT && (
-                <Pagination
-                  className="pagination"
-                  count={Math.ceil(count / ITEM_LIMIT)}
-                  page={page}
-                  variant="outlined"
-                  shape="rounded"
-                  onChange={handlePageChange}
-                />
-              )}
-            </>
+          {current.map((point) => (
+            <PointPreview key={nanoid()} point={point} />
+          ))}
+          {count > ITEM_LIMIT && (
+            <Pagination
+              className="pagination"
+              count={Math.ceil(count / ITEM_LIMIT)}
+              page={page}
+              variant="outlined"
+              shape="rounded"
+              onChange={handlePageChange}
+            />
           )}
         </>
       ) : (

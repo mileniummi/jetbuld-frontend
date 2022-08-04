@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, memo, SetStateAction, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import AssignmentIcon from "@mui/icons-material/Assignment";
@@ -30,7 +30,7 @@ interface ISidebarProps {
 }
 
 //TODO:сделать текущую active иконку nav__item белой
-const Sidebar: React.FC<ISidebarProps> = ({ hideSidebar, setHideSidebar }) => {
+const Sidebar: React.FC<ISidebarProps> = memo(({ hideSidebar, setHideSidebar }) => {
   const user = useAppSelector(selectCurrentUser);
   const [showSidebar, setShowSidebar] = useState(false);
   const selectedCompany = useAppSelector(selectSelectedCompany);
@@ -123,6 +123,6 @@ const Sidebar: React.FC<ISidebarProps> = ({ hideSidebar, setHideSidebar }) => {
       </div>
     </nav>
   );
-};
+});
 
 export default Sidebar;

@@ -5,6 +5,7 @@ import Error from "../UI/forms/Error";
 import Button from "../UI/forms/Button";
 import { nanoid } from "nanoid";
 import { CreateCompanyRequest, useAddCompanyMutation } from "../../redux/services/baseApi";
+import { toast } from "react-toastify";
 
 const formInputs = [
   { name: "name", placeholder: "Company name" },
@@ -25,7 +26,7 @@ interface ICreateCompanyForm {
 }
 
 const CreateCompanyForm = memo((props: ICreateCompanyForm) => {
-  const [addCompany, { error, isLoading }] = useAddCompanyMutation();
+  const [addCompany, { error, isLoading, isSuccess }] = useAddCompanyMutation();
   const {
     register,
     handleSubmit,
@@ -33,8 +34,9 @@ const CreateCompanyForm = memo((props: ICreateCompanyForm) => {
   } = useForm({ defaultValues: defaultValues, mode: "onBlur" });
 
   const createCompany = async (data: CreateCompanyRequest) => {
-    if (!isLoading) {
+    if (!isSuccess) {
       await addCompany(data).unwrap();
+      toast.success(`Company ${data.name} created successfully!`);
       props.handleCreateCompanyClick();
     }
   };
@@ -57,7 +59,7 @@ const CreateCompanyForm = memo((props: ICreateCompanyForm) => {
             );
           })}
           {error && <div className="form-error-message">{error}</div>}
-          <Button>Create</Button>
+          <Button showLoader={isLoading}>Create</Button>
         </form>
       </div>
     </div>

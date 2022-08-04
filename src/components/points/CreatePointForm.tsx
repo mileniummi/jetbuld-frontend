@@ -1,5 +1,4 @@
 import React from "react";
-import { socket } from "../../App";
 import { useForm } from "react-hook-form";
 import Input from "../UI/forms/Input";
 import Error from "../UI/forms/Error";
@@ -7,9 +6,9 @@ import Textarea from "../UI/forms/Textarea";
 import Button from "../UI/forms/Button";
 import { useAddPointMutation } from "../../redux/services/baseApi";
 import { useAppSelector } from "../../lib/hooks/redux";
-import { selectCurrentUser } from "../../redux/reducers/authReducer";
 import { selectSelectedCompany } from "../../redux/reducers/selectedCompanyReducer";
 import { selectSelectedProject } from "../../redux/reducers/selectedProjectReducer";
+import { toast } from "react-toastify";
 
 interface ICreatePointFormProps {
   handleCreateClick: () => void;
@@ -22,19 +21,14 @@ const CreatePointForm: React.FC<ICreatePointFormProps> = ({ handleCreateClick })
     formState: { errors },
   } = useForm({ defaultValues: { name: "", description: "" }, mode: "onBlur" });
 
-  const user = useAppSelector(selectCurrentUser);
   const project = useAppSelector(selectSelectedProject);
   const company = useAppSelector(selectSelectedCompany);
-  const [addPoint, { error, isLoading }] = useAddPointMutation();
+  const [addPoint, { error, isLoading, isSuccess }] = useAddPointMutation();
 
   async function sendPointCredentials(data: { name: string; description: string }) {
-    if (!isLoading) {
+    if (!isSuccess) {
       await addPoint({ ...data, projectId: project.id });
-      socket.emit(
-        company.id.toString(),
-        `${user.firstName} ${user.lastName} added point ${data.name} in company ${company.name}`,
-        user
-      );
+      toast.success(`Point ${data.name} added in company ${company.name}!`);
       handleCreateClick();
     }
   }
@@ -58,7 +52,7 @@ const CreatePointForm: React.FC<ICreatePointFormProps> = ({ handleCreateClick })
           />
           {errors.description && <Error text={errors.description.message} />}
           {error && <div className="form-error-message">{error}</div>}
-          <Button>Create</Button>
+          <Button showLoader={isLoading}>Create</Button>
         </form>
       </div>
     </div>

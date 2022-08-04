@@ -8,7 +8,7 @@ import PreviewPhotos from "./PreviewPhotos";
 const PointPreview: React.FC<{ point: IPoint }> = ({ point }) => {
   return (
     <div className="preview">
-      <Link style={{ width: "100%" }} to="/point-photos" state={{ from: "Point Preview", pointId: point.id }}>
+      <Link style={{ width: "100%" }} to="/photos" state={{ from: "Point Preview", point }}>
         <div className="preview__description__container">
           <div>
             <h3 className="preview__name">{point.name}</h3>

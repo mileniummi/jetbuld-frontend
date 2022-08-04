@@ -1,14 +1,16 @@
 import React from "react";
 import Ripple from "../ripple-effect/Ripple";
+import { CircularProgress } from "@mui/material";
 interface IButtonProps {
-  children: React.ReactNode;
   onClick?: () => {};
+  showLoader?: boolean;
 }
 
-const Button: React.FC<IButtonProps> = ({ children, onClick }) => {
+const Button: React.FC<IButtonProps> = ({ children, onClick, showLoader }) => {
   return (
-    <button onClick={onClick} className="form__button">
-      {children} <Ripple duration={700} />
+    <button disabled={showLoader} onClick={onClick} className="form__button">
+      {showLoader ? <CircularProgress color={"white"} size={20} /> : children}
+      <Ripple duration={700} />
     </button>
   );
 };
