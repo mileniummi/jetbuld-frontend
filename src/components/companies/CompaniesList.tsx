@@ -7,6 +7,7 @@ import { useAppError } from "../../lib/hooks/useAppError";
 import AppError from "../errors/AppError";
 import getOffset from "../../lib/helpers/getOffset";
 import { ITEM_LIMIT } from "../../lib/constants";
+import NothingToShow from "../utils/nothingToShow";
 
 const CompaniesList = memo(() => {
   const [page, setPage] = useState(1);
@@ -18,7 +19,7 @@ const CompaniesList = memo(() => {
     offset: getOffset(page),
     limit: ITEM_LIMIT,
   });
-  const appError = useAppError(error);
+  useAppError(error);
 
   function handlePageChange(event: React.ChangeEvent<unknown>, value: number) {
     setPage(value);
@@ -47,11 +48,8 @@ const CompaniesList = memo(() => {
           )}
         </>
       ) : (
-        <div className="nothing-to-show">
-          <h4>You have no companies created yet... Add a new one by clicking on Add New Company button.</h4>
-        </div>
+        <NothingToShow message="You have no companies created yet... Add a new one by clicking on Add New Company button." />
       )}
-      {appError && <AppError {...appError} />}
     </div>
   );
 });

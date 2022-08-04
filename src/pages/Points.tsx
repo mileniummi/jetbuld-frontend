@@ -1,5 +1,5 @@
 import Header from "../components/headers/Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PointList from "../components/points/PointList";
 import { useLocation } from "react-router-dom";
 import CreatePointForm from "../components/points/CreatePointForm";
@@ -19,10 +19,12 @@ export default function Points() {
   const dispatch = useAppDispatch();
   const [createPoint, setCreatePoint] = useState(false);
 
-  if (location.state) {
-    const { project } = location.state as LocationState;
-    dispatch(setSelectedProject({ project }));
-  }
+  useEffect(() => {
+    if (location.state) {
+      const { project } = location.state as LocationState;
+      dispatch(setSelectedProject({ project }));
+    }
+  }, [dispatch, location.state]);
 
   const handleCreatePointClick = () => {
     setCreatePoint((prevState) => !prevState);

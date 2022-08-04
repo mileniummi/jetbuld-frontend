@@ -11,8 +11,7 @@ import { useLoginMutation } from "../../redux/services/baseApi";
 import { useAppError } from "../../lib/hooks/useAppError";
 
 const Login = memo(() => {
-  const [login, { error }] = useLoginMutation();
-  const [fetching, setFetching] = useState(false);
+  const [login, { error, isLoading }] = useLoginMutation();
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
 
@@ -23,9 +22,7 @@ const Login = memo(() => {
   } = useForm({ defaultValues: { login: "", password: "" }, mode: "onBlur" });
 
   const handleFormSubmit = async (data: LoginRequest) => {
-    setFetching(true);
     const response = await login(data).unwrap();
-    setFetching(false);
     dispatch(setUserCredentials(response));
   };
 
@@ -56,7 +53,7 @@ const Login = memo(() => {
               />
               {errors.password && <Error text={errors.password.message} />}
               {error && <div className="form-error-message">{appError && appError.data.message}</div>}
-              <Button showLoader={fetching}>Login</Button>
+              <Button showLoader={isLoading}>Login</Button>
             </form>
             <span className="form__info">
               Don't have account yet?

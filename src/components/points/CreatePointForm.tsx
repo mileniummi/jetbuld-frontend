@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Input from "../UI/forms/Input";
 import Error from "../UI/forms/Error";
@@ -9,6 +9,7 @@ import { useAppSelector } from "../../lib/hooks/redux";
 import { selectSelectedCompany } from "../../redux/reducers/selectedCompanyReducer";
 import { selectSelectedProject } from "../../redux/reducers/selectedProjectReducer";
 import { toast } from "react-toastify";
+import { useAppError } from "../../lib/hooks/useAppError";
 
 interface ICreatePointFormProps {
   handleCreateClick: () => void;
@@ -24,6 +25,7 @@ const CreatePointForm: React.FC<ICreatePointFormProps> = ({ handleCreateClick })
   const project = useAppSelector(selectSelectedProject);
   const company = useAppSelector(selectSelectedCompany);
   const [addPoint, { error, isLoading, isSuccess }] = useAddPointMutation();
+  useAppError(error);
 
   async function sendPointCredentials(data: { name: string; description: string }) {
     if (!isSuccess) {
@@ -51,7 +53,6 @@ const CreatePointForm: React.FC<ICreatePointFormProps> = ({ handleCreateClick })
             })}
           />
           {errors.description && <Error text={errors.description.message} />}
-          {error && <div className="form-error-message">{error}</div>}
           <Button showLoader={isLoading}>Create</Button>
         </form>
       </div>

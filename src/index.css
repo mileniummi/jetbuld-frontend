@@ -15,6 +15,7 @@ main {
 #root{
     --light-brown: #F5DF99;
     --light-red:#FF5D5D;
+    --text-primary: #2B283A;
 }
 
 button {
@@ -37,15 +38,6 @@ a {
     animation: gradient 15s ease infinite;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-}
-
-.nothing-to-show{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 100px;
-    text-align: center;
-    padding: 10px;
 }
 
 #root {

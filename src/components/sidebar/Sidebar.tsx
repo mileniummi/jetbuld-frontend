@@ -63,9 +63,9 @@ const Sidebar: React.FC<ISidebarProps> = memo(({ hideSidebar, setHideSidebar }) 
         </div>
         <CSSTransition in={hideSidebar} classNames="slide-left" timeout={600} unmountOnExit>
           <div className="nav__hidden">
-            <div className="nav__item">
+            <NavLink className="nav__item hidden" to={"/settings"}>
               <ManageAccountsIcon {...muiIconProps} />
-            </div>
+            </NavLink>
             <div className="nav__item" onClick={logout}>
               <PowerSettingsNewIcon {...muiIconProps} />
             </div>
@@ -83,10 +83,10 @@ const Sidebar: React.FC<ISidebarProps> = memo(({ hideSidebar, setHideSidebar }) 
         <CSSTransition in={showSidebar} classNames="slide-right" timeout={300} unmountOnExit>
           <div>
             <h2 className="nav__title">CompanyProject</h2>
-            <div className="nav__item">
+            <NavLink className="nav__item hidden" to={"/settings"}>
               <ManageAccountsIcon {...muiIconProps} />
               {user.firstName} {user.lastName}
-            </div>
+            </NavLink>
             <div className="nav__item" onClick={logout}>
               <PowerSettingsNewIcon {...muiIconProps} />
               Logout

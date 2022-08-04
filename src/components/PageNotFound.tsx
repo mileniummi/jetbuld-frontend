@@ -1,10 +1,11 @@
 import React from "react";
+import NothingToShow from "./utils/nothingToShow";
 
 const PageNotFound = () => {
   return (
     <main>
       <div className="nothing-to-show">
-        <h2>Oops... This page is not found.</h2>
+        <NothingToShow message="Oops... This page is not found." />
       </div>
     </main>
   );

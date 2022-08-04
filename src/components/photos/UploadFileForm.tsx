@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dropzone, FileItem, FileValidated } from "@dropzone-ui/react";
 import { nanoid } from "nanoid";
 import { socket } from "../../App";
@@ -13,6 +13,7 @@ import { useAppSelector } from "../../lib/hooks/redux";
 import { selectCurrentUser } from "../../redux/reducers/authReducer";
 import { selectSelectedCompany } from "../../redux/reducers/selectedCompanyReducer";
 import { toast } from "react-toastify";
+import { useAppError } from "../../lib/hooks/useAppError";
 
 interface IUploadFileFormProps {
   active: boolean;
@@ -30,7 +31,8 @@ const UploadFileForm: React.FC<IUploadFileFormProps> = ({ active, pointId, hideF
 
   const user = useAppSelector(selectCurrentUser);
   const company = useAppSelector(selectSelectedCompany);
-  const [addPoint, { isLoading, isSuccess }] = useAddPhotoMutation();
+  const [addPoint, { isLoading, isSuccess, error }] = useAddPhotoMutation();
+  useAppError(error);
 
   const updateFiles = (incomingFiles: FileValidated[]) => {
     setSelectedFiles(incomingFiles);

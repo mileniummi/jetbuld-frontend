@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { IError, isInstanceOfIError, UnexpectedError } from "../../types/Error";
+import { toast } from "react-toastify";
 
 export const useAppError = (error: any) => {
   const [appError, setAppError] = useState<IError | null>(null);
@@ -10,6 +11,10 @@ export const useAppError = (error: any) => {
       setAppError(error);
     } else {
       setAppError(UnexpectedError);
+    }
+
+    if (error) {
+      toast.error(error.data.message);
     }
   }, [error]);
 

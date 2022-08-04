@@ -1,0 +1,17 @@
+.nothing-to-show__container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    text-align: center;
+    padding: 10px;
+    color: var(--text-primary);
+}
+
+.nothing-to-show__image{
+    background: url("./nothing_To_show.webp");
+    position: relative;
+    width: 400px;
+    height: 300px;
+}

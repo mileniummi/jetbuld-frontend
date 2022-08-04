@@ -1,5 +1,5 @@
 import Header from "../components/headers/Header";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InfoHeader from "../components/headers/InfoHeader";
 import { useLocation } from "react-router-dom";
 import CreateProjectForm from "../components/projects/CreateProjectForm";
@@ -19,10 +19,12 @@ const Projects: React.FC = () => {
   const dispatch = useAppDispatch();
   const [createProject, setCreateProject] = useState(false);
 
-  if (location.state) {
-    const { company } = location.state as LocationState;
-    dispatch(setSelectedCompany({ company }));
-  }
+  useEffect(() => {
+    if (location.state) {
+      const { company } = location.state as LocationState;
+      dispatch(setSelectedCompany({ company }));
+    }
+  }, [dispatch, location.state]);
 
   function handleCreateProjectClick() {
     setCreateProject((prevState) => !prevState);

@@ -8,6 +8,7 @@ import { useAddProjectMutation } from "../../redux/services/baseApi";
 import { useAppSelector } from "../../lib/hooks/redux";
 import { selectSelectedCompany } from "../../redux/reducers/selectedCompanyReducer";
 import { toast } from "react-toastify";
+import { useAppError } from "../../lib/hooks/useAppError";
 
 interface ICreateProjectFormProps {
   handleCreateClick: () => void;
@@ -21,6 +22,7 @@ const CreateProjectForm: React.FC<ICreateProjectFormProps> = ({ handleCreateClic
   } = useForm({ defaultValues: { name: "", description: "" }, mode: "onBlur" });
 
   const [addProject, { error, isLoading, isSuccess }] = useAddProjectMutation();
+  useAppError(error);
   const company = useAppSelector(selectSelectedCompany);
 
   const handleFormSubmit = async (data: { name: string; description: string }) => {
@@ -50,7 +52,6 @@ const CreateProjectForm: React.FC<ICreateProjectFormProps> = ({ handleCreateClic
           />
           {errors.description && <Error text={errors.description.message} />}
           <Button showLoader={isLoading}>Create</Button>
-          {error && <div className="form-error-message">{error}</div>}
         </form>
       </div>
     </div>

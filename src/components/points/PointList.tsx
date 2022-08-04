@@ -5,10 +5,10 @@ import { useGetPointsQuery } from "../../redux/services/baseApi";
 import getOffset from "../../lib/helpers/getOffset";
 import PointPreview from "./PointPreview";
 import { nanoid } from "nanoid";
-import AppError from "../errors/AppError";
 import { useAppSelector } from "../../lib/hooks/redux";
 import { selectSelectedProject } from "../../redux/reducers/selectedProjectReducer";
 import { ITEM_LIMIT } from "../../lib/constants";
+import NothingToShow from "../utils/nothingToShow";
 
 const PointList = () => {
   const [page, setPage] = useState(1);
@@ -18,8 +18,7 @@ const PointList = () => {
     isLoading,
     error,
   } = useGetPointsQuery({ offset: getOffset(page), limit: ITEM_LIMIT, projectId: project?.id });
-
-  const appError = useAppError(error);
+  useAppError(error);
 
   function handlePageChange(event: React.ChangeEvent<unknown>, value: number) {
     setPage(value);
@@ -48,11 +47,8 @@ const PointList = () => {
           )}
         </>
       ) : (
-        <div className="nothing-to-show">
-          <h4>You have no points in this project yet...</h4>
-        </div>
+        <NothingToShow message="You have no points in this project yet.." />
       )}
-      {appError && <AppError {...appError} />}
     </>
   );
 };

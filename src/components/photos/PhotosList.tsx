@@ -7,8 +7,8 @@ import "./photos.css";
 import { DATE_FORMAT } from "../../types/App";
 import { IPhoto } from "../../types/Photo";
 import { useAppError } from "../../lib/hooks/useAppError";
-import AppError from "../errors/AppError";
 import { PHOTO_LIMIT } from "../../lib/constants";
+import NothingToShow from "../utils/nothingToShow";
 
 const PhotosList: React.FC<{ pointId: number }> = ({ pointId }) => {
   const [page, setPage] = useState(1);
@@ -20,7 +20,7 @@ const PhotosList: React.FC<{ pointId: number }> = ({ pointId }) => {
     pointId,
   });
 
-  const appError = useAppError(error);
+  useAppError(error);
 
   useEffect(() => {
     if (data) {
@@ -86,11 +86,8 @@ const PhotosList: React.FC<{ pointId: number }> = ({ pointId }) => {
           )}
         </div>
       ) : (
-        <div className="nothing-to-show">
-          <h4>You have no photos in this point yet...</h4>
-        </div>
+        <NothingToShow message="You have no photos in this point yet.." />
       )}
-      {appError && <AppError {...appError} />}
     </div>
   );
 };

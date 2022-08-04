@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/headers/Header";
 import UploadFileDropzoneForm from "../components/photos/UploadFileForm";
 import { useLocation } from "react-router-dom";
@@ -20,11 +20,13 @@ const Photos = () => {
   const uploadPhoto = () => {
     setShowUploadPhotoForm(true);
   };
+  useEffect(() => {
+    if (location.state) {
+      const { point } = location.state as LocationState;
+      dispatch(setSelectedPoint({ point }));
+    }
+  }, [dispatch, location.state]);
 
-  if (location.state) {
-    const { point } = location.state as LocationState;
-    dispatch(setSelectedPoint({ point }));
-  }
   const point = useAppSelector(selectSelectedPoint);
 
   if (point === null) {

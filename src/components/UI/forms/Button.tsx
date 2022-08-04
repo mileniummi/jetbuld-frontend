@@ -7,6 +7,7 @@ interface IButtonProps {
 }
 
 const Button: React.FC<IButtonProps> = ({ children, onClick, showLoader }) => {
+  console.log(showLoader);
   return (
     <button disabled={showLoader} onClick={onClick} className="form__button">
       {showLoader ? <CircularProgress color={"white"} size={20} /> : children}

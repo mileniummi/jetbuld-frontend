@@ -9,6 +9,7 @@ import { useAppError } from "../../lib/hooks/useAppError";
 import { useAppSelector } from "../../lib/hooks/redux";
 import { selectSelectedCompany } from "../../redux/reducers/selectedCompanyReducer";
 import { ITEM_LIMIT } from "../../lib/constants";
+import NothingToShow from "../utils/nothingToShow";
 
 const ProjectList = () => {
   const [page, setPage] = useState(1);
@@ -19,7 +20,7 @@ const ProjectList = () => {
     error,
   } = useGetProjectsQuery({ offset: getOffset(page), limit: ITEM_LIMIT, companyId: company?.id });
 
-  const appError = useAppError(error);
+  useAppError(error);
 
   function handlePageChange(event: React.ChangeEvent<unknown>, value: number) {
     setPage(value);
@@ -48,11 +49,8 @@ const ProjectList = () => {
           )}
         </div>
       ) : (
-        <div className="nothing-to-show">
-          <h4>You have no projects in this company yet...</h4>
-        </div>
+        <NothingToShow message="You have no projects in this company yet..." />
       )}
-      {appError && <AppError {...appError} />}
     </>
   );
 };
