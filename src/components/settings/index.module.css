@@ -1,0 +1,56 @@
+.container {
+    padding: 40px;
+    font-family: 'Montserrat', sans-serif;
+    background: #f8fafc;
+    height: 100%;
+}
+
+.subtitle {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    letter-spacing: .5px;
+}
+
+.text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: #64748b;
+}
+
+.togetherWrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.separator {
+    height: 20px;
+    border-bottom: 1px solid #cbd5e1;
+}
+
+.createdOn{
+    composes: text;
+    margin-top: 20px;
+}
+
+.submitButtons{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+@media screen and (max-width: 550px) {
+    .container {
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .container {
+        padding: 20px;
+    }
+}

@@ -6,7 +6,6 @@
     color: #fff;
     padding: 10px;
     position: sticky;
-    transition: all 1s linear;
     height: 100vh;
     z-index: 10;
 }
@@ -40,6 +39,7 @@
     cursor: default;
     font-weight: 500;
     font-size: 16px;
+    background-color: #1f6b4e;
 }
 
 
@@ -109,6 +109,15 @@
 
 .slide-right-exit-active {
     display: none;
+}
+
+.nav__avatar{
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.nav__avatar.active{
+    background: inherit;
 }
 
 @media screen and (max-width: 550px){

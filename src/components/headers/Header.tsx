@@ -13,7 +13,7 @@ const Header: React.FC<IHeaderProps> = memo(({ pageLocation, buttonText, handleC
   return (
     <div className="header">
       <h1 className="header__location-name">{pageLocation} feed</h1>
-      {/*TODO: filter data by using this input*/}
+      {/*TODO: filter data by using this settingsUI*/}
       {/*<div className="header__input">*/}
       {/*  <TextField label={`Find a ${pageLocation}...`} size={"small"} variant={"outlined"} />*/}
       {/*</div>*/}

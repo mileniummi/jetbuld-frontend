@@ -6,7 +6,6 @@ import LoginIcon from "@mui/icons-material/Login";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import StoreIcon from "@mui/icons-material/Store";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { useAppDispatch, useAppSelector } from "../../lib/hooks/redux";
@@ -16,6 +15,7 @@ import { selectSelectedCompany } from "../../redux/reducers/selectedCompanyReduc
 import { persistor } from "../../redux/store";
 import "./sidebar.css";
 import { selectSelectedProject } from "../../redux/reducers/selectedProjectReducer";
+import Avatar from "../UI/avatar";
 
 const muiIconProps = { sx: { color: "black" }, className: "nav__item__icon" };
 
@@ -63,8 +63,8 @@ const Sidebar: React.FC<ISidebarProps> = memo(({ hideSidebar, setHideSidebar }) 
         </div>
         <CSSTransition in={hideSidebar} classNames="slide-left" timeout={600} unmountOnExit>
           <div className="nav__hidden">
-            <NavLink className="nav__item hidden" to={"/settings"}>
-              <ManageAccountsIcon {...muiIconProps} />
+            <NavLink className="nav__avatar hidden" to={"/settings"}>
+              <Avatar size={"sm"} />
             </NavLink>
             <div className="nav__item" onClick={logout}>
               <PowerSettingsNewIcon {...muiIconProps} />
@@ -84,7 +84,7 @@ const Sidebar: React.FC<ISidebarProps> = memo(({ hideSidebar, setHideSidebar }) 
           <div>
             <h2 className="nav__title">CompanyProject</h2>
             <NavLink className="nav__item hidden" to={"/settings"}>
-              <ManageAccountsIcon {...muiIconProps} />
+              <Avatar size={"sm"} />
               {user.firstName} {user.lastName}
             </NavLink>
             <div className="nav__item" onClick={logout}>

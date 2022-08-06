@@ -1,7 +1,8 @@
 import React from "react";
+import SettingsForm from "../components/settings/SettingsForm";
 
 const Settings = () => {
-  return <div></div>;
+  return <SettingsForm />;
 };
 
 export default Settings;

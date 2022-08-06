@@ -1,0 +1,69 @@
+.label {
+    font-size: 12px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.input {
+    max-width: 200px;
+    border-radius: 5px;
+    padding: 4px 0 6px 5px;
+    border: solid 1px #cbd5e1;
+    color: black;
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+.input:focus {
+    outline: 1px solid #154d3b;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+/*PHOTO*/
+
+/*TEXTAREA*/
+
+.textarea{
+    composes: input;
+    max-width: 450px;
+    resize: none;
+    height: 60px;
+    font-size: 14px;
+}
+
+.photoContainer {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.button{
+    position: relative;
+    composes: label;
+    border: 1px solid #cbd5e1;
+    background: white;
+    padding: 6px 10px 8px 10px;
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+    margin: 0;
+}
+.button.green{
+    background: #154d3b;
+    border: 0;
+    color: white;
+}
+
+.button:hover {
+    background: #cbd5e1;
+}
+
+.button.green:hover{
+    background: #1f6b4e;
+}
