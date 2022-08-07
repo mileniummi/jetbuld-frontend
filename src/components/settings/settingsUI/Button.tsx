@@ -7,11 +7,12 @@ import classNames from "classnames";
 interface SettingsButtonProps {
   onClick?: () => void;
   variant?: "green";
+  type?: "submit" | "button";
 }
 
-const SettingsButton: React.FC<SettingsButtonProps> = ({ children, variant, onClick }) => {
+const SettingsButton: React.FC<SettingsButtonProps> = ({ children, variant, onClick, type = "button" }) => {
   return (
-    <button onClick={onClick} type="button" className={classNames(styles.button, variant === "green" && styles.green)}>
+    <button onClick={onClick} type={type} className={classNames(styles.button, variant === "green" && styles.green)}>
       {children}
       <Ripple duration={700} />
     </button>

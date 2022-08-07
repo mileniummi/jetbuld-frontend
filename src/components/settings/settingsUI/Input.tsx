@@ -5,13 +5,14 @@ import styles from "./index.module.css";
 interface SettingsInputProps {
   placeholder: string;
   type?: "text" | "tel" | "email";
+  register?: {};
 }
 
-const SettingsInput: React.FC<SettingsInputProps> = ({ placeholder, type = "text" }) => {
+const SettingsInput: React.FC<SettingsInputProps> = ({ placeholder, type = "text", register }) => {
   return (
     <div className={styles.container}>
       <label className={styles.label}>{placeholder}</label>
-      <input className={styles.input} type={type} />
+      <input {...register} className={styles.input} type={type} />
     </div>
   );
 };

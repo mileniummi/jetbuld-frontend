@@ -50,7 +50,7 @@ const AvatarCropper: React.FC<AvatarCropperProps> = ({ setResultingImage, hide }
       <label className={classNames(styles.label, imgSrc && styles.small)}>
         <input hidden type="file" accept="image/*" onChange={onSelectFile} />
         <p className={classNames(styles.labelText, imgSrc && styles.small)}>
-          Click to select {imgSrc ? "another" : ""} file
+          Click to select&nbsp;{imgSrc ? "another" : ""}&nbsp;file
         </p>
       </label>
       {imgSrc && (
