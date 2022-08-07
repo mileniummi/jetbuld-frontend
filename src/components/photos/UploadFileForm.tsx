@@ -58,7 +58,7 @@ const UploadFileForm: React.FC<IUploadFileFormProps> = ({ active, pointId, hideF
           <Dropzone
             onChange={updateFiles}
             value={selectedFiles}
-            style={{ minWidth: "550px", marginBottom: "30px" }}
+            style={{ marginBottom: "30px" }}
             maxFiles={1}
             accept=".png,.jpg,.webp"
           >

@@ -61,7 +61,7 @@ const Ripple = (props) => {
 
 Ripple.defaultProps = {
   duration: 850,
-  color: "#c7dbfc",
+  color: "#ffffff",
 };
 
 export default Ripple;

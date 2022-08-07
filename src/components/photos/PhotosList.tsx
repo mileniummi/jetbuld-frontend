@@ -61,7 +61,7 @@ const PhotosList: React.FC<{ pointId: number }> = ({ pointId }) => {
                 sx={{ paddingRight: "10px", m: "10px", width: "calc(100% - 16px)" }}
               >
                 {photosSortedByDay[day].map((photo) => (
-                  <Grid sx={{ minWidth: "300px" }} key={nanoid()} xs={4} item>
+                  <Grid sx={{ minWidth: "250px" }} key={nanoid()} xs={4} item>
                     <Card>
                       <CardMedia component="img" image={photo.s3Url} alt="point" />
                       <CardContent sx={{ overflow: "auto" }}>
