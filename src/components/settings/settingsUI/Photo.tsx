@@ -10,7 +10,6 @@ const SettingsPhoto = () => {
   const [showCropper, setShowCropper] = useState(false);
   const [image, setImage] = useState<Blob | null>(null);
 
-  console.log(image);
   return (
     <div>
       <div className={styles.label}>Photo</div>

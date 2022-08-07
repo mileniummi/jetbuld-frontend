@@ -1,7 +1,13 @@
 import React, { useRef, useState } from "react";
-import ReactCrop, { Crop, PixelCrop } from "react-image-crop";
+import ReactCrop, { Crop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { getCroppedImg } from "./getCroppedImage";
+import Button from "@/components/settings/settingsUI/Button";
+// @ts-ignore
+import styles from "./index.module.css";
+// @ts-ignore
+import settingsStyles from "@/components/settings/settingsUI/index.module.css";
+import classNames from "classnames";
 
 interface AvatarCropperProps {
   setResultingImage: (image: Blob) => void;
@@ -34,7 +40,6 @@ const AvatarCropper: React.FC<AvatarCropperProps> = ({ setResultingImage, hide }
   const setResult = async () => {
     if (crop && imageRef.current) {
       const image = await getCroppedImg(imageRef.current.src, crop);
-      console.log(image);
       setResultingImage(image);
       hide();
     }
@@ -42,13 +47,32 @@ const AvatarCropper: React.FC<AvatarCropperProps> = ({ setResultingImage, hide }
 
   return (
     <>
-      <input type="file" accept="image/*" onChange={onSelectFile} />
-      <ReactCrop circularCrop aspect={1} crop={crop} onChange={(_, percentCrop) => setCrop(percentCrop)}>
-        <img ref={imageRef} alt="Crop me" src={imgSrc} />
-      </ReactCrop>
-      <button type="button" onClick={setResult}>
-        Accept
-      </button>
+      <label className={classNames(styles.label, imgSrc && styles.small)}>
+        <input hidden type="file" accept="image/*" onChange={onSelectFile} />
+        <p className={classNames(styles.labelText, imgSrc && styles.small)}>
+          Click to select {imgSrc ? "another" : ""} file
+        </p>
+      </label>
+      {imgSrc && (
+        <>
+          <ReactCrop
+            style={{ maxWidth: "800px", maxHeight: "600px" }}
+            circularCrop
+            aspect={1}
+            crop={crop}
+            onChange={(_, percentCrop) => setCrop(percentCrop)}
+          >
+            <img ref={imageRef} alt="Crop me" src={imgSrc} />
+          </ReactCrop>
+          <div className={styles.separator}> </div>
+          <div className={styles.buttons}>
+            <Button variant="green" onClick={setResult}>
+              Accept
+            </Button>
+            <Button onClick={() => hide()}>Cancel</Button>
+          </div>
+        </>
+      )}
     </>
   );
 };

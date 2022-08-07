@@ -1,0 +1,39 @@
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.separator {
+    height: 20px;
+    border-bottom: 1px solid #cbd5e1;
+}
+
+.label {
+    background: url("./upload-photo.png") no-repeat;
+    background-size: contain;
+    width: 230px;
+    height: 230px;
+    cursor: pointer;
+    position: relative;
+}
+
+.label.small{
+    height: 50px;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.labelText {
+    position: absolute;
+    bottom: 0;
+    left: 5px;
+    font-size: 14px;
+}
+
+.labelText.small{
+    position: relative;
+    margin-left: 50px;
+}
