@@ -15,6 +15,7 @@ import Photos from "./pages/Photos";
 import { useAppSelector } from "./lib/hooks/redux";
 import { selectCurrentUser } from "./redux/reducers/authReducer";
 import Settings from "./pages/Settings";
+import Users from "@/pages/Users";
 
 export const socket = new Socket();
 
@@ -34,6 +35,7 @@ const App = () => {
           <Route path="/projects" element={<Projects />} />
           <Route path="/points" element={<Points />} />
           <Route path="/photos" element={<Photos />} />
+          <Route path="/users" element={<Users />} />
           <Route path="/settings" element={<Settings />} />
         </Route>
         <Route path="/login" element={<Login />} />

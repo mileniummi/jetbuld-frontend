@@ -5,16 +5,19 @@ import Avatar from "../../UI/avatar";
 import Button from "./Button";
 import PopupWindow from "../../utils/popup/PopupWindow";
 import AvatarCropper from "../../UI/avatar/cropper";
+import { useAppSelector } from "@/lib/hooks/redux";
+import { selectCurrentUser } from "@/redux/reducers/authReducer";
 
 const SettingsPhoto = () => {
   const [showCropper, setShowCropper] = useState(false);
   const [image, setImage] = useState<Blob | null>(null);
+  const user = useAppSelector(selectCurrentUser);
 
   return (
     <div>
       <div className={styles.label}>Photo</div>
       <div className={styles.photoContainer}>
-        <Avatar size={"sm"} src={image ? URL.createObjectURL(image) : undefined} />
+        <Avatar user={user} size={"sm"} src={image ? URL.createObjectURL(image) : undefined} />
         <Button onClick={() => setShowCropper(true)}>Change</Button>
         <Button>Remove</Button>
       </div>

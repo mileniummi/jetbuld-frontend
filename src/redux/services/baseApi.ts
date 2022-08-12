@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-import { ICompany } from "../../types/Company";
+import { ICompany } from "@/types/Company";
 import { LoginRequest, RegisterRequest, UserResponse } from "./auth";
-import { IProject } from "../../types/Project";
-import { IPoint } from "../../types/Point";
-import { IPhoto } from "../../types/Photo";
+import { IProject } from "@/types/Project";
+import { IPoint } from "@/types/Point";
+import { IPhoto } from "@/types/Photo";
 
 export interface PaginationParams {
   offset: number;
@@ -56,9 +56,13 @@ export interface GetPhotosParams extends PaginationParams {
   pointId: number;
 }
 
+export interface GetUsersParams {
+  companyId: number;
+}
+
 export const baseApi = createApi({
   reducerPath: "companies",
-  tagTypes: ["Companies", "Projects", "Points", "Photos"],
+  tagTypes: ["Companies", "Projects", "Points", "Photos", "CompanyUsers"],
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_PATH,
     prepareHeaders: (headers, { getState }) => {
@@ -157,6 +161,12 @@ export const baseApi = createApi({
       },
       invalidatesTags: ["Photos", "Points"],
     }),
+
+    //CompanyUsers
+    getCompanyUsers: builder.query<ICompany, GetUsersParams>({
+      query: ({ companyId }) => ({ url: `companies/${companyId}/users` }),
+      providesTags: ["CompanyUsers"],
+    }),
   }),
 });
 
@@ -171,4 +181,5 @@ export const {
   useAddPointMutation,
   useGetPhotosQuery,
   useAddPhotoMutation,
+  useGetCompanyUsersQuery,
 } = baseApi;

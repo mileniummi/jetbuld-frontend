@@ -14,9 +14,11 @@ declare module "@mui/material/styles/createPalette" {
 declare module "@mui/material/SvgIcon" {
   interface SvgIconPropsColorOverrides {
     icon: true;
+    primary: true;
   }
   interface CircularProgressPropsColorOverrides {
     white: true;
+    primary: true;
   }
 }
 

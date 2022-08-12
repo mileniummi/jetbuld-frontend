@@ -1,11 +1,11 @@
 import React, { memo, useState } from "react";
 import { nanoid } from "nanoid";
 import { CircularProgress, Pagination } from "@mui/material";
-import { useGetCompaniesQuery } from "../../redux/services/baseApi";
+import { useGetCompaniesQuery } from "@/redux/services/baseApi";
 import CompanyPreview from "./CompanyPreview";
-import { useAppError } from "../../lib/hooks/useAppError";
+import { useAppError } from "@/lib/hooks/useAppError";
 import getOffset from "../../lib/helpers/getOffset";
-import { ITEM_LIMIT } from "../../lib/constants";
+import { ITEM_LIMIT } from "@/lib/constants";
 import NothingToShow from "../utils/nothingToShow";
 
 const CompaniesList = memo(() => {

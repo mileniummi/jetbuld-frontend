@@ -1,0 +1,30 @@
+import React, { useState } from "react";
+import { IUser } from "@/types/User";
+// @ts-ignore
+import styles from "./index.module.css";
+import Avatar from "@/components/UI/avatar";
+import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
+import classNames from "classnames";
+import Radio from "@/components/UI/radio";
+
+const UserCard: React.FC<{ user: IUser; even?: boolean }> = ({ user, even }) => {
+  const [selected, setSelected] = useState(false);
+
+  return (
+    <div className={classNames(styles.row, even && styles.even)}>
+      <div className={styles.rowItem}>
+        <Radio active={selected} setActive={(data) => setSelected(data)} />
+        <div className={styles.rowItem}>
+          <Avatar user={user} size={"md"} />
+          {user.firstName} {user.lastName}
+        </div>
+      </div>
+      <div className={styles.rowItem}>
+        <AlternateEmailIcon />
+        {user.email}
+      </div>
+    </div>
+  );
+};
+
+export default UserCard;

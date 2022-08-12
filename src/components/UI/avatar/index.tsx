@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { useAppSelector } from "../../../lib/hooks/redux";
 import { selectCurrentUser } from "../../../redux/reducers/authReducer";
 import { Avatar as MUIAvatar } from "@mui/material";
+import { IUser } from "@/types/User";
 
 function stringToColor(string: string) {
   let hash = 0;
@@ -28,11 +29,10 @@ const avatarSizes = {
 interface AvatarProps {
   size: "sm" | "md" | "lg";
   src?: string;
+  user: IUser;
 }
 
-const Avatar: React.FC<AvatarProps> = ({ size, src }) => {
-  const user = useAppSelector(selectCurrentUser);
-
+const Avatar: React.FC<AvatarProps> = ({ size, src, user }) => {
   const stringAvatar = useMemo(() => {
     return {
       sx: { ...avatarSizes[size], bgcolor: stringToColor(user.firstName) },

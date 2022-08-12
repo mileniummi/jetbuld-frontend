@@ -1,3 +1,5 @@
+import { IUser } from "@/types/User";
+
 export interface ICompany {
   id: number;
   name: string;
@@ -6,4 +8,14 @@ export interface ICompany {
   city: string;
   country: string;
   description: string;
+  users?: ICompanyUser[];
 }
+
+export interface ICompanyUser {
+  userId: number;
+  companyId: number;
+  role: UserRole;
+  user: IUser;
+}
+
+export type UserRole = "OWNER" | "EMPLOYEE";
