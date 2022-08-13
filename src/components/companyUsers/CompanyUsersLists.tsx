@@ -49,7 +49,7 @@ const CompanyUsersLists = () => {
           {filteredUsers ? (
             <>
               {filteredUsers.map((companyUser, idx) => (
-                <UserCard key={idx} even={idx % 2 === 0} user={companyUser.user} />
+                <UserCard key={idx} user={companyUser.user} />
               ))}
             </>
           ) : (

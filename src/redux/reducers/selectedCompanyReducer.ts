@@ -21,7 +21,10 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(PURGE, (state) => {
-      storage.removeItem("persist:root");
+      Object.keys(state).forEach((key) => {
+        storage.removeItem(`persist:${key}`);
+      });
+      state.company = null;
     });
   },
 });

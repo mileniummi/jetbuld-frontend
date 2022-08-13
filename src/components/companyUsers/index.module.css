@@ -14,7 +14,9 @@
 .row:hover{
     box-shadow: var(--shadow);
 }
-.row.even{
+
+.row.selected {
+    background: #ecf3fe;
 }
 
 .rowItem {

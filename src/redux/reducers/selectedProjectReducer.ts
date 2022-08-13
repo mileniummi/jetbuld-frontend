@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { PURGE } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { IProject } from "../../types/Project";
+import { IProject } from "@/types/Project";
 
 type selectedProjectState = {
   project: IProject | null;
@@ -21,7 +21,10 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(PURGE, (state) => {
-      storage.removeItem("persist:root");
+      Object.keys(state).forEach((key) => {
+        storage.removeItem(`persist:${key}`);
+      });
+      state.project = null;
     });
   },
 });
