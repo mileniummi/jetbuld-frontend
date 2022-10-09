@@ -69,6 +69,7 @@
     height: 200px;
 }
 
+
 @media screen and (max-width: 800px) {
     .project-info-header {
        flex-direction: column;

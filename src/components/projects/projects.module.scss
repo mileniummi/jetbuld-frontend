@@ -1,0 +1,5 @@
+@import "../../styles/mixins";
+
+.state {
+  @include state();
+}

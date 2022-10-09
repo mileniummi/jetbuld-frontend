@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { CircularProgress, Pagination } from "@mui/material";
-import { useAppError } from "../../lib/hooks/useAppError";
-import { useGetPointsQuery } from "../../redux/services/baseApi";
+import { useAppError } from "@/lib/hooks/useAppError";
+import { useGetPointsQuery } from "@/redux/services/baseApi";
 import getOffset from "../../lib/helpers/getOffset";
 import PointPreview from "./PointPreview";
 import { nanoid } from "nanoid";
-import { useAppSelector } from "../../lib/hooks/redux";
-import { selectSelectedProject } from "../../redux/reducers/selectedProjectReducer";
-import { ITEM_LIMIT } from "../../lib/constants";
+import { useAppSelector } from "@/lib/hooks/redux";
+import { selectSelectedProject } from "@/redux/reducers/selectedProjectReducer";
+import { ITEM_LIMIT } from "@/lib/constants";
 import NothingToShow from "../utils/nothingToShow";
 
 const PointList = () => {

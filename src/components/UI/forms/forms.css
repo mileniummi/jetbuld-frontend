@@ -97,7 +97,7 @@
     padding: 10px 50px 10px;
     box-shadow: none;
     overflow: hidden;
-    transition: all .1s ease-in-out;
+    transition: background .3s ease-in-out;
     border: 1px solid black;
     max-height: 60px;
     margin: 20px 0;
@@ -106,6 +106,13 @@
 .form__button.green{
     background: #154d3b;
     border: 1px solid #154d3b;
+}
+
+.form__button.gradient-blue{
+    background: #614385;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #516395, #614385);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #516395, #614385); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    border: 1px solid transparent;
 }
 
 .form__button:hover, .form__button:focus{

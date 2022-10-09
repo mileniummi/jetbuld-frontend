@@ -1,8 +1,6 @@
 import React, { useMemo } from "react";
-import { useAppSelector } from "../../../lib/hooks/redux";
-import { selectCurrentUser } from "../../../redux/reducers/authReducer";
 import { Avatar as MUIAvatar } from "@mui/material";
-import { IUser } from "@/types/User";
+import { IUser } from "@/models/User";
 
 function stringToColor(string: string) {
   let hash = 0;

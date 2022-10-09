@@ -19,3 +19,4 @@ export function isInstanceOfIError(obj: any): obj is IError {
     (obj as IError).data.message !== undefined
   );
 }
+

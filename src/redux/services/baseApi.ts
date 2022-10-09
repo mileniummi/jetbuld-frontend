@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-import { ICompany } from "@/types/Company";
+import { ICompany } from "@/models/Company";
 import { LoginRequest, RegisterRequest, UserResponse } from "./auth";
-import { IProject } from "@/types/Project";
-import { IPoint } from "@/types/Point";
-import { IPhoto } from "@/types/Photo";
+import { EProjectStage, IProject } from "@/models/Project";
+import { IPoint } from "@/models/Point";
+import { IPhoto } from "@/models/Photo";
 
 export interface PaginationParams {
   offset: number;
@@ -25,6 +25,11 @@ export interface CreateProjectRequest {
     name: string;
     description: string;
   };
+}
+
+export interface ChangePointStateRequest {
+  projectId: number;
+  newState: EProjectStage;
 }
 
 export interface CreatePointRequest {
@@ -124,6 +129,17 @@ export const baseApi = createApi({
       invalidatesTags: ["Projects"],
     }),
 
+    changeProjectState: builder.mutation<unknown, ChangePointStateRequest>({
+      query: (credentials) => ({
+        url: `/project/${credentials.projectId}`,
+        body: {
+          stage: credentials.newState,
+        },
+        method: "PATCH",
+      }),
+      invalidatesTags: ["Projects", "Points"],
+    }),
+
     //Points
     getPoints: builder.query<[count: number, current: IPoint[]], GetPointsParams>({
       query: ({ offset, limit, projectId }) => ({
@@ -182,4 +198,5 @@ export const {
   useGetPhotosQuery,
   useAddPhotoMutation,
   useGetCompanyUsersQuery,
+  useChangeProjectStateMutation,
 } = baseApi;

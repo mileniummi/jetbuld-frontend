@@ -4,11 +4,11 @@ import { useForm } from "react-hook-form";
 import Input from "../UI/forms/Input";
 import Error from "../UI/forms/Error";
 import Button from "../UI/forms/Button";
-import { LoginRequest } from "../../redux/services/auth";
-import { useAppDispatch, useAppSelector } from "../../lib/hooks/redux";
-import { setUserCredentials } from "../../redux/reducers/authReducer";
-import { useLoginMutation } from "../../redux/services/baseApi";
-import { useAppError } from "../../lib/hooks/useAppError";
+import { LoginRequest } from "@/redux/services/auth";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks/redux";
+import { setUserCredentials } from "@/redux/reducers/authReducer";
+import { useLoginMutation } from "@/redux/services/baseApi";
+import { useAppError } from "@/lib/hooks/useAppError";
 
 const Login = memo(() => {
   const [login, { error, isLoading }] = useLoginMutation();

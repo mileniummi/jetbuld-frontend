@@ -1,0 +1,7 @@
+
+.btns {
+    display: flex;
+    justify-content: center;
+    gap: 0 40px;
+    width: 100%;
+}

@@ -1,4 +1,4 @@
-import { IUser } from "../../types/User";
+import { IUser } from "@/models/User";
 
 export interface UserResponse {
   user: IUser;

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { IUser } from "../../types/User";
+import { IUser } from "../../models/User";
 import { RootState } from "../store";
 
 type AuthState = {

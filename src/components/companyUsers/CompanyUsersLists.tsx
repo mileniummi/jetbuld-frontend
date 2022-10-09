@@ -46,15 +46,17 @@ const CompanyUsersLists = () => {
             <Tab value={"OWNER"} label={"owners"} />
             <Tab value={"EMPLOYEE"} label={"employees"} />
           </Tabs>
-          {filteredUsers ? (
-            <>
-              {filteredUsers.map((companyUser, idx) => (
-                <UserCard key={idx} user={companyUser.user} />
-              ))}
-            </>
-          ) : (
-            <NothingToShow message={"No users in this company yet..."} />
-          )}
+          <div className={styles.users}>
+            {filteredUsers ? (
+              <>
+                {filteredUsers.map((companyUser, idx) => (
+                  <UserCard key={idx} user={companyUser.user} />
+                ))}
+              </>
+            ) : (
+              <NothingToShow message={"No users in this company yet..."} />
+            )}
+          </div>
         </div>
       )}
     </div>

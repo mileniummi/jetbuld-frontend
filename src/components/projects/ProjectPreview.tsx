@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import React from "react";
-import { LONG_DATE_FORMAT } from "../../types/App";
-import { IProject } from "../../types/Project";
+import { LONG_DATE_FORMAT } from "@/models/App";
+import { IProject } from "@/models/Project";
+// @ts-ignore
+import styles from "./projects.module.scss";
+import cn from "classnames";
 
 interface IProjectPreviewProps {
   project: IProject;
@@ -18,6 +21,7 @@ const ProjectPreview: React.FC<IProjectPreviewProps> = ({ project }) => {
             {new Intl.DateTimeFormat("en-GB", LONG_DATE_FORMAT).format(new Date(project.timeCreated))}
           </p>
         </div>
+        <div className={cn(styles.state, styles[project.stage.toLowerCase()])}>{project.stage}</div>
       </div>
     </Link>
   );

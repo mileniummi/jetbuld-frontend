@@ -6,7 +6,7 @@ import SettingsPhoto from "./settingsUI/Photo";
 import SettingsTextarea from "./settingsUI/Textarea";
 import { useAppSelector } from "@/lib/hooks/redux";
 import { selectCurrentUser } from "@/redux/reducers/authReducer";
-import { LONG_DATE_FORMAT } from "@/types/App";
+import { LONG_DATE_FORMAT } from "@/models/App";
 import Button from "./settingsUI/Button";
 import { useForm } from "react-hook-form";
 

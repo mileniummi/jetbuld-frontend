@@ -4,11 +4,11 @@ import { useForm } from "react-hook-form";
 import Input from "../UI/forms/Input";
 import Error from "../UI/forms/Error";
 import Button from "../UI/forms/Button";
-import { useRegisterMutation } from "../../redux/services/baseApi";
-import { RegisterRequest } from "../../redux/services/auth";
-import { useAppDispatch, useAppSelector } from "../../lib/hooks/redux";
-import { selectCurrentUser, setUserCredentials } from "../../redux/reducers/authReducer";
-import { useAppError } from "../../lib/hooks/useAppError";
+import { useRegisterMutation } from "@/redux/services/baseApi";
+import { RegisterRequest } from "@/redux/services/auth";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks/redux";
+import { selectCurrentUser, setUserCredentials } from "@/redux/reducers/authReducer";
+import { useAppError } from "@/lib/hooks/useAppError";
 
 const formInputs = [
   { name: "firstName", placeholder: "name", options: {} },
@@ -70,7 +70,7 @@ export default function Register() {
             <form className="form" onSubmit={handleSubmit(handleFormSubmit)}>
               {formInputs.map((input) => {
                 return (
-                  <>
+                  <div key={input.name}>
                     <Input
                       type={input.name === "password" ? "password" : input.name === "email" ? "email" : "text"}
                       placeholder={input.placeholder}
@@ -80,7 +80,7 @@ export default function Register() {
                       })}
                     />
                     {errors[input.name] && <Error text={errors[input.name]?.message} />}
-                  </>
+                  </div>
                 );
               })}
               {appError && <div className="form-error-message">{appError && appError.data.message}</div>}

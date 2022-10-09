@@ -1,5 +1,5 @@
 import * as React from "react";
-import "./index.css";
+import "./styles/index.css";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";

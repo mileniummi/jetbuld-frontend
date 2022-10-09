@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { Link } from "react-router-dom";
-import { ICompany } from "../../types/Company";
-import { LONG_DATE_FORMAT } from "../../types/App";
+import { ICompany } from "../../models/Company";
+import { LONG_DATE_FORMAT } from "../../models/App";
 
 interface ICompanyPreviewProps {
   company: ICompany;

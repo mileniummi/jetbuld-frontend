@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ICompany } from "../../types/Company";
+import { ICompany } from "@/models/Company";
 import { RootState } from "../store";
 import { PURGE } from "redux-persist";
 import storage from "redux-persist/lib/storage";

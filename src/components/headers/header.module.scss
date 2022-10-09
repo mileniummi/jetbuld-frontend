@@ -1,0 +1,32 @@
+@import "../../styles/mixins";
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 20px;
+
+  .title {
+    font-weight: bold;
+    font-size: 1.5rem;
+
+    display: flex;
+    align-items: baseline;
+
+    .entityName {
+      font-family: 'Montserrat', sans-serif;
+      color: #1f6b4e;
+    }
+  }
+
+  .icon {
+    svg {
+      font-size: 2rem;
+    }
+  }
+
+  .state {
+    @include state();
+  }
+
+}

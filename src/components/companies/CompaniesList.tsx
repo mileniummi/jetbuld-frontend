@@ -1,38 +1,20 @@
-import React, { memo, useState } from "react";
+import React, { memo } from "react";
 import { nanoid } from "nanoid";
-import { CircularProgress, Pagination } from "@mui/material";
-import { useGetCompaniesQuery } from "@/redux/services/baseApi";
+import { Pagination } from "@mui/material";
 import CompanyPreview from "./CompanyPreview";
-import { useAppError } from "@/lib/hooks/useAppError";
-import getOffset from "../../lib/helpers/getOffset";
 import { ITEM_LIMIT } from "@/lib/constants";
 import NothingToShow from "../utils/nothingToShow";
+import { ICompaniesListProps } from "@/components/companies/Companies.types";
+import Loader from "@/components/UI/loader/Loader";
 
-const CompaniesList = memo(() => {
-  const [page, setPage] = useState(1);
-  const {
-    data: [count, current] = [],
-    isLoading,
-    error,
-  } = useGetCompaniesQuery({
-    offset: getOffset(page),
-    limit: ITEM_LIMIT,
-  });
-  useAppError(error);
-
-  function handlePageChange(event: React.ChangeEvent<unknown>, value: number) {
-    setPage(value);
-  }
-
+const CompaniesList: React.FC<ICompaniesListProps> = memo(({ page, isLoading, companies, count, handlePageChange }) => {
   return (
     <div>
       {isLoading ? (
-        <div className="loader__wrapper">
-          <CircularProgress color={"inherit"} />
-        </div>
-      ) : count && current ? (
+        <Loader />
+      ) : count && companies ? (
         <>
-          {current.map((company) => (
+          {companies.map((company) => (
             <CompanyPreview key={nanoid()} company={company} />
           ))}
           {count > ITEM_LIMIT && (
@@ -47,7 +29,7 @@ const CompaniesList = memo(() => {
           )}
         </>
       ) : (
-        <NothingToShow message="You have no companies created yet... Add a new one by clicking on Add New Company button." />
+        <NothingToShow message="You are not member of any company yet... Ask your manager to add you, or create one if you are company owner." />
       )}
     </div>
   );

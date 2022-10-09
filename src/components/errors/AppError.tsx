@@ -1,5 +1,5 @@
 import React from "react";
-import { IError } from "../../types/Error";
+import { IError } from "@/models/Error";
 import "./errors.css";
 
 const AppError: React.FC<IError> = ({ data }) => {

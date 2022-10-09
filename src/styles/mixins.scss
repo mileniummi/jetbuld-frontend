@@ -1,0 +1,52 @@
+@mixin kashimir-gradient {
+  background: #614385; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #516395, #614385); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #516395, #614385); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+@mixin witching-hour-gradient {
+  background: #c31432; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #240b36, #c31432); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #240b36, #c31432); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+@mixin relay-gradient {
+  background: #3A1C71; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #FFAF7B, #D76D77, #3A1C71); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #FFAF7B, #D76D77, #3A1C71); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+@mixin red-sunset-gradient {
+  background: #355C7D; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #C06C84, #6C5B7B, #355C7D); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #C06C84, #6C5B7B, #355C7D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+@mixin miridian-gradient {
+  background: #283c86; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #45a247, #283c86); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #45a247, #283c86); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+@mixin state {
+  padding: 10px;
+  border-radius: 5px;
+  max-height: 40px;
+  color: white;
+
+  &.created {
+    background: #C06C84;
+  }
+
+  &.inprogress {
+    background: #516395;
+  }
+
+  &.oncheck {
+    background: #45a247;
+  }
+
+  &.finished {
+    background: #240b36;
+  }
+}

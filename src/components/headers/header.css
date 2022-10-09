@@ -1,14 +1,14 @@
 /*header*/
 .header {
     display: flex;
-    margin: 20px;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 .header__location-name {
     font-size: 28px;
     color: #2B283A;
-    margin: 0 auto 0 10px;
+    margin: 0 auto 0 0;
 }
 
 .header__input {

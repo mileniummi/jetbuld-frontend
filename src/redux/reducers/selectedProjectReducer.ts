@@ -2,20 +2,20 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { PURGE } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { IProject } from "@/types/Project";
+import { IProject } from "@/models/Project";
 
 type selectedProjectState = {
   project: IProject | null;
 };
 
 const slice = createSlice({
-  name: "selectedCompany",
+  name: "selectedProject",
   initialState: { project: null } as selectedProjectState,
   reducers: {
     setSelectedProject: (state, { payload: { project } }: PayloadAction<{ project: IProject }>) => {
       state.project = project;
     },
-    removeSelectedCompany: (state) => {
+    removeSelectedProject: (state) => {
       state.project = null;
     },
   },
@@ -31,6 +31,6 @@ const slice = createSlice({
 
 export default slice.reducer;
 
-export const { setSelectedProject, removeSelectedCompany } = slice.actions;
+export const { setSelectedProject, removeSelectedProject } = slice.actions;
 
 export const selectSelectedProject = (state: RootState) => state.selectedProject.project;

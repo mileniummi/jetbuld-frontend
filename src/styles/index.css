@@ -5,11 +5,13 @@ html, body {
     font-family: Inter, sans-serif;
     height: 100%;
     margin: 0;
+    font-size: 16px;
 }
 
 main {
     width: 100%;
     min-height: 100vh;
+    padding: 1rem 2rem;
 }
 
 #root{
@@ -63,11 +65,10 @@ a {
 
 .preview {
     display: flex;
-    align-items: center;
     padding: 10px;
-    margin: 20px;
     box-shadow: var(--shadow);
     border-radius: 20px;
+    margin-bottom: 1.5rem;
 }
 
 .preview__description {
@@ -135,7 +136,7 @@ a {
 
 
 .info-header{
-    margin: 20px;
+    margin-bottom: 10px;
 }
 
 /*images*/
@@ -185,6 +186,24 @@ a {
 @media screen and (max-width: 450px){
     .pagination{
         margin-left: 20px;
+    }
+}
+
+@media screen and (max-width: 1500px) {
+    html {
+        font-size: 13px;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    html {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    html {
+        font-size: 11px;
     }
 }
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IUser } from "@/types/User";
+import { IUser } from "@/models/User";
 // @ts-ignore
 import styles from "./index.module.css";
 import Avatar from "@/components/UI/avatar";
@@ -17,11 +17,11 @@ const UserCard: React.FC<{ user: IUser }> = ({ user }) => {
         <div className={styles.rowItem}>
           <Avatar user={user} size={"md"} />
           {user.firstName} {user.lastName}
+          <div className={styles.rowItem}>
+            <AlternateEmailIcon />
+            {user.email}
+          </div>
         </div>
-      </div>
-      <div className={styles.rowItem}>
-        <AlternateEmailIcon />
-        {user.email}
       </div>
     </div>
   );

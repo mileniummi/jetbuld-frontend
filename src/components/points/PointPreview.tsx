@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import React from "react";
 import "./point.css";
-import { IPoint } from "../../types/Point";
-import { LONG_DATE_FORMAT } from "../../types/App";
+import { IPoint } from "../../models/Point";
+import { LONG_DATE_FORMAT } from "../../models/App";
 import PreviewPhotos from "./PreviewPhotos";
 
 const PointPreview: React.FC<{ point: IPoint }> = ({ point }) => {

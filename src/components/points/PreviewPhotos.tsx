@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { IPoint } from "../../types/Point";
+import { IPoint } from "../../models/Point";
 import { useGetPhotosQuery } from "../../redux/services/baseApi";
 import { nanoid } from "nanoid";
 import AppError from "../errors/AppError";

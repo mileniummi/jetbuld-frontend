@@ -26,7 +26,7 @@ const InfoHeader = () => {
       <div className="project-info-description">
         <div className="project-info-description__item">
           <PlaceIcon />
-          <a href="" className="project-info-info__location">
+          <a href="#" className="project-info-info__location">
             {company.address}
           </a>
         </div>

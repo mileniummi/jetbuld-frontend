@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import PhotosList from "../components/photos/PhotosList";
 import { useAppDispatch, useAppSelector } from "../lib/hooks/redux";
 import { selectSelectedPoint, setSelectedPoint } from "../redux/reducers/selectedPointReducer";
-import { IPoint } from "../types/Point";
+import { IPoint } from "../models/Point";
 
 interface LocationState {
   from: { pathname: string };

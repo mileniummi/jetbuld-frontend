@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import CreateProjectForm from "../components/projects/CreateProjectForm";
 import PopupWindow from "../components/utils/popup/PopupWindow";
 import ProjectList from "../components/projects/ProjectList";
-import { ICompany } from "../types/Company";
+import { ICompany } from "../models/Company";
 import { selectSelectedCompany, setSelectedCompany } from "../redux/reducers/selectedCompanyReducer";
 import { useAppDispatch, useAppSelector } from "../lib/hooks/redux";
 

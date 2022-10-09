@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { PURGE } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { IPoint } from "@/types/Point";
+import { IPoint } from "@/models/Point";
 
 type selectedPointState = {
   point: IPoint | null;

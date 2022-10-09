@@ -3,7 +3,6 @@ import Layout from "./pages/Layout";
 import Projects from "./pages/Projects";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
-import Companies from "./pages/Companies";
 import Points from "./pages/Points";
 import React, { useEffect } from "react";
 import PageNotFound from "./components/PageNotFound";
@@ -16,6 +15,7 @@ import { useAppSelector } from "./lib/hooks/redux";
 import { selectCurrentUser } from "./redux/reducers/authReducer";
 import Settings from "./pages/Settings";
 import Users from "@/pages/Users";
+import Home from "@/pages/Home";
 
 export const socket = new Socket();
 
@@ -31,7 +31,7 @@ const App = () => {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route element={<PrivateRoute />}>
-          <Route index element={<Companies />} />
+          <Route index element={<Home />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/points" element={<Points />} />
           <Route path="/photos" element={<Photos />} />
