@@ -1,15 +1,15 @@
-import React, { memo, useEffect, useMemo } from "react";
+import React, { memo } from "react";
 import { useForm } from "react-hook-form";
 import Input from "../UI/forms/Input";
 import Error from "../UI/forms/Error";
 import Button from "../UI/forms/Button";
 import { nanoid } from "nanoid";
-import { CreateCompanyRequest, useAddCompanyMutation } from "../../redux/services/baseApi";
+import { CreateCompanyRequest, useAddCompanyMutation } from "@/redux/services/baseApi";
 import { toast } from "react-toastify";
-import { useAppError } from "../../lib/hooks/useAppError";
+import { useAppError } from "@/lib/hooks/useAppError";
 
 const formInputs = [
-  { name: "name", placeholder: "Company name" },
+  { name: "name", placeholder: "Company name", autoFocus: true },
   { name: "description", placeholder: "Company description" },
   { name: "address", placeholder: "Company address" },
   { name: "city", placeholder: "Company city location" },
@@ -51,6 +51,7 @@ const CreateCompanyForm = memo((props: ICreateCompanyForm) => {
             return (
               <div key={nanoid()}>
                 <Input
+                  autoFocus={input.autoFocus}
                   placeholder={input.placeholder}
                   reactHookFormRegisterRes={register(input.name, {
                     required: "This field is required",

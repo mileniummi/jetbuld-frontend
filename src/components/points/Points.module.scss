@@ -1,0 +1,16 @@
+@import "../../styles/mixins";
+
+.utils {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+
+  .state {
+    @include state();
+  }
+
+  .deleteIcon {
+    padding: 10px;
+    z-index: 1000;
+  }
+}

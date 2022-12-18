@@ -15,7 +15,14 @@ const PopupWindow: React.FC<IPopupWindowProps> = ({ children, hideFunction, tran
         <div className="popup">
           {children}
           <div className="popup-info">
-            <CloseIcon className="popup-close" sx={{ color: "#555555", w: 30, h: 30 }} onClick={hideFunction} />
+            <CloseIcon
+              className="popup-close"
+              sx={{ color: "#555555", w: 30, h: 30 }}
+              onClick={(e) => {
+                e.stopPropagation();
+                hideFunction();
+              }}
+            />
           </div>
         </div>
       </div>

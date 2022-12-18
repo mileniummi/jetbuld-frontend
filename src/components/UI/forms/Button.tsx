@@ -6,7 +6,7 @@ import classNames from "classnames";
 interface IButtonProps {
   onClick?: () => void;
   showLoader?: boolean;
-  variant?: "green";
+  variant?: "green" | "red";
   size?: "sm" | "md" | "lg";
 }
 
@@ -15,7 +15,7 @@ const Button: React.FC<IButtonProps> = ({ children, onClick, showLoader, variant
     <button
       disabled={showLoader}
       onClick={onClick}
-      className={classNames("form__button", variant === "green" && "green", size)}
+      className={classNames("form__button", variant === "green" && "green", variant === "red" && "red", size)}
     >
       <div className="form__button__content">{showLoader ? <CircularProgress size={20} /> : children}</div>
       <Ripple color="#222222" duration={700} />

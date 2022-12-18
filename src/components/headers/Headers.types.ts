@@ -1,10 +1,10 @@
-import { EProjectStage } from "@/models/Project";
 import { EAppEntities } from "@/models/App";
+import { EPointState } from "@/models/Point";
 
 export interface IStateHeaderProps {
   id: number;
   entity: EAppEntities;
   name: string;
-  state: EProjectStage;
+  state?: EPointState;
   description: string;
 }

@@ -23,7 +23,7 @@ const CompanyUsersLists = () => {
         return data.users.filter((user) => user.role === "OWNER");
       }
       case "EMPLOYEE": {
-        return data.users.filter((user) => user.role === "EMPLOYEE");
+        return data.users.filter((user) => user.role === "WORKER");
       }
       default: {
         return data.users;

@@ -41,6 +41,7 @@ const Login = memo(() => {
                   required: "This field is required",
                   minLength: { value: 3, message: "Username should consist at least of 3 characters" },
                 })}
+                autoFocus
               />
               {errors.login && <Error text={errors.login.message} />}
               <Input

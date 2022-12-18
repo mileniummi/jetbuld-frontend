@@ -4,12 +4,12 @@ import Input from "../UI/forms/Input";
 import Error from "../UI/forms/Error";
 import Textarea from "../UI/forms/Textarea";
 import Button from "../UI/forms/Button";
-import { useAddPointMutation } from "../../redux/services/baseApi";
-import { useAppSelector } from "../../lib/hooks/redux";
-import { selectSelectedCompany } from "../../redux/reducers/selectedCompanyReducer";
-import { selectSelectedProject } from "../../redux/reducers/selectedProjectReducer";
+import { useAddPointMutation } from "@/redux/services/baseApi";
+import { useAppSelector } from "@/lib/hooks/redux";
+import { selectSelectedCompany } from "@/redux/reducers/selectedCompanyReducer";
+import { selectSelectedProject } from "@/redux/reducers/selectedProjectReducer";
 import { toast } from "react-toastify";
-import { useAppError } from "../../lib/hooks/useAppError";
+import { useAppError } from "@/lib/hooks/useAppError";
 
 interface ICreatePointFormProps {
   handleCreateClick: () => void;
@@ -40,6 +40,7 @@ const CreatePointForm: React.FC<ICreatePointFormProps> = ({ handleCreateClick })
       <div className="form-wrapper">
         <form className="form" onSubmit={handleSubmit(sendPointCredentials)}>
           <Input
+            autoFocus
             placeholder={"Point Name"}
             reactHookFormRegisterRes={register("name", {
               required: "This field is required",

@@ -108,6 +108,11 @@
     border: 1px solid #154d3b;
 }
 
+.form__button.red{
+    background-color: #810909;
+    border: 1px solid #810909;
+}
+
 .form__button.gradient-blue{
     background: #614385;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #516395, #614385);  /* Chrome 10-25, Safari 5.1-6 */
@@ -122,6 +127,12 @@
 }
 .form__button:disabled{
     cursor: not-allowed;
+}
+
+.form__button.red:hover{
+    background: white;
+    color: black;
+    border: 1px solid #810909;
 }
 
 .form__button__content{

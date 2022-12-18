@@ -24,6 +24,12 @@
     z-index: 1;
 }
 
+.header__button:disabled {
+    cursor: not-allowed;
+    color: #7786a1;
+    background-color: #2B283A;
+}
+
 @media screen and (max-width: 800px) {
     .header {
         flex-direction: column;

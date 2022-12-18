@@ -1,6 +1,6 @@
 import io from "socket.io-client";
 import { toast } from "react-toastify";
-import { IUser } from "../../models/User";
+import { IUser } from "@/models/User";
 
 export default class Socket {
   private socket: any;

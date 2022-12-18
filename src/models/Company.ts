@@ -18,4 +18,4 @@ export interface ICompanyUser {
   user: IUser;
 }
 
-export type UserRole = "OWNER" | "EMPLOYEE";
+export type UserRole = "OWNER" | "WORKER";

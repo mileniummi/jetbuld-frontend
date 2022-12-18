@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardMedia, CircularProgress, Grid, Pagination, Typography } from "@mui/material";
 import { nanoid } from "nanoid";
-import { useGetPhotosQuery } from "../../redux/services/baseApi";
+import { useDeletePhotoMutation, useGetPhotosQuery } from "@/redux/services/baseApi";
 import getOffset from "../../lib/helpers/getOffset";
 import "./photos.css";
-import { DATE_FORMAT } from "../../models/App";
-import { IPhoto } from "../../models/Photo";
-import { useAppError } from "../../lib/hooks/useAppError";
-import { PHOTO_LIMIT } from "../../lib/constants";
+import { DATE_FORMAT } from "@/models/App";
+import { IPhoto } from "@/models/Photo";
+import { useAppError } from "@/lib/hooks/useAppError";
+import { PHOTO_LIMIT } from "@/lib/constants";
 import NothingToShow from "../utils/nothingToShow";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { toast } from "react-toastify";
+
+// @ts-ignore
+import styles from "./Photos.module.scss";
+import PopupWindow from "@/components/utils/popup/PopupWindow";
+import DeleteElementConfirmation from "@/components/DeleteElementConfirmation/DeleteElementConfirmation";
 
 const PhotosList: React.FC<{ pointId: number }> = ({ pointId }) => {
   const [page, setPage] = useState(1);
@@ -21,6 +28,20 @@ const PhotosList: React.FC<{ pointId: number }> = ({ pointId }) => {
   });
 
   useAppError(error);
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deletePhoto, { error: PhotoError, isLoading: photoIsDeleting, isSuccess }] = useDeletePhotoMutation();
+  const [deletingPhotoId, setDeletingPhotoId] = useState<null | number>(null);
+
+  const deletePointAction = async () => {
+    if (!isSuccess && deletingPhotoId) {
+      await deletePhoto(deletingPhotoId);
+      toast.success(`Point photo deleted!`);
+      setIsDeleteModalOpen(false);
+    }
+  };
+
+  useAppError(PhotoError);
 
   useEffect(() => {
     if (data) {
@@ -68,10 +89,33 @@ const PhotosList: React.FC<{ pointId: number }> = ({ pointId }) => {
                         <Typography variant="h6">{photo.name}</Typography>
                         <Typography variant="body2">{photo.description}</Typography>
                       </CardContent>
+                      <div
+                        className={styles.deleteIcon}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setDeletingPhotoId(photo.id);
+                          setIsDeleteModalOpen(true);
+                        }}
+                      >
+                        <DeleteIcon />
+                      </div>
                     </Card>
                   </Grid>
                 ))}
               </Grid>
+              <PopupWindow
+                hideFunction={() => {
+                  setDeletingPhotoId(null);
+                  setIsDeleteModalOpen((v) => !v);
+                }}
+                transitionInState={isDeleteModalOpen}
+              >
+                <DeleteElementConfirmation
+                  isLoading={photoIsDeleting}
+                  deleteAction={deletePointAction}
+                  entity="photo"
+                />
+              </PopupWindow>
             </div>
           ))}
           {data[0] > PHOTO_LIMIT && (

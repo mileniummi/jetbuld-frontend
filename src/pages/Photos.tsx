@@ -3,9 +3,11 @@ import Header from "../components/headers/Header";
 import UploadFileDropzoneForm from "../components/photos/UploadFileForm";
 import { useLocation } from "react-router-dom";
 import PhotosList from "../components/photos/PhotosList";
-import { useAppDispatch, useAppSelector } from "../lib/hooks/redux";
-import { selectSelectedPoint, setSelectedPoint } from "../redux/reducers/selectedPointReducer";
-import { IPoint } from "../models/Point";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks/redux";
+import { selectSelectedPoint, setSelectedPoint } from "@/redux/reducers/selectedPointReducer";
+import { IPoint } from "@/models/Point";
+import StateHeader from "@/components/headers/StateHeader";
+import { EAppEntities } from "@/models/App";
 
 interface LocationState {
   from: { pathname: string };
@@ -35,6 +37,13 @@ const Photos = () => {
   return (
     <>
       <Header pageLocation="Photo" handleCreateClick={uploadPhoto} buttonText="Upload New Photo" />
+      <StateHeader
+        id={point.id}
+        entity={EAppEntities.POINT}
+        name={point.name}
+        state={point.stage}
+        description={point.description}
+      />
       <PhotosList pointId={point.id} />
       <UploadFileDropzoneForm
         active={showUploadPhotoForm}

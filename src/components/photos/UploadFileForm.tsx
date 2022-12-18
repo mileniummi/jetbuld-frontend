@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Dropzone, FileItem, FileValidated } from "@dropzone-ui/react";
 import { nanoid } from "nanoid";
-import { socket } from "../../App";
+import { socket } from "@/App";
 import PopupWindow from "../utils/popup/PopupWindow";
 import Input from "../UI/forms/Input";
 import { useForm } from "react-hook-form";
 import Textarea from "../UI/forms/Textarea";
 import Button from "../UI/forms/Button";
 import Error from "../UI/forms/Error";
-import { useAddPhotoMutation } from "../../redux/services/baseApi";
-import { useAppSelector } from "../../lib/hooks/redux";
-import { selectCurrentUser } from "../../redux/reducers/authReducer";
-import { selectSelectedCompany } from "../../redux/reducers/selectedCompanyReducer";
+import { useAddPhotoMutation } from "@/redux/services/baseApi";
+import { useAppSelector } from "@/lib/hooks/redux";
+import { selectCurrentUser } from "@/redux/reducers/authReducer";
+import { selectSelectedCompany } from "@/redux/reducers/selectedCompanyReducer";
 import { toast } from "react-toastify";
-import { useAppError } from "../../lib/hooks/useAppError";
+import { useAppError } from "@/lib/hooks/useAppError";
 
 interface IUploadFileFormProps {
   active: boolean;
@@ -68,6 +68,7 @@ const UploadFileForm: React.FC<IUploadFileFormProps> = ({ active, pointId, hideF
           </Dropzone>
           {selectedFiles.length === 0 && <Error text={"Please choose a file"} />}
           <Input
+            autoFocus
             placeholder="Photo name"
             reactHookFormRegisterRes={register("name", {
               required: "This field is required",

@@ -3,7 +3,7 @@ import { RootState } from "../store";
 import { ICompany } from "@/models/Company";
 import { LoginRequest, RegisterRequest, UserResponse } from "./auth";
 import { EProjectStage, IProject } from "@/models/Project";
-import { IPoint } from "@/models/Point";
+import { EPointState, IPoint } from "@/models/Point";
 import { IPhoto } from "@/models/Photo";
 
 export interface PaginationParams {
@@ -28,8 +28,8 @@ export interface CreateProjectRequest {
 }
 
 export interface ChangePointStateRequest {
-  projectId: number;
-  newState: EProjectStage;
+  pointId: number;
+  newState: EPointState;
 }
 
 export interface CreatePointRequest {
@@ -111,6 +111,13 @@ export const baseApi = createApi({
       }),
       invalidatesTags: ["Companies"],
     }),
+    inviteUserToCompany: builder.mutation<unknown, { companyId: number; userEmail: string }>({
+      query: (credentials) => ({
+        url: `companies/${credentials.companyId}/user/${credentials.userEmail}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Companies", "CompanyUsers"],
+    }),
 
     //Projects
     getProjects: builder.query<[count: number, current: IProject[]], GetProjectsParams>({
@@ -128,16 +135,12 @@ export const baseApi = createApi({
       }),
       invalidatesTags: ["Projects"],
     }),
-
-    changeProjectState: builder.mutation<unknown, ChangePointStateRequest>({
-      query: (credentials) => ({
-        url: `/project/${credentials.projectId}`,
-        body: {
-          stage: credentials.newState,
-        },
-        method: "PATCH",
+    deleteProject: builder.mutation<undefined, number>({
+      query: (id) => ({
+        url: `/project/${id}`,
+        method: "DELETE",
       }),
-      invalidatesTags: ["Projects", "Points"],
+      invalidatesTags: ["Projects"],
     }),
 
     //Points
@@ -155,6 +158,23 @@ export const baseApi = createApi({
         body: credentials,
       }),
       invalidatesTags: ["Points"],
+    }),
+    deletePoint: builder.mutation<undefined, number>({
+      query: (id) => ({
+        url: `/point/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Points"],
+    }),
+    changePointState: builder.mutation<unknown, ChangePointStateRequest>({
+      query: (credentials) => ({
+        url: `/point/${credentials.pointId}`,
+        body: {
+          stage: credentials.newState,
+        },
+        method: "PATCH",
+      }),
+      invalidatesTags: ["Projects", "Points", "Photos"],
     }),
 
     //Photos
@@ -178,6 +198,14 @@ export const baseApi = createApi({
       invalidatesTags: ["Photos", "Points"],
     }),
 
+    deletePhoto: builder.mutation<undefined, number>({
+      query: (id) => ({
+        url: `/photo/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Photos", "Points"],
+    }),
+
     //CompanyUsers
     getCompanyUsers: builder.query<ICompany, GetUsersParams>({
       query: ({ companyId }) => ({ url: `companies/${companyId}/users` }),
@@ -198,5 +226,9 @@ export const {
   useGetPhotosQuery,
   useAddPhotoMutation,
   useGetCompanyUsersQuery,
-  useChangeProjectStateMutation,
+  useChangePointStateMutation,
+  useDeleteProjectMutation,
+  useDeletePointMutation,
+  useDeletePhotoMutation,
+  useInviteUserToCompanyMutation,
 } = baseApi;

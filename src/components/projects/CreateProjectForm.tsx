@@ -4,11 +4,11 @@ import { useForm } from "react-hook-form";
 import Error from "../UI/forms/Error";
 import Textarea from "../UI/forms/Textarea";
 import Button from "../UI/forms/Button";
-import { useAddProjectMutation } from "../../redux/services/baseApi";
-import { useAppSelector } from "../../lib/hooks/redux";
-import { selectSelectedCompany } from "../../redux/reducers/selectedCompanyReducer";
+import { useAddProjectMutation } from "@/redux/services/baseApi";
+import { useAppSelector } from "@/lib/hooks/redux";
+import { selectSelectedCompany } from "@/redux/reducers/selectedCompanyReducer";
 import { toast } from "react-toastify";
-import { useAppError } from "../../lib/hooks/useAppError";
+import { useAppError } from "@/lib/hooks/useAppError";
 
 interface ICreateProjectFormProps {
   handleCreateClick: () => void;
@@ -38,6 +38,7 @@ const CreateProjectForm: React.FC<ICreateProjectFormProps> = ({ handleCreateClic
       <div className="form-wrapper">
         <form className="form" onSubmit={handleSubmit(handleFormSubmit)}>
           <Input
+            autoFocus
             placeholder={"Project Name"}
             reactHookFormRegisterRes={register("name", {
               required: "This field is required",

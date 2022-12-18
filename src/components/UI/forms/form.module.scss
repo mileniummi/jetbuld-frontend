@@ -22,6 +22,20 @@
     display: flex;
     gap: 10px;
     align-items: center;
+    position: relative;
+
+    .children {
+
+      &.loading {
+        opacity: .5;
+      }
+    }
+
+    .loader {
+      position: relative;
+      top: 50%; right: 50%;
+      transform: translate(50%,-50%);
+    }
   }
 
   .sm{
@@ -31,11 +45,12 @@
   }
 
   &:hover, &:focus {
-    color: black;
-    background: white;
-    border: 1px solid #a4b4b9;
+    color: white;
+    background: black;
   }
   &:disabled {
     cursor: not-allowed;
+    background: #7c7a7a;
+    color: white;
   }
 }
