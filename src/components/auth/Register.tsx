@@ -1,4 +1,4 @@
-import { NavLink, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import React from "react";
 import { useForm } from "react-hook-form";
 import Input from "../UI/forms/Input";
@@ -9,30 +9,32 @@ import { RegisterRequest } from "@/redux/services/auth";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks/redux";
 import { selectCurrentUser, setUserCredentials } from "@/redux/reducers/authReducer";
 import { useAppError } from "@/lib/hooks/useAppError";
+// @ts-ignore
+import styles from "./auth.module.scss";
 
 const formInputs = [
-  { name: "firstName", placeholder: "name", options: {} },
-  { name: "lastName", placeholder: "surname", options: {} },
+  { name: "firstName", placeholder: "First Name", options: {} },
+  { name: "lastName", placeholder: "Last Name", options: {} },
   {
     name: "email",
-    placeholder: "email",
+    placeholder: "Email",
     options: {
       pattern: {
         value: /\S+@\S+\.\S+/,
-        message: "Entered value does not match email format",
-      },
-    },
+        message: "Entered value does not match email format"
+      }
+    }
   },
   {
     name: "login",
-    placeholder: "username",
-    options: { minLength: { value: 3, message: "Username should consist at least of 3 characters" } },
+    placeholder: "Username",
+    options: { minLength: { value: 3, message: "Username should consist at least of 3 characters" } }
   },
   {
     name: "password",
-    placeholder: "password",
-    options: { minLength: { value: 5, message: "Password should consist at least of 5 characters" } },
-  },
+    placeholder: "Password",
+    options: { minLength: { value: 5, message: "Password should consist at least of 5 characters" } }
+  }
 ];
 
 const defaultValues: any = {};
@@ -45,7 +47,7 @@ export default function Register() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm({ defaultValues, mode: "onBlur" });
 
   const [registerUser, { error, isLoading }] = useRegisterMutation();
@@ -62,41 +64,35 @@ export default function Register() {
   const appError = useAppError(error);
 
   return (
-    <div className="content-wrapper">
-      {!user ? (
-        <>
-          <div className="form-wrapper">
-            <h1 className="form-greeting">Hello!</h1>
-            <form className="form" onSubmit={handleSubmit(handleFormSubmit)}>
-              {formInputs.map((input) => {
-                return (
-                  <div key={input.name}>
-                    <Input
-                      type={input.name === "password" ? "password" : input.name === "email" ? "email" : "text"}
-                      placeholder={input.placeholder}
-                      reactHookFormRegisterRes={register(input.name, {
-                        ...input.options,
-                        required: "This field is required",
-                      })}
-                    />
-                    {errors[input.name] && <Error text={errors[input.name]?.message} />}
-                  </div>
-                );
-              })}
-              {appError && <div className="form-error-message">{appError && appError.data.message}</div>}
-              <Button>Register</Button>
-            </form>
-            <span className="form__info">
-              Already have an account?
-              <NavLink to="/login">
-                <span className="colored"> Login</span>
-              </NavLink>
-            </span>
-          </div>
-        </>
-      ) : (
-        <Navigate to="/" />
-      )}
-    </div>
+    !user ? (
+      <>
+        <div className={styles.wrapper}>
+          <form className={styles.form} onSubmit={handleSubmit(handleFormSubmit)}>
+            <h2 className={styles.title}>
+              Set up your account
+            </h2>
+            {formInputs.map((input) => {
+              return (
+                <div key={input.name}>
+                  <Input
+                    type={input.name === "password" ? "password" : input.name === "email" ? "email" : "text"}
+                    placeholder={input.placeholder}
+                    reactHookFormRegisterRes={register(input.name, {
+                      ...input.options,
+                      required: "This field is required"
+                    })}
+                  />
+                  {errors[input.name] && <Error text={errors[input.name]?.message} />}
+                </div>
+              );
+            })}
+            {appError && <div className="form-error-message">{appError && appError.data.message}</div>}
+            <Button>Start using JetBuild</Button>
+          </form>
+        </div>
+      </>
+    ) : (
+      <Navigate to="/" />
+    )
   );
 }

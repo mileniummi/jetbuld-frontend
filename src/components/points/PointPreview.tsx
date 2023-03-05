@@ -8,7 +8,7 @@ import { useDeletePointMutation } from "@/redux/services/baseApi";
 import { toast } from "react-toastify";
 import { useAppError } from "@/lib/hooks/useAppError";
 import PopupWindow from "@/components/utils/popup/PopupWindow";
-import DeleteElementConfirmation from "@/components/DeleteElementConfirmation/DeleteElementConfirmation";
+import DeleteElementConfirmation from "@/components/deleteElementConfirmation/DeleteElementConfirmation";
 // @ts-ignore
 import styles from "./Points.module.scss";
 import DeleteIcon from "@mui/icons-material/Delete";

@@ -1,11 +1,12 @@
 @import "../../../styles/mixins";
+@import "../../../styles/colors";
 
 .btn {
   cursor: pointer;
   position: relative;
   font-family: "Source Sans Pro", sans-serif;
   text-align: center;
-  background-color: black;
+  background-color: $primary;
   color: white;
   font-size: 18px;
   font-weight: 400;
@@ -33,12 +34,13 @@
 
     .loader {
       position: relative;
-      top: 50%; right: 50%;
-      transform: translate(50%,-50%);
+      top: 50%;
+      right: 50%;
+      transform: translate(50%, -50%);
     }
   }
 
-  .sm{
+  .sm {
     padding: 0 30px;
     max-height: 40px;
     font-size: 14px;
@@ -48,9 +50,126 @@
     color: white;
     background: black;
   }
+
   &:disabled {
     cursor: not-allowed;
     background: #7c7a7a;
     color: white;
   }
 }
+
+.button {
+  cursor: pointer;
+  position: relative;
+  font-family: "Source Sans Pro", sans-serif;
+  text-align: center;
+  background-color: $primary;
+  color: white;
+  font-size: 18px;
+  font-weight: 400;
+  outline: 0;
+  padding: 10px 50px 10px;
+  box-shadow: none;
+  overflow: hidden;
+  transition: background .3s ease-in-out;
+  border: 1px solid $primary;
+  max-height: 60px;
+  margin: 20px 0;
+  border-radius: 10px;
+
+  &:hover, &:focus {
+    color: $primary-black;
+    background: white;
+    border: 1px solid $primary-black;
+  }
+
+  &.green {
+    background: #154d3b;
+    border: 1px solid #154d3b;
+  }
+
+  &.red {
+    background-color: #810909;
+    border: 1px solid #810909;
+  }
+
+  &.sm {
+    padding: 0 30px;
+    max-height: 40px;
+    font-size: 14px;
+  }
+}
+
+.input {
+  font-family: "Inter", sans-serif;
+  padding: 12px 15px;
+  outline: none;
+  border-radius: 10px;
+  background-color: white;
+  margin-bottom: 15px;
+  font-weight: 500;
+  width: 100%;
+  font-size: 18px;
+  opacity: .8;
+  min-width: 450px;
+  border: 1px solid $gray-400;
+
+  &:focus {
+    opacity: 1;
+  }
+
+  &:focus + .label {
+    background-color: black;
+    color: white;
+    visibility: visible;
+    transform: translateY(-10px);
+  }
+
+  &::placeholder {
+    color: $gray-400;
+  }
+}
+
+.wrapper {
+  position: relative;
+}
+
+.label {
+  z-index: 2;
+  visibility: hidden;
+  position: absolute;
+  left: 5px;
+  font-size: 14px;
+  background-color: white;
+  padding: 0 3px 3px;
+  transition: visibility 0s, transform .3s ease-in-out;
+
+  &.active {
+    visibility: visible;
+    transform: translateY(-10px);
+    background-color: white;
+    color: black;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .form-wrapper {
+    padding: 20px;
+  }
+  .input {
+    min-width: 350px;
+  }
+  .form__textarea {
+    min-width: 350px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .input {
+    min-width: unset;
+  }
+  .form__textarea {
+    min-width: unset;
+  }
+}
+

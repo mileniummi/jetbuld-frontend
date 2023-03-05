@@ -1,5 +1,5 @@
 import React from "react";
-import { IDeleteElementConfirmationProps } from "@/components/DeleteElementConfirmation/DeleteElementConfirmation.types";
+import { IDeleteElementConfirmationProps } from "@/components/deleteElementConfirmation/DeleteElementConfirmation.types";
 import Button from "@/components/UI/forms/Button";
 // @ts-ignore
 import styles from "./DeleteElementConfirmation.module.scss";

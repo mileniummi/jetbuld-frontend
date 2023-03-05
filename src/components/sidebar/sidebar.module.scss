@@ -1,0 +1,140 @@
+@import "../../styles/colors";
+/*sidebar*/
+
+.nav {
+  max-width: 270px;
+  background: $primary-black;
+  color: #fff;
+  padding: 10px;
+  position: sticky;
+  height: 100vh;
+  z-index: 10;
+  width: 287px;
+
+  .title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 45px;
+    margin-bottom: 20px;
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    position: relative;
+    cursor: pointer;
+    margin: 10px 0;
+    transition: all .1s ease-in-out;
+    text-decoration: none;
+    border-radius: 10px;
+    padding: 5px 0 5px 3px;
+    gap: 10px;
+
+    &.hidden {
+      padding-right: 5px;
+    }
+
+    &:hover {
+      background-color: $primary
+    }
+  }
+
+  :global(.active){
+    color: $primary-black;
+    cursor: default;
+    font-weight: 500;
+    font-size: 16px;
+    background-color: $primary;
+  }
+}
+
+.nav__item:hover, .nav__hidden__icon:hover {
+  background-color: #1f6b4e;
+}
+.nav__item.active:hover{
+  background-color: inherit;
+}
+
+.nav__item__icon {
+  width: 20px;
+  height: 20px;
+}
+
+.nav__arrow {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  transition: transform .2s ease-in-out;
+}
+
+.nav__arrow.opened {
+  transform: translateX(-20%) rotate(-90deg);
+}
+
+.nav__hidden {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+}
+
+.nav__white-line {
+  width: 100%;
+  height: 1px;
+  background-color: white;
+  margin-top: 100px;
+}
+
+/*slide-left*/
+.slide-left-enter {
+  transform: translateX(200%);
+}
+
+.slide-left-enter-active {
+  transform: translateX(0);
+  transition: transform 300ms;
+}
+
+.slide-left-exit {
+  display: none;
+}
+
+
+/*slide-right*/
+.slide-right-enter {
+  transform: translateX(-100%);
+}
+
+.slide-right-enter-active {
+  transform: translateX(0);
+  transition: transform 300ms;
+}
+
+.slide-right-exit-active {
+  display: none;
+}
+
+.nav__avatar{
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.nav__avatar.active{
+  background: inherit;
+}
+
+@media screen and (max-width: 550px){
+  .nav{
+    position: absolute;
+    height: 100%;
+  }
+  main{
+    margin-left: 40px;
+  }
+  .main.blurred {
+    opacity: .8;
+  }
+}

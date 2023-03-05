@@ -6,7 +6,7 @@ import { IProject } from "@/models/Project";
 import styles from "./projects.module.scss";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PopupWindow from "@/components/utils/popup/PopupWindow";
-import DeleteElementConfirmation from "@/components/DeleteElementConfirmation/DeleteElementConfirmation";
+import DeleteElementConfirmation from "@/components/deleteElementConfirmation/DeleteElementConfirmation";
 import { useDeleteProjectMutation } from "@/redux/services/baseApi";
 import { useAppError } from "@/lib/hooks/useAppError";
 import { toast } from "react-toastify";

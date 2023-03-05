@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 // @ts-ignore
 import styles from "./Photos.module.scss";
 import PopupWindow from "@/components/utils/popup/PopupWindow";
-import DeleteElementConfirmation from "@/components/DeleteElementConfirmation/DeleteElementConfirmation";
+import DeleteElementConfirmation from "@/components/deleteElementConfirmation/DeleteElementConfirmation";
 
 const PhotosList: React.FC<{ pointId: number }> = ({ pointId }) => {
   const [page, setPage] = useState(1);

@@ -1,0 +1,31 @@
+@import "../../styles/colors";
+
+.form {
+  background: $gray-100;
+  border: 1px solid #9A9A9A;
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 2rem 3.5rem;
+
+  .title {
+    font-family: Inter, sans-serif;
+    font-size: 30px;
+    line-height: 45px;
+    font-weight: 400;
+
+    align-self: flex-start;
+    margin-bottom: 2.375rem;
+  }
+}
+
+.wrapper {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
