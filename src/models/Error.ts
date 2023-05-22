@@ -14,9 +14,9 @@ export const UnexpectedError: IError = {
 
 export function isInstanceOfIError(obj: any): obj is IError {
   return (
-    (obj as IError).data !== undefined &&
-    (obj as IError).data.statusCode !== undefined &&
-    (obj as IError).data.message !== undefined
+    (obj as IError)?.data !== undefined &&
+    (obj as IError)?.data?.statusCode !== undefined &&
+    (obj as IError)?.data?.message !== undefined
   );
 }
 

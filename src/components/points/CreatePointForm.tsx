@@ -12,24 +12,24 @@ import { toast } from "react-toastify";
 import { useAppError } from "@/lib/hooks/useAppError";
 
 interface ICreatePointFormProps {
+  projectId: string;
   handleCreateClick: () => void;
 }
 
-const CreatePointForm: React.FC<ICreatePointFormProps> = ({ handleCreateClick }) => {
+const CreatePointForm: React.FC<ICreatePointFormProps> = ({ handleCreateClick, projectId }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues: { name: "", description: "" }, mode: "onBlur" });
 
-  const project = useAppSelector(selectSelectedProject);
   const company = useAppSelector(selectSelectedCompany);
   const [addPoint, { error, isLoading, isSuccess }] = useAddPointMutation();
   useAppError(error);
 
   async function sendPointCredentials(data: { name: string; description: string }) {
     if (!isSuccess) {
-      await addPoint({ ...data, projectId: project.id });
+      await addPoint({ ...data, projectId });
       toast.success(`Point ${data.name} added in company ${company.name}!`);
       handleCreateClick();
     }

@@ -1,8 +1,16 @@
 import React from "react";
-import SettingsForm from "../components/settings/SettingsForm";
+import { useAppSelector } from "@/lib/hooks/redux";
+import { selectCurrentUser } from "@/redux/reducers/authReducer";
+import PageNotFound from "@/components/PageNotFound";
+import { UserSettings } from "@/components/settings/UserSettings/UserSettings";
 
 const Settings = () => {
-  return <SettingsForm />;
+
+  const user = useAppSelector(selectCurrentUser)
+  if (!user) {
+    return <PageNotFound />
+  }
+  return <UserSettings user={user} />
 };
 
 export default Settings;

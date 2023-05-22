@@ -32,7 +32,7 @@ export const getPalette = () => {
   return createTheme({
     palette: {
       primary: {
-        main: "#154d3b",
+        main: "#C73E1D",
       },
       error: {
         main: "#8b0000",

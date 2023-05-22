@@ -6,8 +6,6 @@ import Error from "@/components/UI/forms/Error";
 import { useAppError } from "@/lib/hooks/useAppError";
 import { useInviteUserToCompanyMutation } from "@/redux/services/baseApi";
 
-// @ts-ignore
-import styles from "./CompanyUsers.module.scss";
 import { useAppSelector } from "@/lib/hooks/redux";
 import { selectSelectedCompany } from "@/redux/reducers/selectedCompanyReducer";
 
@@ -32,7 +30,7 @@ const AddUserPopup = ({ closeModal }: { closeModal: () => void }): JSX.Element =
   const appError = useAppError(error);
 
   return (
-    <div className={styles.content}>
+    <div>
       <form className="form" onSubmit={handleSubmit(handleFormSubmit)}>
         <Input
           placeholder="email"

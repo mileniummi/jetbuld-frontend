@@ -23,3 +23,17 @@ export enum EAppEntities {
   POINT = "Point",
   PHOTO = "Photo",
 }
+
+export interface Pageable<Entity> {
+  size: number;
+  number: number;
+  empty: boolean;
+  content: Entity[];
+  totalElements: number;
+  totalPages: number;
+}
+
+export interface PageableParams {
+  size: number;
+  page: number;
+}

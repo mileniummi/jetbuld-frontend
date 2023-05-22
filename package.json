@@ -72,7 +72,12 @@
     "printWidth": 120
   },
   "devDependencies": {
-    "eslint": "^8.14.0"
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-optimize-regex": "^1.2.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-sonarjs": "^0.19.0"
   },
   "engines": {
     "node": "16.x",

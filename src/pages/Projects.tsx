@@ -45,7 +45,7 @@ const Projects: React.FC = () => {
         handleCreateClick={handleCreateProjectClick}
         pageLocation={"Project"}
         buttonText={"Add New Project"}
-        createEntityDisabled={!PrivilegeUtils.checkCanModifyEntities(role)}
+        // createEntityDisabled={!PrivilegeUtils.checkCanModifyEntities(role)}
       />
       <ProjectList />
       <PopupWindow transitionInState={createProject} hideFunction={handleCreateProjectClick}>

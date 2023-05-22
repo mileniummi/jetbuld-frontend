@@ -47,6 +47,10 @@
     font-size: 16px;
     background-color: $primary;
   }
+
+  &.opened {
+    max-width: 50px;
+  }
 }
 
 .nav__item:hover, .nav__hidden__icon:hover {

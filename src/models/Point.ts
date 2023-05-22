@@ -1,12 +1,12 @@
 import { UserRole } from "@/models/Company";
+import { IPhoto } from "@/models/Photo";
 
 export interface IPoint {
   id: number;
   name: string;
-  timeCreated: string;
   description: string;
-  companyId: number;
-  stage: EPointState;
+  created: string;
+  mediaFileLists: IPhoto[];
 }
 
 export enum EPointState {

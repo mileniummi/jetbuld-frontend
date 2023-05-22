@@ -1,20 +1,19 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import React from "react";
 import { useForm } from "react-hook-form";
 import Input from "../UI/forms/Input";
 import Error from "../UI/forms/Error";
 import Button from "../UI/forms/Button";
 import { useRegisterMutation } from "@/redux/services/baseApi";
-import { RegisterRequest } from "@/redux/services/auth";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks/redux";
-import { selectCurrentUser, setUserCredentials } from "@/redux/reducers/authReducer";
+import { useAppSelector } from "@/lib/hooks/redux";
+import { selectCurrentUser } from "@/redux/reducers/authReducer";
 import { useAppError } from "@/lib/hooks/useAppError";
 // @ts-ignore
 import styles from "./auth.module.scss";
+import { toast } from "react-toastify";
+import { RegisterRequest } from "@/redux/services/auth/auth";
 
 const formInputs = [
-  { name: "firstName", placeholder: "First Name", options: {} },
-  { name: "lastName", placeholder: "Last Name", options: {} },
   {
     name: "email",
     placeholder: "Email",
@@ -51,13 +50,16 @@ export default function Register() {
   } = useForm({ defaultValues, mode: "onBlur" });
 
   const [registerUser, { error, isLoading }] = useRegisterMutation();
-  const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser);
+  const navigate = useNavigate();
 
   const handleFormSubmit = async (data: RegisterRequest) => {
     if (!isLoading) {
       const response = await registerUser(data).unwrap();
-      dispatch(setUserCredentials(response));
+      if (response?.login) {
+        toast.success("Registration successful!");
+        navigate("/login");
+      }
     }
   };
 

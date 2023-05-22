@@ -1,0 +1,45 @@
+@import "../../../styles/colors";
+
+.popup {
+  padding: 1.313rem 1.5rem 1.5rem 1.313rem;
+  border-radius: 15px!important;
+
+  .popupLink {
+    display: flex;
+    gap: 0 15px;
+    align-items: center;
+
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: -0.006em;
+    text-align: left;
+
+    &:hover {
+      color: $primary;
+    }
+  }
+
+  .popupLinkLogout {
+    position: relative;
+    left: -3px;
+    cursor: pointer;
+    border: 1px solid white;
+    width: 100%;
+    padding: 0.5rem 1rem 0.5rem 3px;
+    background: white;
+  }
+
+  .delimiter {
+    height: 1px;
+    width: 173px;
+    left: 37px;
+
+    background: $primary;
+    margin: 21px 0;
+  }
+}
+
+.popupRef {
+  margin-top: 15px;
+}

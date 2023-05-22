@@ -17,7 +17,7 @@ const slice = createSlice({
     },
     removeSelectedCompany: (state) => {
       state.company = null;
-    },
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(PURGE, (state) => {
@@ -26,7 +26,7 @@ const slice = createSlice({
       });
       state.company = null;
     });
-  },
+  }
 });
 
 export default slice.reducer;

@@ -18,7 +18,7 @@ interface IProjectPreviewProps {
   project: IProject;
 }
 
-const ProjectPreview: React.FC<IProjectPreviewProps> = ({ project }) => {
+const ProjectCard: React.FC<IProjectPreviewProps> = ({ project }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteProject, { error, isLoading, isSuccess }] = useDeleteProjectMutation();
 
@@ -36,13 +36,13 @@ const ProjectPreview: React.FC<IProjectPreviewProps> = ({ project }) => {
 
   return (
     <>
-      <Link to="/points" state={{ from: "ProjectPreview", project }}>
+      <Link to={`/project/${project.id}`}>
         <div className="preview">
           <div className="preview__description">
             <h3 className="preview__name">{project.name}</h3>
             <h4 className="preview__location">{project.description} </h4>
             <p className="preview__last-update-time">
-              {new Intl.DateTimeFormat("en-GB", LONG_DATE_FORMAT).format(new Date(project.timeCreated))}
+              {new Intl.DateTimeFormat("en-GB", LONG_DATE_FORMAT).format(new Date(project.created))}
             </p>
           </div>
           {PrivilegeUtils.checkCanModifyEntities(role) && (
@@ -65,4 +65,4 @@ const ProjectPreview: React.FC<IProjectPreviewProps> = ({ project }) => {
   );
 };
 
-export default ProjectPreview;
+export default ProjectCard;

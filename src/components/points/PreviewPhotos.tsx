@@ -5,25 +5,18 @@ import { nanoid } from "nanoid";
 import AppError from "../errors/AppError";
 import { useAppError } from "../../lib/hooks/useAppError";
 import { PHOTO_LIMIT } from "../../lib/constants";
+import { IPhoto } from "@/models/Photo";
 
-const PreviewPhotos: React.FC<{ point: IPoint }> = memo(({ point }) => {
-  const { data: [count, current] = [], error } = useGetPhotosQuery({
-    offset: 1,
-    limit: PHOTO_LIMIT,
-    pointId: point.id,
-  });
+export interface PreviewPhotosProps {
+  photos: IPhoto[];
+}
 
-  const appError = useAppError(error);
+const PreviewPhotos = memo(({ photos }: PreviewPhotosProps) => {
   return (
     <div className="preview__photos">
-      {count && current ? (
-        current
-          .slice(0, 6)
+      {photos?.length ? photos.slice(0, 6)
           .map((photo) => <img key={nanoid()} className="preview__photo" src={photo.s3Url} alt="point" />)
-      ) : (
-        <></>
-      )}
-      {appError && <AppError {...appError} />}
+        : <></>}
     </div>
   );
 });

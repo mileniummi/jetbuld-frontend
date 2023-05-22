@@ -1,9 +1,15 @@
+import { IPoint } from "@/models/Point";
+
 export interface IProject {
   id: number;
   name: string;
-  timeCreated: string;
+  created: string;
   description: string;
   companyId: number;
+  address: string;
+  city: string;
+  country: string;
+  pointList: IPoint[];
 }
 
 export enum EProjectStage {

@@ -1,0 +1,13 @@
+.form {
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    align-self: flex-start;
+  }
+
+  .btn {
+      align-self: center;
+  }
+}

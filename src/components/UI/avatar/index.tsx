@@ -21,28 +21,43 @@ function stringToColor(string: string) {
 const avatarSizes = {
   sm: { width: 34, height: 34 },
   md: { width: 44, height: 44 },
-  lg: { width: 54, height: 54 },
+  lg: { width: 54, height: 54 }
 };
 
 interface AvatarProps {
   size: "sm" | "md" | "lg";
   src?: string;
   user: IUser;
+  onClick?: () => void;
+  children?: React.ReactNode;
+  style?: React.CSSProperties;
+  ref?: React.Ref<HTMLDivElement>;
 }
 
-const Avatar: React.FC<AvatarProps> = ({ size, src, user }) => {
-  const stringAvatar = useMemo(() => {
+const Avatar: React.FC<AvatarProps> = (
+  {
+    size,
+    src,
+    user,
+    onClick,
+    children,
+    style,
+    ref,
+  }) => {
+  const avatarSx = useMemo(() => {
     return {
-      sx: { ...avatarSizes[size], bgcolor: stringToColor(user.firstName) },
-      children: `${user.firstName.substring(0, 1).toUpperCase()}${user.lastName.substring(0, 1).toUpperCase()}`,
+      sx: {
+        ...avatarSizes[size],
+        bgcolor: "#fff",
+        border: "1px solid #2B2929",
+        color: "#2B2929",
+        ...style
+      },
+      children: user.login.substring(0, 2).toUpperCase()
     };
-  }, [size, user.firstName, user.lastName]);
+  }, [size, user]);
 
-  if (src) {
-    return <MUIAvatar sx={avatarSizes[size]} src={src} />;
-  }
-
-  return <MUIAvatar {...stringAvatar} />;
+  return <div><MUIAvatar ref={ref} src={src} onClick={onClick} {...avatarSx} /> {children} </div>;
 };
 
 export default Avatar;

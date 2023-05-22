@@ -4,39 +4,30 @@ import Projects from "./pages/Projects";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Points from "./pages/Points";
-import React, { useEffect } from "react";
+import React from "react";
 import PageNotFound from "./components/PageNotFound";
 import PrivateRoute from "./components/utils/PrivateRoute";
-import Socket from "./redux/services/sockets";
 import "./components/projects/projects.css";
 import "./components/UI/forms/forms.css";
 import Photos from "./pages/Photos";
-import { useAppSelector } from "./lib/hooks/redux";
-import { selectCurrentUser } from "./redux/reducers/authReducer";
 import Settings from "./pages/Settings";
 import Users from "@/pages/Users";
 import Home from "@/pages/Home";
-
-export const socket = new Socket();
+import { AppRoutes } from "@/components/sidebar/utils/app-routes";
+import CompanySettingsPage from "@/pages/CompanySettings";
 
 const App = () => {
-  const user = useAppSelector(selectCurrentUser);
-  useEffect(() => {
-    if (user) {
-      socket.joinRooms(user);
-    }
-  }, [user]);
-
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route element={<PrivateRoute />}>
           <Route index element={<Home />} />
           <Route path="/projects" element={<Projects />} />
-          <Route path="/points" element={<Points />} />
-          <Route path="/photos" element={<Photos />} />
+          <Route path="/project/:id" element={<Points />} />
+          <Route path="/point/:id" element={<Photos />} />
           <Route path="/users" element={<Users />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path={AppRoutes.COMPANY_SETTINGS} element={<CompanySettingsPage />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

@@ -7,6 +7,8 @@ import { nanoid } from "nanoid";
 import { CreateCompanyRequest, useAddCompanyMutation } from "@/redux/services/baseApi";
 import { toast } from "react-toastify";
 import { useAppError } from "@/lib/hooks/useAppError";
+import { useAppSelector } from "@/lib/hooks/redux";
+import { selectCurrentUserId } from "@/redux/reducers/authReducer";
 
 const formInputs = [
   { name: "name", placeholder: "Company name", autoFocus: true },
@@ -28,6 +30,7 @@ interface ICreateCompanyForm {
 
 const CreateCompanyForm = memo((props: ICreateCompanyForm) => {
   const [addCompany, { error, isLoading, isSuccess }] = useAddCompanyMutation();
+  const currenUserId = useAppSelector(selectCurrentUserId);
   useAppError(error);
   const {
     register,
@@ -36,8 +39,11 @@ const CreateCompanyForm = memo((props: ICreateCompanyForm) => {
   } = useForm({ defaultValues: defaultValues, mode: "onBlur" });
 
   const createCompany = async (data: CreateCompanyRequest) => {
+    if (!currenUserId) {
+      toast.error("Current user ha no user id")
+    }
     if (!isSuccess) {
-      await addCompany(data).unwrap();
+      await addCompany({...data, userId: currenUserId }).unwrap();
       toast.success(`Company ${data.name} created successfully!`);
       props.handleCreateCompanyClick();
     }

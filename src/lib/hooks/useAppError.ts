@@ -13,7 +13,11 @@ export const useAppError = (error: any) => {
     if (!error) {
       setAppError(error);
     } else if (isInstanceOfIError(error)) {
-      switch (error.data.message) {
+      if (error?.data){
+        toast(error?.data)
+        return;
+      }
+      switch (error?.data?.message) {
         case EAuthErrorMessage.Unauthorized: {
           setAppError(null);
           toast.error(EAuthErrorToast.Unauthorized);
@@ -26,13 +30,21 @@ export const useAppError = (error: any) => {
         }
 
         default: {
-          toast.error(error.data.message);
+          toast.error(error?.data?.message);
         }
       }
       setAppError(error);
     } else {
       setAppError(UnexpectedError);
-      toast.error(error.data.message);
+      if (error?.data?.message) {
+        toast.error(error?.data?.message);
+      }
+      else if (typeof error === "string"){
+        toast.error(error)
+      }
+      else if (error?.error){
+        toast.error(error.error)
+      }
     }
   }, [error, navigate]);
 

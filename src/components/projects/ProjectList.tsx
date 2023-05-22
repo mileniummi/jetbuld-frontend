@@ -1,30 +1,23 @@
 import React, { useState } from "react";
 import { CircularProgress, Pagination } from "@mui/material";
-import ProjectPreview from "./ProjectPreview";
-import { nanoid } from "nanoid";
-import { useGetProjectsQuery } from "../../redux/services/baseApi";
-import getOffset from "../../lib/helpers/getOffset";
-import AppError from "../errors/AppError";
-import { useAppError } from "../../lib/hooks/useAppError";
-import { useAppSelector } from "../../lib/hooks/redux";
-import { selectSelectedCompany } from "../../redux/reducers/selectedCompanyReducer";
-import { ITEM_LIMIT } from "../../lib/constants";
+import { useGetProjectsQuery } from "@/redux/services/baseApi";
+import { useAppError } from "@/lib/hooks/useAppError";
+import { useAppSelector } from "@/lib/hooks/redux";
+import { ITEM_LIMIT } from "@/lib/constants";
 import NothingToShow from "../utils/nothingToShow";
+import { selectSelectedCompany } from "@/redux/reducers/selectedCompanyReducer";
+import ProjectCard from "@/components/projects/projetCard/ProjectCard";
 
 const ProjectList = () => {
   const [page, setPage] = useState(1);
   const company = useAppSelector(selectSelectedCompany);
   const {
-    data: [count, current] = [],
+    data,
     isLoading,
-    error,
-  } = useGetProjectsQuery({ offset: getOffset(page), limit: ITEM_LIMIT, companyId: company?.id });
+    error
+  } = useGetProjectsQuery({ companyId: company?.id, page: page  - 1, size: ITEM_LIMIT });
 
   useAppError(error);
-
-  function handlePageChange(event: React.ChangeEvent<unknown>, value: number) {
-    setPage(value);
-  }
 
   return (
     <>
@@ -32,19 +25,19 @@ const ProjectList = () => {
         <div className="loader__wrapper">
           <CircularProgress color={"inherit"} />
         </div>
-      ) : count && current ? (
+      ) : data?.content?.length ? (
         <div>
-          {current.map((project) => (
-            <ProjectPreview key={nanoid()} project={project} />
+          {data?.content.map((project) => (
+            <ProjectCard key={project?.id} project={project} />
           ))}
-          {count > ITEM_LIMIT && (
+          {data?.totalPages > 1 && (
             <Pagination
               className="pagination"
-              count={Math.ceil(count / ITEM_LIMIT)}
+              count={data?.totalPages}
               page={page}
               variant="outlined"
               shape="rounded"
-              onChange={handlePageChange}
+              onChange={(_, value) => setPage(value)}
             />
           )}
         </div>

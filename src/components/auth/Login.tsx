@@ -4,13 +4,13 @@ import { useForm } from "react-hook-form";
 import Input from "../UI/forms/Input";
 import Error from "../UI/forms/Error";
 import Button from "../UI/forms/Button";
-import { LoginRequest } from "@/redux/services/auth";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks/redux";
 import { setUserCredentials } from "@/redux/reducers/authReducer";
 import { useLoginMutation } from "@/redux/services/baseApi";
 import { useAppError } from "@/lib/hooks/useAppError";
 // @ts-ignore
 import styles from "./auth.module.scss";
+import { LoginRequest } from "@/redux/services/auth/auth";
 
 const Login = memo(() => {
   const [login, { error, isLoading }] = useLoginMutation();
@@ -25,7 +25,9 @@ const Login = memo(() => {
 
   const handleFormSubmit = async (data: LoginRequest) => {
     const response = await login(data).unwrap();
-    dispatch(setUserCredentials(response));
+    if (!error) {
+      dispatch(setUserCredentials(response));
+    }
   };
 
   const appError = useAppError(error);

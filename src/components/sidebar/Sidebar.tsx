@@ -7,7 +7,6 @@ import HowToRegIcon from "@mui/icons-material/HowToReg";
 import StoreIcon from "@mui/icons-material/Store";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks/redux";
 import { removeUserCredentials, selectCurrentUser } from "@/redux/reducers/authReducer";
@@ -16,11 +15,10 @@ import { selectSelectedCompany } from "@/redux/reducers/selectedCompanyReducer";
 import { persistor } from "@/redux/store";
 import "./sidebar.css";
 import { selectSelectedProject } from "@/redux/reducers/selectedProjectReducer";
-import Avatar from "../UI/avatar";
-
 // @ts-ignore
 import styles from "./sidebar.module.scss"
 import cn from "classnames";
+import { UserSettings } from "@/components/sidebar/UserSettings/UserSettings";
 
 const muiIconProps = { sx: { color: "black" }, className: "nav__item__icon" };
 
@@ -63,18 +61,13 @@ const Sidebar: React.FC<ISidebarProps> = memo(({ hideSidebar, setHideSidebar }) 
   // user authorized nav
   if (user) {
     return (
-      <nav className={styles.nav}>
+      <nav className={ cn(styles.nav, hideSidebar && styles.opened)}>
         <div className={hideSidebar ? "nav__arrow opened" : "nav__arrow"} onClick={changeSidebarVisibility}>
           <ArrowDropDownIcon sx={{ height: "30px", width: "30px" }} />
         </div>
         <CSSTransition in={hideSidebar} classNames="slide-left" timeout={600} unmountOnExit>
           <div className="nav__hidden">
-            <NavLink className="nav__avatar hidden" to={"/settings"}>
-              <Avatar user={user} size={"sm"} />
-            </NavLink>
-            <div className={styles.item} onClick={logout}>
-              <PowerSettingsNewIcon {...muiIconProps} />
-            </div>
+            <UserSettings logout={logout} avatarSize={"sm"} user={user} />
             <div className="nav__white-line"> </div>
             {authorisedLinks.map(
               (link) =>
@@ -88,15 +81,7 @@ const Sidebar: React.FC<ISidebarProps> = memo(({ hideSidebar, setHideSidebar }) 
         </CSSTransition>
         <CSSTransition in={showSidebar} classNames="slide-right" timeout={300} unmountOnExit>
           <div>
-            <h2 className={styles.title}>CompanyProject</h2>
-            <NavLink className={cn(styles.item, styles.hidden)} to={"/settings"}>
-              <Avatar user={user} size={"sm"} />
-              {user.firstName} {user.lastName}
-            </NavLink>
-            <div className={styles.item} onClick={logout}>
-              <PowerSettingsNewIcon {...muiIconProps} />
-              Logout
-            </div>
+            <UserSettings logout={logout} avatarSize={"lg"} user={user} />
             <div className="nav__white-line"> </div>
             {authorisedLinks.map(
               (link) =>
@@ -118,7 +103,6 @@ const Sidebar: React.FC<ISidebarProps> = memo(({ hideSidebar, setHideSidebar }) 
       <div className={hideSidebar ? "nav__arrow opened" : "nav__arrow"} onClick={changeSidebarVisibility}>
         <ArrowDropDownIcon sx={{ height: "30px", width: "30px" }} />
       </div>
-      {!hideSidebar && <h2 className={styles.title}>CompanyProject</h2>}
       <div className="nav__hidden">
         {unAuthorisedLinks.map((link) => (
           <NavLink key={link.text} className={styles.item} to={link.path}>

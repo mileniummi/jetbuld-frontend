@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { Dropzone, FileItem, FileValidated } from "@dropzone-ui/react";
 import { nanoid } from "nanoid";
-import { socket } from "@/App";
 import PopupWindow from "../utils/popup/PopupWindow";
 import Input from "../UI/forms/Input";
 import { useForm } from "react-hook-form";
 import Textarea from "../UI/forms/Textarea";
 import Button from "../UI/forms/Button";
 import Error from "../UI/forms/Error";
-import { useAddPhotoMutation } from "@/redux/services/baseApi";
+import { useAddPhotoMutation, useAddPointPhotoMutation } from "@/redux/services/baseApi";
 import { useAppSelector } from "@/lib/hooks/redux";
 import { selectCurrentUser } from "@/redux/reducers/authReducer";
 import { selectSelectedCompany } from "@/redux/reducers/selectedCompanyReducer";
@@ -30,8 +29,7 @@ const UploadFileForm: React.FC<IUploadFileFormProps> = ({ active, pointId, hideF
   } = useForm({ defaultValues: { name: "", description: "" }, mode: "onBlur" });
 
   const user = useAppSelector(selectCurrentUser);
-  const company = useAppSelector(selectSelectedCompany);
-  const [addPoint, { isLoading, isSuccess, error }] = useAddPhotoMutation();
+  const [addPoint, { isLoading, isSuccess, error }] = useAddPointPhotoMutation();
   useAppError(error);
 
   const updateFiles = (incomingFiles: FileValidated[]) => {
@@ -40,13 +38,8 @@ const UploadFileForm: React.FC<IUploadFileFormProps> = ({ active, pointId, hideF
 
   async function sendUserData(data: { name: string; description: string }) {
     if (selectedFiles.length !== 0 && !isSuccess) {
-      await addPoint({ body: { ...data, userId: user.id, pointId, S3Url: "" }, photo: selectedFiles[0].file });
+      await addPoint({ query: { pointId, ...data }, photo: selectedFiles[0].file });
       toast.success(`Photo ${data.name} has been uploaded!`);
-      socket.emit(
-        company.id.toString(),
-        `${user.firstName} ${user.lastName} added new photo ${data.name} to point just now`,
-        user
-      );
       hideForm();
     }
   }

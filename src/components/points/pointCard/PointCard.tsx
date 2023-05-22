@@ -1,22 +1,22 @@
 import { Link } from "react-router-dom";
 import React, { useState } from "react";
-import "./point.css";
+import "../point.css";
 import { IPoint, PrivilegeUtils } from "@/models/Point";
 import { LONG_DATE_FORMAT } from "@/models/App";
-import PreviewPhotos from "./PreviewPhotos";
 import { useDeletePointMutation } from "@/redux/services/baseApi";
 import { toast } from "react-toastify";
 import { useAppError } from "@/lib/hooks/useAppError";
 import PopupWindow from "@/components/utils/popup/PopupWindow";
 import DeleteElementConfirmation from "@/components/deleteElementConfirmation/DeleteElementConfirmation";
 // @ts-ignore
-import styles from "./Points.module.scss";
+import styles from "../Points.module.scss";
 import DeleteIcon from "@mui/icons-material/Delete";
 import cn from "classnames";
 import { useAppSelector } from "@/lib/hooks/redux";
 import { selectCurrentUserRole } from "@/redux/reducers/authReducer";
+import PreviewPhotos from "@/components/points/PreviewPhotos";
 
-const PointPreview: React.FC<{ point: IPoint }> = ({ point }) => {
+const PointCard: React.FC<{ point: IPoint }> = ({ point }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deletePoint, { error, isLoading, isSuccess }] = useDeletePointMutation();
 
@@ -33,17 +33,17 @@ const PointPreview: React.FC<{ point: IPoint }> = ({ point }) => {
 
   return (
     <div className="preview">
-      <Link style={{ width: "100%" }} to="/photos" state={{ from: "Point Preview", point }}>
+      <Link style={{ width: "100%" }} to={`/point/${point.id}`} state={{ from: "Point Preview", point }}>
         <div className="preview__description__container">
           <div>
             <h3 className="preview__name">{point.name}</h3>
             <h4 className="preview__location">{point.description} </h4>
             <p className="preview__last-update-time">
-              {new Intl.DateTimeFormat("en-GB", LONG_DATE_FORMAT).format(new Date(point.timeCreated))}
+              {new Intl.DateTimeFormat("en-GB", LONG_DATE_FORMAT).format(new Date(point.created))}
             </p>
           </div>
           <div className="preview__photos">
-            <PreviewPhotos point={point} />
+            <PreviewPhotos photos={point.mediaFileLists}/>
           </div>
           <div className={styles.utils}>
             {PrivilegeUtils.checkCanModifyEntities(role) && (
@@ -57,7 +57,7 @@ const PointPreview: React.FC<{ point: IPoint }> = ({ point }) => {
                 <DeleteIcon />
               </div>
             )}
-            <div className={cn(styles.state, styles[point.stage.toLowerCase()])}>{point.stage}</div>
+            {/*<div className={cn(styles.state, styles[point.stage.toLowerCase()])}>{point.stage}</div>*/}
           </div>
         </div>
       </Link>
@@ -68,4 +68,4 @@ const PointPreview: React.FC<{ point: IPoint }> = ({ point }) => {
   );
 };
 
-export default PointPreview;
+export default PointCard;

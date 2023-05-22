@@ -1,53 +1,49 @@
 import React, { useState } from "react";
-import { CircularProgress, Pagination } from "@mui/material";
+import { Pagination } from "@mui/material";
 import { useAppError } from "@/lib/hooks/useAppError";
 import { useGetPointsQuery } from "@/redux/services/baseApi";
-import getOffset from "../../lib/helpers/getOffset";
-import PointPreview from "./PointPreview";
-import { nanoid } from "nanoid";
-import { useAppSelector } from "@/lib/hooks/redux";
-import { selectSelectedProject } from "@/redux/reducers/selectedProjectReducer";
 import { ITEM_LIMIT } from "@/lib/constants";
 import NothingToShow from "../utils/nothingToShow";
+import Loader from "@/components/UI/loader/Loader";
+import PointCard from "@/components/points/pointCard/PointCard";
 
-const PointList = () => {
+interface PointListProps {
+  projectId: number;
+}
+
+const PointList = ({ projectId }: PointListProps) => {
   const [page, setPage] = useState(1);
-  const project = useAppSelector(selectSelectedProject);
-  const {
-    data: [count, current] = [],
-    isLoading,
-    error,
-  } = useGetPointsQuery({ offset: getOffset(page), limit: ITEM_LIMIT, projectId: project?.id });
-  useAppError(error);
 
-  function handlePageChange(event: React.ChangeEvent<unknown>, value: number) {
-    setPage(value);
-  }
+  const {
+    data,
+    isLoading,
+    error
+  } = useGetPointsQuery({ projectId: projectId, page: page - 1, size: ITEM_LIMIT });
+
+  useAppError(error);
 
   return (
     <>
       {isLoading ? (
-        <div className="loader__wrapper">
-          <CircularProgress color={"inherit"} />
-        </div>
-      ) : count && current ? (
-        <>
-          {current.map((point) => (
-            <PointPreview key={nanoid()} point={point} />
+        <Loader />
+      ) : data?.content?.length ? (
+        <div>
+          {data?.content.map((point) => (
+            <PointCard point={point} key={point?.id} />
           ))}
-          {count > ITEM_LIMIT && (
+          {data?.totalPages > 1 && (
             <Pagination
               className="pagination"
-              count={Math.ceil(count / ITEM_LIMIT)}
+              count={data?.totalPages}
               page={page}
               variant="outlined"
               shape="rounded"
-              onChange={handlePageChange}
+              onChange={(_, value) => setPage(value)}
             />
           )}
-        </>
+        </div>
       ) : (
-        <NothingToShow message="You have no points in this project yet.." />
+        <NothingToShow message="You have no points in this project yet..." />
       )}
     </>
   );
