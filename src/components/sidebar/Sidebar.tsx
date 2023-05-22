@@ -41,10 +41,9 @@ const Sidebar: React.FC<ISidebarProps> = memo(({ hideSidebar, setHideSidebar }) 
   const dispatch = useAppDispatch();
 
   const authorisedLinks = [
-    { path: "/", icon: <StoreIcon {...muiIconProps} />, text: "Home", condition: true },
-    { path: "/projects", icon: <AssignmentIcon {...muiIconProps} />, text: "Projects", condition: selectedCompany },
-    { path: "/points", icon: <RadioButtonCheckedIcon {...muiIconProps} />, text: "Points", condition: selectedProject },
-    { path: "/users", icon: <PeopleAltIcon {...muiIconProps} />, text: "Users", condition: selectedCompany },
+    { path:  "/", icon:   <AssignmentIcon {...muiIconProps} />, text: "Projects", condition: selectedCompany },
+    { path: "/photos", icon: <RadioButtonCheckedIcon {...muiIconProps} />, text: "Photos", condition: selectedProject },
+    { path: "/users", icon: <PeopleAltIcon {...muiIconProps} />, text: "Team members", condition: selectedCompany },
   ];
 
   function changeSidebarVisibility() {

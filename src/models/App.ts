@@ -20,7 +20,7 @@ export const DATE_FORMAT: IDateTimeFormatOptionsShort = {
 export enum EAppEntities {
   COMPANY = "Company",
   PROJECT = "Project",
-  POINT = "Point",
+  SUBPROJECT = "Subproject",
   PHOTO = "Photo",
 }
 

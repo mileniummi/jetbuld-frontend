@@ -1,7 +1,7 @@
 import { EndpointBuilder } from "@reduxjs/toolkit/dist/query/endpointDefinitions";
 import { Pageable, PageableParams } from "@/models/App";
 import { IPoint } from "@/models/Point";
-import { CreateProjectRequest } from "@/redux/services/projects/projectApi";
+import { IPhoto } from "@/models/Photo";
 
 
 export interface GetPointsParams extends PageableParams {
@@ -33,6 +33,15 @@ export const pointsApi = (builder: EndpointBuilder<any, any, any>) => ({
   getPoint: builder.query<IPoint, number>({
     query: id => ({
       url: `/subproject/${id}/`,
+    }),
+  }),
+  getPointPhotos : builder.query<IPhoto[], number>({
+    query: id => ({
+      url: `/subproject/${id}/files/`,
+      providesTags: (result: { pointId: any; }[]) =>
+        result
+          ? [...result.map(({ pointId }) => ({ type: 'PointPhoto' as const, pointId })), 'PointPhoto']
+          : ['PointPhoto'],
     }),
   })
 });

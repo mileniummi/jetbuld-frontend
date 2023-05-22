@@ -37,7 +37,7 @@ const StateHeader: React.FC<IStateHeaderProps> = ({ entity, name, state, descrip
       icon = <AssignmentIcon />;
       break;
 
-    case EAppEntities.POINT:
+    case EAppEntities.SUBPROJECT:
       icon = <RadioButtonCheckedIcon />;
       break;
 

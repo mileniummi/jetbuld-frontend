@@ -42,10 +42,15 @@ export const authApi = (builder: EndpointBuilder<any, any, any>) => ({
       body: credentials
     })
   }),
-  // User info
   getUserInfo: builder.query<GetUserInfoResponse, GetUserInfoRequest>({
     query: ({ userLogin }) => ({ url: `user/${userLogin}` }),
     providesTags: ["userInfo"]
+  }),
+  addUserToCompany: builder.mutation<unknown, { companyId: number; userEmail: string }>({
+    query: credentials => ({
+      url: `/user/${credentials.userEmail}/company/${credentials.companyId}/`,
+      method: "POST",
+    }),
+    invalidatesTags: ["Companies", "CompanyUsers"]
   })
-
 });

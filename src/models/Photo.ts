@@ -1,7 +1,7 @@
 export interface IPhoto {
   id: number;
   name: string;
-  timeCreated: string;
+  created: string;
   description: string;
   pointId: number;
   s3Url: string;

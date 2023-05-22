@@ -44,7 +44,7 @@ const PointAwarePhotos = ({ pointId }: PointAwarePhotosProps) => {
           <Header pageLocation="Photo" handleCreateClick={uploadPhoto} buttonText="Upload New Photo" />
           <StateHeader
             id={point.id}
-            entity={EAppEntities.POINT}
+            entity={EAppEntities.SUBPROJECT}
             name={point.name}
             // state={point.stage}
             description={point.description}

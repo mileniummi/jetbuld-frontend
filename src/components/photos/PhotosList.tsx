@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, CardMedia, CircularProgress, Grid, Pagination, Typography } from "@mui/material";
+import { Card, CardContent, CardMedia, CircularProgress, Grid, Typography } from "@mui/material";
 import { nanoid } from "nanoid";
-import { useDeletePhotoMutation, useGetPhotosQuery } from "@/redux/services/baseApi";
-import getOffset from "../../lib/helpers/getOffset";
+import { useGetPointPhotosQuery } from "@/redux/services/baseApi";
 import "./photos.css";
 import { DATE_FORMAT } from "@/models/App";
 import { IPhoto } from "@/models/Photo";
 import { useAppError } from "@/lib/hooks/useAppError";
-import { PHOTO_LIMIT } from "@/lib/constants";
 import NothingToShow from "../utils/nothingToShow";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
@@ -18,37 +16,31 @@ import PopupWindow from "@/components/utils/popup/PopupWindow";
 import DeleteElementConfirmation from "@/components/deleteElementConfirmation/DeleteElementConfirmation";
 
 const PhotosList: React.FC<{ pointId: number }> = ({ pointId }) => {
-  const [page, setPage] = useState(1);
   const [photosSortedByDay, setPhotosSortedByDay] = useState<{ [key: string]: IPhoto[] }>({});
 
-  const { data, error, isLoading } = useGetPhotosQuery({
-    offset: getOffset(page),
-    limit: PHOTO_LIMIT,
-    pointId,
-  });
+  const { data, error, isLoading } = useGetPointPhotosQuery(pointId, { pollingInterval: 3000 });
 
   useAppError(error);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [deletePhoto, { error: PhotoError, isLoading: photoIsDeleting, isSuccess }] = useDeletePhotoMutation();
   const [deletingPhotoId, setDeletingPhotoId] = useState<null | number>(null);
 
-  const deletePointAction = async () => {
-    if (!isSuccess && deletingPhotoId) {
-      await deletePhoto(deletingPhotoId);
-      toast.success(`Point photo deleted!`);
-      setIsDeleteModalOpen(false);
-    }
-  };
+  // const deletePointAction = async () => {
+  //   if (!isSuccess && deletingPhotoId) {
+  //     await deletePhoto(deletingPhotoId);
+  //     toast.success(`Point photo deleted!`);
+  //     setIsDeleteModalOpen(false);
+  //   }
+  // };
 
-  useAppError(PhotoError);
+  // useAppError(PhotoError);
 
   useEffect(() => {
     if (data) {
-      const [_, current = []] = data;
       const newData: { [key: string]: IPhoto[] } = {};
-      current.forEach((photo) => {
-        const day = new Date(photo.timeCreated);
+      const sortedData = Array.from(data)?.sort((a, b) => a.id - b.id);
+      sortedData.forEach((photo) => {
+        const day = new Date(photo.created);
         const dayOfUploading = new Intl.DateTimeFormat("en-US", DATE_FORMAT).format(day);
         if (Object.keys(newData).includes(dayOfUploading)) {
           newData[dayOfUploading].push(photo);
@@ -59,10 +51,6 @@ const PhotosList: React.FC<{ pointId: number }> = ({ pointId }) => {
       setPhotosSortedByDay(newData);
     }
   }, [data]);
-
-  function handlePageChange(event: React.ChangeEvent<unknown>, value: number) {
-    setPage(value);
-  }
 
   return (
     <div>
@@ -110,24 +98,14 @@ const PhotosList: React.FC<{ pointId: number }> = ({ pointId }) => {
                 }}
                 transitionInState={isDeleteModalOpen}
               >
-                <DeleteElementConfirmation
-                  isLoading={photoIsDeleting}
-                  deleteAction={deletePointAction}
-                  entity="photo"
-                />
+                {/*<DeleteElementConfirmation*/}
+                {/*  isLoading={photoIsDeleting}*/}
+                {/*  deleteAction={deletePointAction}*/}
+                {/*  entity="photo"*/}
+                {/*/>*/}
               </PopupWindow>
             </div>
           ))}
-          {data[0] > PHOTO_LIMIT && (
-            <Pagination
-              className="pagination"
-              count={Math.ceil(data[0] / PHOTO_LIMIT)}
-              page={page}
-              variant="outlined"
-              shape="rounded"
-              onChange={handlePageChange}
-            />
-          )}
         </div>
       ) : (
         <NothingToShow message="You have no photos in this point yet.." />
