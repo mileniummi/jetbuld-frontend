@@ -14,6 +14,10 @@ export interface AddPointRequest {
   projectId: string;
 }
 
+export interface GetPointParams extends PageableParams {
+  pointId: number;
+}
+
 export const pointsApi = (builder: EndpointBuilder<any, any, any>) => ({
   getPoints: builder.query<Pageable<IPoint>, GetPointsParams>({
     query: ({ projectId, ...rest }) => ({
@@ -35,9 +39,10 @@ export const pointsApi = (builder: EndpointBuilder<any, any, any>) => ({
       url: `/subproject/${id}/`,
     }),
   }),
-  getPointPhotos : builder.query<IPhoto[], number>({
-    query: id => ({
-      url: `/subproject/${id}/files/`,
+  getPointPhotos : builder.query<Pageable<IPhoto>, GetPointParams>({
+    query: ({pointId, ...rest}) => ({
+      url: `/subproject/${pointId}/files/`,
+      params: { ...rest },
       providesTags: (result: { pointId: any; }[]) =>
         result
           ? [...result.map(({ pointId }) => ({ type: 'PointPhoto' as const, pointId })), 'PointPhoto']
